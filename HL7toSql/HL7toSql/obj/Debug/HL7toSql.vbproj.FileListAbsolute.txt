@@ -1,0 +1,11 @@
+c:\users\tiago\documents\visual studio 2013\Projects\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe.config
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe.config
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\obj\Debug\HL7toSql.Resources.resources
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\obj\Debug\HL7toSql.vbproj.GenerateResource.Cache
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\bin\Debug\HL7toSql.pdb
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\bin\Debug\HL7toSql.xml
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\obj\Debug\HL7toSql.exe
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\obj\Debug\HL7toSql.xml
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\obj\Debug\HL7toSql.pdb
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\HL7toSql\HL7toSql\obj\Debug\HL7toSql.HL7toDB.resources
