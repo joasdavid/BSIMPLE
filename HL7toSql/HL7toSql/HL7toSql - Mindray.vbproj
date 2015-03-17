@@ -71,7 +71,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Equipamento\OpenFile.vb" />
+    <Compile Include="Equipamento\Message.vb" />
     <Compile Include="Forms\HL7toSql.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +79,7 @@
       <DependentUpon>HL7toSql.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HL7\Test.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -120,7 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
-    <Folder Include="HL7\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
