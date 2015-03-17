@@ -26,9 +26,9 @@ Partial Class HL7toDB
         Me.Select_file = New System.Windows.Forms.Button()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.ShowDatehl7 = New System.Windows.Forms.ListView()
         Me.Load2DB = New System.Windows.Forms.ProgressBar()
         Me.DataFromDB = New System.Windows.Forms.ListView()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'Export2Sql
@@ -61,15 +61,6 @@ Partial Class HL7toDB
         Me.TextBox1.Size = New System.Drawing.Size(413, 20)
         Me.TextBox1.TabIndex = 2
         '
-        'ShowDatehl7
-        '
-        Me.ShowDatehl7.Location = New System.Drawing.Point(21, 89)
-        Me.ShowDatehl7.Margin = New System.Windows.Forms.Padding(0)
-        Me.ShowDatehl7.Name = "ShowDatehl7"
-        Me.ShowDatehl7.Size = New System.Drawing.Size(413, 377)
-        Me.ShowDatehl7.TabIndex = 3
-        Me.ShowDatehl7.UseCompatibleStateImageBehavior = False
-        '
         'Load2DB
         '
         Me.Load2DB.Location = New System.Drawing.Point(693, 41)
@@ -86,14 +77,24 @@ Partial Class HL7toDB
         Me.DataFromDB.TabIndex = 5
         Me.DataFromDB.UseCompatibleStateImageBehavior = False
         '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(21, 89)
+        Me.TextBox2.Multiline = True
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.ReadOnly = True
+        Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TextBox2.Size = New System.Drawing.Size(413, 360)
+        Me.TextBox2.TabIndex = 6
+        '
         'HL7toDB
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(980, 493)
+        Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.DataFromDB)
         Me.Controls.Add(Me.Load2DB)
-        Me.Controls.Add(Me.ShowDatehl7)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Select_file)
         Me.Controls.Add(Me.Export2Sql)
@@ -107,8 +108,8 @@ Partial Class HL7toDB
     Friend WithEvents Select_file As System.Windows.Forms.Button
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
-    Friend WithEvents ShowDatehl7 As System.Windows.Forms.ListView
     Friend WithEvents Load2DB As System.Windows.Forms.ProgressBar
     Friend WithEvents DataFromDB As System.Windows.Forms.ListView
+    Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
 
 End Class

@@ -71,6 +71,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Equipamento\OpenFile.vb" />
     <Compile Include="Forms\HL7toSql.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -119,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
-    <Folder Include="Equipamento\" />
     <Folder Include="HL7\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
