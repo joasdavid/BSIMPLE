@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Configuration
 
 Module Test
 
@@ -9,25 +10,24 @@ Module Test
     Private Property results As Object
 
     Sub Main()
-        myConn = New SqlConnection("Initial Catalog=HL7Mindray;" & _
-                "Data Source=NETM4NULTRABOOK;Integrated Security=SSPI;")
+        Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
+        'myConn = New SqlConnection(strConn)
 
-        myCmd = myConn.CreateCommand
-        myCmd.CommandText = "SELECT IdPaciente, Last_Name_Paciente FROM Paciente"
-        myConn.Open()
+        'myCmd = myConn.CreateCommand
+        'myCmd.CommandText = "SELECT IdPaciente, Last_Name_Paciente FROM Paciente"
+        'myConn.Open()
 
-        Dim myReader As SqlDataReader = myCmd.ExecuteReader()
-        Do While myReader.Read()
-            results = results & myReader.GetString(1) & ", " & myReader.GetInt32(0) & vbLf
-        Loop
-        'Display results.
-        MsgBox(results)
-        myConn.Close()
-        
+        'Dim myReader As SqlDataReader = myCmd.ExecuteReader()
+        'Do While myReader.Read()
+        '    results = results & myReader.GetString(1) & ", " & myReader.GetInt32(0) & vbLf
+        'Loop
+        ''Display results.
+        'MsgBox(results)
+        'myConn.Close()
+        Dim sql As New MSSQLConnection(strConn)
+        sql.sendQuery("SELECT IdPaciente, Last_Name_Paciente FROM Paciente")
+        Console.ReadKey()
     End Sub
 
-    Private Function myReader() As Object
-        Throw New NotImplementedException
-    End Function
 
 End Module
