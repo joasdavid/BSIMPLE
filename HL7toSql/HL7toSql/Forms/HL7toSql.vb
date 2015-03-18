@@ -1,9 +1,33 @@
 ﻿Imports System.IO
 Imports System.IO.StreamReader
+Imports System.Data.SqlClient
+Imports System.Configuration
+
+
+
 
 Public Class HL7toDB
+    Private myConn As SqlConnection
+    Private myCmd As SqlCommand
+    Private da As SqlDataAdapter
+    Private ds As DataSet
+
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
+        myConn = New SqlConnection(strConn)
+        Dim SQL As String = "SELECT * FROM ViewDataGridView"
+        'Atualiza dataset
+        da = New SqlDataAdapter(SQL, myConn)
+        'coloca a infomação em memoria
+        ds = New DataSet
+        'coloca a informação defenida no dataset
+        da.Fill(ds, "ViewDataGridView")
+        ' Define a DataSet é a fonte de dados do datagridview
+        Me.DataGridView1.DataSource = ds.Tables("ViewDataGridView")
+        'Limpa a ligação à base de dados
+        myConn = Nothing
 
     End Sub
 
@@ -44,45 +68,27 @@ Public Class HL7toDB
         End If
 
     End Sub
-
-    'Dim myStream As System.IO.Stream
-    ''Dim myStream As Stream = Nothing
-    'Dim openFileDialog1 As New OpenFileDialog()
-
-    'openFileDialog1.InitialDirectory = "C:\"
-    'openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*"
-    'openFileDialog1.FilterIndex = 2
-    'openFileDialog1.RestoreDirectory = True
-
-    'If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-
-    '    TextBox1.Text = openFileDialog1.FileName.ToString()
-    '    Try
-    '        myStream = openFileDialog1.OpenFile()
-
-    '        If (myStream IsNot Nothing) Then
-    '            ' Insert code to read the stream here. 
-    '        End If
-    '    Catch Ex As Exception
-    '        MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
-    '    Finally
-    '        ' Check this again, since we need to make sure we didn't throw an exception on open. 
-    '        If (myStream IsNot Nothing) Then
-    '            myStream.Close()
-    '        End If
-    '    End Try
-    'End If
-
-
     Private Sub Load2DB_Click(sender As Object, e As EventArgs) Handles Load2DB.Click
-
-    End Sub
-
-    Private Sub DataFromDB_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DataFromDB.SelectedIndexChanged
 
     End Sub
 
     Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
 
+    End Sub
+
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+
+    End Sub
+
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+        Label1.Text = Val(Label1.Text) + 1
+    End Sub
+
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+
+        Label1.Text = Val(Label1.Text) - 1
+        If (Val(Label1.Text < 1)) Then
+            Label1.Text = 1
+        End If
     End Sub
 End Class
