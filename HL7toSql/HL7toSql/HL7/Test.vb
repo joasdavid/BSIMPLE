@@ -1,5 +1,4 @@
 ﻿Imports System.Data.SqlClient
-Imports System.Configuration
 
 Module Test
 
@@ -10,8 +9,8 @@ Module Test
     Private Property results As Object
 
     Sub Main()
-        Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
-        myConn = New SqlConnection(strConn)
+        myConn = New SqlConnection("Initial Catalog=HL7Mindray;" & _
+                "Data Source=NETM4NULTRABOOK;Integrated Security=SSPI;")
 
         myCmd = myConn.CreateCommand
         myCmd.CommandText = "SELECT IdPaciente, Last_Name_Paciente FROM Paciente"
@@ -24,7 +23,7 @@ Module Test
         'Display results.
         MsgBox(results)
         myConn.Close()
-
+        
     End Sub
 
     Private Function myReader() As Object
