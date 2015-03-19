@@ -28,14 +28,26 @@ Public Class MSSQLConnection
     End Sub
 
     Public Sub execQuery(sqlQuery As String)
-        Dim myCmd As SqlCommand = myConn.CreateCommand
-        myCmd.CommandText = "SELECT IdPaciente, Last_Name_Paciente FROM Paciente"
-        myCmd.ExecuteNonQuery()
-        myCmd.Dispose()
+        Connect()
+        Try
+            'Dim myCmd As SqlCommand = myConn.CreateCommand
+            'myCmd.CommandText = sqlQuery
+            Dim myCmd As New SqlCommand(sqlQuery, myConn)
+            If myConn.State <> ConnectionState.Closed Then
+                Console.WriteLine("OFF.............")
+            End If
+            myCmd.Connection.Open()
+            myCmd.Connection = myConn
+            myCmd.ExecuteNonQuery()
+            myCmd.Dispose()
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        End Try
+        Disconnect()
     End Sub
 
-    Public Function sendQuery(sqlQuery As String) As String(,)
-        Dim tableReturn(,) As String
+    Public Function sendQuery(sqlQuery As String) As Object(,)
+        Dim tableReturn(,) As Object
         Connect()
         Try
             Dim dataAdapt As New SqlDataAdapter(sqlQuery, myConn)
@@ -52,12 +64,10 @@ Public Class MSSQLConnection
             ' nome das colunas
             For i = 0 To columnsCount Step 1
                 values(0, i) = table.Columns.Item(i).Caption
-                Console.WriteLine(values(0, i))
             Next
             For i = 0 To columnsCount Step 1
                 For j = 0 To columnsCount Step 1
                     values(i + 1, j) = table.Rows(i).Item(j)
-                    Console.WriteLine(values(i + 1, j))
                 Next
             Next
             tableReturn = values

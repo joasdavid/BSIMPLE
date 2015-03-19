@@ -1,5 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Configuration
+Imports System.IO
 
 Module Test
 
@@ -9,23 +10,55 @@ Module Test
 
     Private Property results As Object
 
-    Sub Main()
+    Private Sub DebugCreatMSG()
+
+        Dim listMSG = New List(Of Message)
+        'readfile
+        Dim oReader = New StreamReader("D:\workspace\B-simple\MindrayFull.txt", True)
+        Dim strMSG As String = ""
+        Dim line As String = ""
+        Do While oReader.Peek() <> -1
+            line = oReader.ReadLine() + Chr(10)
+            If line.Chars(0) = Chr(28) Then
+                Dim m = New Message(strMSG)
+                listMSG.Add(m)
+                strMSG = ""
+            Else
+                strMSG += line
+            End If
+        Loop
+        oReader.Close()
+        'end readFile
+        Console.WriteLine("{0} Done . . .", listMSG.Count)
+        Console.WriteLine()
+        Dim op = "0"
+
+        Console.Write(".>")
+        op = Console.ReadLine()
+        'Console.WriteLine("{0}XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", Integer.Parse(op))
+        Dim c As MSSQLController = MSSQLController.Instance
+        Dim count = 0
+        For Each msg In listMSG
+            c.addMSGtoDB(msg)
+            count += 1
+            Console.WriteLine(count)
+        Next
+        Console.WriteLine("upload done!")
+
+    End Sub
+
+    Private Sub DebugGetBD_Paciente()
         Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
-        'myConn = New SqlConnection(strConn)
-
-        'myCmd = myConn.CreateCommand
-        'myCmd.CommandText = "SELECT IdPaciente, Last_Name_Paciente FROM Paciente"
-        'myConn.Open()
-
-        'Dim myReader As SqlDataReader = myCmd.ExecuteReader()
-        'Do While myReader.Read()
-        '    results = results & myReader.GetString(1) & ", " & myReader.GetInt32(0) & vbLf
-        'Loop
-        ''Display results.
-        'MsgBox(results)
-        'myConn.Close()
         Dim sql As New MSSQLConnection(strConn)
-        sql.sendQuery("SELECT IdPaciente, Last_Name_Paciente FROM Paciente")
+        sql.sendQuery("SELECT * FROM Paciente")
+    End Sub
+
+    Sub Main()
+        DebugCreatMSG()
+        ''DebugGetBD_Paciente()
+        'Dim strConn = ConfigurationManager.AppSettings("StrgConn").ToString
+        'Dim asd As MSSQLConnection = New MSSQLConnection(strConn)
+        'asd.execQuery("insert int paciente values('1123','asd','fdgh')")
         Console.ReadKey()
     End Sub
 

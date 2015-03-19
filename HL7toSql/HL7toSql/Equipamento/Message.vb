@@ -1,11 +1,19 @@
 ﻿Public Class Message
 
-    Private idMessage As Integer
     Private MSH(19) As String
     Private OBX(40, 17) As String
     Private OBR(40, 43) As String
     Private PV1(52) As String
     Private PID(30) As String
+    Private ZSG(30, 30) As String 'guarda a informação de um qualquer segmentoZ
+    Private ZHD(30) As String     'gurada os 3 caracteres que identifiquem o segmentoZ
+
+    Private haveMSH As Integer = 0
+    Private havePV1 As Integer = 0
+    Private havePID As Integer = 0
+    Private haveOBX As Integer = 0
+    Private haveOBR As Integer = 0
+    Private haveZSG As Integer = 0
 
     Private c28 As Char = Chr(28)
     Private c13 As Char = Chr(13)
@@ -13,13 +21,15 @@
     Private c11 As Char = Chr(11)
     Private c33 As Char = Chr(161)
 
-    Private sizeOBX As Integer = 0
-    Private sizeOBR As Integer = 0
+    
 
     Private strdata As String = ""
 
     Sub New()
 
+    End Sub
+    Sub New(msg As String)
+        parseData(msg)
     End Sub
 
     Public Function parseData(ByVal data As String) As String
@@ -50,12 +60,8 @@
                 ElseIf (cc = c10 OrElse cc = c13) Then  'fim de segmento
                     If (buffer <> "") Then
                         header = addToHeader(header, buffer, j)
-                        If (header = "OBX") Then
-                            sizeOBX += 1
-                        ElseIf (header = "OBR") Then
-                            sizeOBR += 1
-                        End If
                     End If
+                    haveOneMore(header)
                     j = 0
                     buffer = ""
                 ElseIf (cc = c28) Then  'fim de mensagem
@@ -111,7 +117,7 @@
         ElseIf (header = "OBX") Then
             Dim counter1, counter2 As Integer
             Try
-                counter1 = sizeOBX
+                counter1 = haveOBX
                 counter2 = pos - 1
                 OBX(counter1, counter2) = buffer
             Catch ex As Exception
@@ -123,9 +129,20 @@
         ElseIf (header = "OBR") Then
             Dim counter1, counter2 As Integer
             Try
-                counter1 = sizeOBR
+                counter1 = haveOBR
                 counter2 = pos - 1
                 OBR(counter1, counter2) = buffer
+            Catch ex As Exception
+                counter1 = 0
+                counter2 = 0
+            End Try
+        ElseIf (header.Chars(0) = "Z") Then
+            Dim counter1, counter2 As Integer
+            Try
+                counter1 = haveZSG
+                counter2 = pos - 1
+                ZSG(counter1, counter2) = buffer
+                ZHD(counter1) = header
             Catch ex As Exception
                 counter1 = 0
                 counter2 = 0
@@ -135,13 +152,29 @@
         Return header
     End Function
 
+    Private Sub haveOneMore(seg As String)
+        If (seg = "MSH") Then
+            haveMSH += 1
+        ElseIf (seg = "OBX") Then
+            haveOBX += 1
+        ElseIf (seg = "OBR") Then
+            haveOBR += 1
+        ElseIf (seg = "PV1") Then
+            havePV1 += 1
+        ElseIf (seg = "PID") Then
+            havePID += 1
+        ElseIf (seg = "ZSG") Then
+            haveZSG += 1
+        End If
+    End Sub
+
     Private Sub debug(ByVal list As String(), ByVal nome As String)
         Dim i As Integer
         Try
 
             For i = 0 To list.Length - 1 Step 1
                 If (Not list(i) Is Nothing) Then
-                    Console.WriteLine(nome & " " & i & "     " & list(i))
+                    Console.WriteLine(nome & " " & (i + 1) & "     " & list(i))
                 End If
             Next
         Catch ex As Exception
@@ -155,7 +188,11 @@
             For i = 0 To list.GetUpperBound(0) - 1 Step 1
                 For j = 0 To list.GetUpperBound(1) - 1 Step 1
                     If (Not list(i, j) Is Nothing) Then
-                        Console.WriteLine("{0}({1},{2}) {3}", nome, i, j, list(i, j))
+                        If (nome = "ZXX") Then
+                            Console.WriteLine("{0}({1},{2}) {3}", ZHD(i), (i + 1), (j + 1), list(i, j))
+                        Else
+                            Console.WriteLine("{0}({1},{2}) {3}", nome, (i + 1), (j + 1), list(i, j))
+                        End If
                     End If
                 Next
             Next
@@ -164,16 +201,55 @@
     End Sub
 
 
+    Public Function toString() As String
+        Return strdata
+    End Function
 
 
+    Public Function getSegmentField(seg As String, pos As Integer) As String
+        If (seg = "PID") Then
+            Dim strReturn = "" & PID(pos)
+            Return strReturn
+        ElseIf seg = "MSH" Then
+            Dim strReturn = "" & MSH(pos)
+            Return strReturn
+        End If
+        Return Nothing
+    End Function
+    Public Function getSegmentField(seg As String, segN As Integer, pos As Integer) As String
+        If (seg = "OBX") Then
+            Dim strReturn = "" & OBX(segN, pos)
+            Return strReturn
+        ElseIf seg = "OBR" Then
+            Dim strReturn = "" & OBR(segN, pos)
+            Return strReturn
+        End If
+        Return Nothing
+    End Function
+    Public Function getSegmentCont(seg As String) As Integer
+        If (seg = "MSH" & haveMSH > 0) Then
+            Return haveMSH
+        ElseIf (seg = "OBX" And haveMSH > 0) Then
+            Return haveOBX
+        ElseIf (seg = "OBR" And haveOBR > 0) Then
+            Return haveOBR
+        ElseIf (seg = "PV1" And havePV1 > 0) Then
+            Return havePV1
+        ElseIf (seg = "PID" And havePID > 0) Then
+            Return havePID
+        ElseIf (seg = "ZSG" And haveZSG > 0) Then
+            Return haveZSG
+        End If
+        Return 0
+    End Function
     Public Sub debug()
         debug(MSH, "MSH")
         debug(PID, "PID")
         debug(OBR, "OBR")
         debug(OBX, "OBX")
         debug(PV1, "PV1")
+        debug(ZSG, "ZXX")
     End Sub
-
 
 
 End Class
