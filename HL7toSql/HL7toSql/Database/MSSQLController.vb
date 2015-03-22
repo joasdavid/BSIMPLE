@@ -17,16 +17,16 @@ Public NotInheritable Class MSSQLController
             idPaciente = m.getSegmentField("PID", 2)
         End If
         Dim name() As String = m.getSegmentField("PID", 4).Split("^")
-        Dim isPacienteOnDB = bd.sendQuery("select Count(*) from Paciente where IdPaciente='" & idPaciente & "'")
+        Dim isPacienteOnDB = bd.sendQuery("select Count(*) from Paciente where IdPaciente like '" & idPaciente & "'")
         If isPacienteOnDB(1, 0) = "0" Then
-            sqlQuery = "INSERT INTO Paciente  VALUES('" & idPaciente & "','" & name(0) & "','" & name(1) & "')"
+            sqlQuery = "INSERT INTO Paciente  VALUES('" & idPaciente & "','" & name(1) & "','" & name(0) & "')"
             bd.execQuery(sqlQuery)
         End If
         'Monitorização
         For i = 0 To m.getSegmentCont("OBX") - 1 Step 1
             Dim obxComp2 = m.getSegmentField("OBX", i, 2)
             Dim idAndDesc = obxComp2.Split("^")
-            Dim isIDOBXOnDB = bd.sendQuery("select Count(*) from Monitorizacao where IdOBX=" & idAndDesc(0))
+            Dim isIDOBXOnDB = bd.sendQuery("select Count(*) from Monitorizacao where IdOBX=" & idAndDesc(0) & " and IdPaciente like '" & idPaciente & "'")
             If isIDOBXOnDB(1, 0) = "0" Then
                 Dim sqlQuery2 = "INSERT INTO Monitorizacao VALUES(" & idAndDesc(0) & ",'" & idPaciente & "','" & idAndDesc(1) & "')"
                 bd.execQuery(sqlQuery2)

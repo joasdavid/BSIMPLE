@@ -194,3 +194,6 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+HL7toSql/HL7toSql/My Project/Application.Designer.vb
+HL7toSql/HL7toSql/HL7toSql - Mindray.vbproj
+HL7toSql/HL7toSql/App.config

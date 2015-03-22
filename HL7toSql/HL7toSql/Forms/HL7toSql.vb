@@ -11,6 +11,7 @@ Public Class HL7toDB
     Private myCmd As SqlCommand
     Private da As SqlDataAdapter
     Private ds As DataSet
+    Private listMSG As New List(Of Message)
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -57,13 +58,12 @@ Public Class HL7toDB
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             oReader = New StreamReader(OpenFileDialog1.FileName, True)
             Do While oReader.Peek() <> -1
-
-                TextoLinha = TextoLinha & oReader.ReadLine() & vbNewLine
+               
+                ' TextoLinha = TextoLinha & Linha & vbNewLine
 
             Loop
 
-            TextBox2.Text = TextoLinha
-
+            TextBox2.Text = listMSG.Item(0).ToString
             oReader.Close()
         End If
 
