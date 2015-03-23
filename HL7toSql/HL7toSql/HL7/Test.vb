@@ -14,7 +14,7 @@ Module Test
 
         Dim listMSG = New List(Of Message)
         'readfile
-        Dim oReader = New StreamReader("D:\workspace\B-simple\MindrayFull.txt", True)
+        Dim oReader = New StreamReader("D:\workspace\B-simple\Mindray2.txt", True)
         Dim strMSG As String = ""
         Dim line As String = ""
         Do While oReader.Peek() <> -1
@@ -41,9 +41,11 @@ Module Test
         For Each msg In listMSG
             c.addMSGtoDB(msg)
             count += 1
-            Console.WriteLine(count)
+
         Next
+
         Console.WriteLine("upload done!")
+        Console.WriteLine(count)
 
     End Sub
 
