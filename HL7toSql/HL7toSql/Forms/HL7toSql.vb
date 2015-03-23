@@ -5,13 +5,12 @@ Imports System.Configuration
 
 
 
-
 Public Class HL7toDB
     Private myConn As SqlConnection
     Private myCmd As SqlCommand
     Private da As SqlDataAdapter
     Private ds As DataSet
-    Private listMSG As New List(Of Message)
+    Private listMsg As New List(Of Message)
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -47,6 +46,7 @@ Public Class HL7toDB
 
         Dim oReader As StreamReader
         Dim TextoLinha As String
+        Dim c28 As Char = Chr(28)
 
         OpenFileDialog1.CheckFileExists = True
         OpenFileDialog1.CheckPathExists = True
@@ -58,15 +58,28 @@ Public Class HL7toDB
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             oReader = New StreamReader(OpenFileDialog1.FileName, True)
             Do While oReader.Peek() <> -1
-               
-                ' TextoLinha = TextoLinha & Linha & vbNewLine
+
+                TextoLinha = TextoLinha & oReader.ReadLine() & vbNewLine
 
             Loop
 
-            TextBox2.Text = listMSG.Item(0).ToString
+            TextBox2.Text = TextoLinha
+
             oReader.Close()
         End If
+        'Do While oReader.Peek() <> -1
+        '    Dim Linha = oReader.ReadLine()
+        '    If (Linha.Chars(0) = c28) Then
+        '        Dim asd As New Message()
+        '        asd.parseData(TextoLinha)
+        '        listMsg.Add(asd)
+        '        TextoLinha = ""
+        '    Else
+        '        TextoLinha = TextoLinha & Linha & vbNewLine
+        '    End If
+        'Loop
 
+        'TextBox2.Text = listMsg.Item(0).ToString
     End Sub
     Private Sub Load2DB_Click(sender As Object, e As EventArgs) Handles Load2DB.Click
 
