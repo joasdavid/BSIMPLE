@@ -93,11 +93,11 @@ Public Class HL7toDB
 
     End Sub
 
-    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs)
         Label1.Text = Val(Label1.Text) + 1
     End Sub
 
-    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs)
 
         Label1.Text = Val(Label1.Text) - 1
         If (Val(Label1.Text < 1)) Then
