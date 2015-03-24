@@ -1,4 +1,8 @@
-﻿Public Class Message
+﻿Imports System.Configuration
+Imports System.IO
+Imports System.IO.StreamReader
+
+Public Class Message
 
     Private MSH(19) As String
     Private OBX(40, 17) As String
@@ -21,7 +25,7 @@
     Private c11 As Char = Chr(11)
     Private c33 As Char = Chr(161)
 
-    
+
 
     Private strdata As String = ""
 
@@ -251,6 +255,44 @@
         debug(ZSG, "ZXX")
     End Sub
 
+    Public Function Valide() As Boolean
+
+        If (MSH(1) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) = Nothing Or MSH(11) = Nothing) Then
+            ' 1- enconding chars , 8- Message type, 9- message control id ,10 -processing id 11- versao hl7
+            Return False
+        End If
+        Dim msgValidate As Integer = CInt(MSH(8))
+        If msgValidate = 103 Then
+            If (PID(2) = Nothing Or PID(4) = Nothing) Then
+                '2 - patient id , 4 -name
+                Return False
+            End If
+            If (PV1(1) = Nothing) Then
+                '1-Patient Class
+                Return False
+            End If
+            If (OBR(3) = Nothing) Then
+                '3- universal service id(Monitor MindRay)
+                Return False
+            End If
+            For i = 0 To haveOBX
+                If (OBX(i, 1) = Nothing Or OBX(i, 2) = Nothing Or OBX(i, 4) = Nothing Or OBX(i, 10) = Nothing) Then
+                    '1-value type ,2-Observation Identifier, 4-Observation Results ,10-Observation Results
+                    Return False
+                End If
+            Next
+        ElseIf msgValidate = 204 Or msgValidate = 503 Then
+            For i = 0 To haveOBX
+                If (OBX(i, 1) = Nothing Or OBX(i, 2) = Nothing Or OBX(i, 4) = Nothing Or OBX(i, 10) = Nothing) Then
+                    '1-value type ,2-Observation Identifier, 4-Observation Results ,10-Observation Results
+                    Return False
+                End If
+            Next
+            
+        End If
+        Return True
+
+    End Function
 
 End Class
 

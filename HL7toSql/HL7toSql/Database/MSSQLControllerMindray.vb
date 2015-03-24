@@ -34,7 +34,7 @@ Public Class MSSQLControllerMindray
         Dim id = CInt(msg.getSegmentField("MSH", 8))
         If id = 103 Then
             'r()
-        ElseIf id = 203 Then
+        ElseIf id = 204 Then
             'r()
         ElseIf id = 503 Then
             'r()
