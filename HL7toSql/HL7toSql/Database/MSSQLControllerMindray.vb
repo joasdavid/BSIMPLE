@@ -87,9 +87,9 @@ Public Class MSSQLControllerMindray
     Public Sub addMSGtoDB(msg As Message)
         Dim id = CInt(msg.getSegmentField("MSH", 8))
         If id = 103 Then
-            PIC(msg)
-        ElseIf id = 203 Then
             'r()
+        ElseIf id = 204 Then
+
         ElseIf id = 503 Then
             'r()
         Else
