@@ -210,7 +210,9 @@ Public Class Message
     Public Function toString() As String
         Return strdata
     End Function
-
+    Public Function getTime() As String
+        Return tempoChegada
+    End Function
 
     Public Function getSegmentField(seg As String, pos As Integer) As String
         If (seg = "PID") Then
