@@ -272,8 +272,8 @@ Public Class Message
 
         For i = 0 To haveOBX - 1
 
-            Dim match = regex.Match(OBX(i, 2))
-            If (Not match.Success) Then
+            Dim match = regex.Match(OBX(i, 2), "[0-9][0-9]*\^.*")
+            If (match.Value <> OBX(i, 2)) Then
                 Return False
             End If
         Next
