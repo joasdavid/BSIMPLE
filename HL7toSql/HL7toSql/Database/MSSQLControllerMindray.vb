@@ -45,11 +45,27 @@ Public Class MSSQLControllerMindray
         If (isNew = 0) Then
             Dim _date
             If (dataNascim = "" Or dataNascim = Nothing) Then
-                _date = Nothing
+                _date = "NULL"
             Else
-                _date = "CONVERT(DATETIME, " & dataNascim & ")"
+                _date = "CONVERT(DATETIME, '" & dataNascim & "')"
             End If
             bd.execQuery("insert into Paciente VALUES('" & idPaciente & "', '" & fName & "', '" & lName & "'," & _date & ", '" & sexo & "','asd', '" & tipoSangue & "','" & tipoPaciente & "', '" & paceSwitch & "')")
+        Else
+            Dim _date
+            If (dataNascim = "" Or dataNascim = Nothing) Then
+                _date = "NULL"
+            Else
+                _date = "CONVERT(DATETIME, '" & dataNascim & "')"
+            End If
+            bd.execQuery("UPDATE Paciente SET Frist_Name_Paciente = '" & fName & "'" &
+                                             ",Last_Name_Paciente = '" & lName & "'" &
+                                                       ", DataNas = " & _date &
+                                                          ", Sexo = '" & sexo & "'" &
+                                                         ",Morada = '" & "0asd" & "'" &
+                                                         ",Sangue = '" & tipoSangue & "'" &
+                                                   ",TipoPaciente = '" & tipoPaciente & "'" &
+                                                    ",Pace_Switch = '" & paceSwitch & "'" &
+                                                    " WHERE IdPaciente like '" & idPaciente & "'")
         End If
 
     End Sub

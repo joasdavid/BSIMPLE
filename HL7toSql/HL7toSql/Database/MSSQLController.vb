@@ -5,28 +5,40 @@ Public NotInheritable Class MSSQLController
 
     Dim strConn As String
     Dim idPaciente As String
-    Sub New()
+    Dim values As New List(Of String)
+    Private Sub New()
         strConn = ConfigurationManager.AppSettings("StrgConn").ToString
     End Sub
+
+    Public Function r() As List(Of String)
+        Return values.Distinct().ToList
+    End Function
 
     Public Sub addMSGtoDB(m As Message)
         Dim bd = New MSSQLConnection(strConn)
         Dim sqlQuery As String = ""
-        'paciente
-        If m.getSegmentCont("PID") = 1 Then
-            idPaciente = m.getSegmentField("PID", 2)
-        End If
-        Dim name() As String = m.getSegmentField("PID", 4).Split("^")
-        Dim isPacienteOnDB = bd.sendQuery("select Count(*) from Paciente where IdPaciente like '" & idPaciente & "'")
-        If isPacienteOnDB(1, 0) = "0" Then
-            sqlQuery = "INSERT INTO Paciente  VALUES('" & idPaciente & "','" & name(1) & "','" & name(0) & "')"
-            bd.execQuery(sqlQuery)
-        End If
-        'Monitorização
-        For i = 0 To m.getSegmentCont("OBX") - 1 Step 1
-            Dim obxComp2 = m.getSegmentField("OBX", i, 2)
-            Dim idAndDesc = obxComp2.Split("^")
-            If CInt(idAndDesc(0)) > 4 And CInt(idAndDesc(0)) < 1024 Then
+        Dim idH = m.getSegmentField("MSH", 8)
+
+        If CInt(idH) = 204 Or CInt(idH) = 503 Or CInt(idH) = 103 Then
+            'paciente
+
+            If m.getSegmentCont("PID") = 1 Then
+                idPaciente = m.getSegmentField("PID", 2)
+
+            End If
+            Dim name() As String = m.getSegmentField("PID", 4).Split("^")
+            Dim isPacienteOnDB = bd.sendQuery("select Count(*) from Paciente where IdPaciente like '" & idPaciente & "'")
+            If isPacienteOnDB(1, 0) = "0" Then
+                sqlQuery = "INSERT INTO Paciente  VALUES('" & idPaciente & "','" & name(1) & "','" & name(0) & "')"
+                bd.execQuery(sqlQuery)
+            End If
+            'Monitorização
+            For i = 0 To m.getSegmentCont("OBX") - 1 Step 1
+                Dim obxComp2 = m.getSegmentField("OBX", i, 2)
+                Dim idAndDesc = obxComp2.Split("^")
+                values.Add(idAndDesc(0))
+                'If CInt(idAndDesc(0)) > 4 And CInt(idAndDesc(0)) < 1024 Then
+                'values.Add(idH)
                 Dim isIDOBXOnDB = bd.sendQuery("select Count(*) from Monitorizacao where IdOBX=" & idAndDesc(0) & " and IdPaciente like '" & idPaciente & "'")
                 If isIDOBXOnDB(1, 0) = "0" Then
                     Dim sqlQuery2 = "INSERT INTO Monitorizacao VALUES(" & idAndDesc(0) & ",'" & idPaciente & "','" & idAndDesc(1) & "')"
@@ -49,8 +61,22 @@ Public NotInheritable Class MSSQLController
                     Dim sqlQuery4 = "INSERT INTO Componentes VALUES(" & idValor(1, 0) & ",'" & idPaciente & "'," & idAndDesc(0) & ",'" & valor & "')"
                     bd.execQuery(sqlQuery4)
                 Next
-            End If
-        Next
+                'End If
+            Next
+        End If
+    End Sub
+
+    Public Sub addMSGtoDB2(msg As Message)
+        Dim id = CInt(msg.getSegmentField("MSH", 8))
+        If id = 103 Then
+            r()
+        ElseIf id = 203 Then
+            r()
+        ElseIf id = 503 Then
+            r()
+        Else
+            r()
+        End If
     End Sub
 
     Public Shared ReadOnly Property Instance() As MSSQLController
