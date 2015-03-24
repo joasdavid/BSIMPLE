@@ -35,7 +35,7 @@ Public Class Message
     End Sub
     Sub New(msg As String)
         parseData(msg)
-        tempoChegada = DateTime.Now.ToLongTimeString()
+        tempoChegada = DateTime.Now.ToString("u"c)
     End Sub
 
     Public Function parseData(ByVal data As String) As String
@@ -278,7 +278,7 @@ Public Class Message
                 '1-Patient Class
                 Return False
             End If
-            If (OBR(3) = Nothing) Then
+            If (OBR(0, 3) = Nothing) Then
                 '3- universal service id(Monitor MindRay)
                 Return False
             End If
