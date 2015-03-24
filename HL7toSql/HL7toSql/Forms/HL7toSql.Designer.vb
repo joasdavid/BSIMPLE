@@ -29,9 +29,6 @@ Partial Class HL7toDB
         Me.Load2DB = New System.Windows.Forms.ProgressBar()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -79,7 +76,7 @@ Partial Class HL7toDB
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
         Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox2.Size = New System.Drawing.Size(413, 326)
+        Me.TextBox2.Size = New System.Drawing.Size(413, 360)
         Me.TextBox2.TabIndex = 6
         '
         'DataGridView1
@@ -91,40 +88,11 @@ Partial Class HL7toDB
         Me.DataGridView1.Size = New System.Drawing.Size(514, 360)
         Me.DataGridView1.TabIndex = 7
         '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(220, 421)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(43, 28)
-        Me.Button1.TabIndex = 8
-        Me.Button1.Text = "Next"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(150, 421)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(43, 28)
-        Me.Button2.TabIndex = 9
-        Me.Button2.Text = "Back"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(199, 429)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(0, 13)
-        Me.Label1.TabIndex = 10
-        '
         'HL7toDB
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(980, 493)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Button2)
-        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Load2DB)
@@ -145,8 +113,5 @@ Partial Class HL7toDB
     Friend WithEvents Load2DB As System.Windows.Forms.ProgressBar
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
-    Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents Button2 As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
 
 End Class
