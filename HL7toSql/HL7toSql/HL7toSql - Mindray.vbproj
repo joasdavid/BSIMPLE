@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Database\MSSQLConnection.vb" />
     <Compile Include="Database\MSSQLController.vb" />
+    <Compile Include="Database\MSSQLControllerMindray.vb" />
     <Compile Include="Equipamento\Message.vb" />
     <Compile Include="Forms\HL7toSql.vb">
       <SubType>Form</SubType>

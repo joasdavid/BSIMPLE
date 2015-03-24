@@ -78,4 +78,22 @@ Public Class MSSQLConnection
         Return tableReturn
     End Function
 
+    Public Function sendQuery2(sqlQuery As String) As DataTable
+        'Dim tableReturn(,) As Object
+        Connect()
+        Dim table As New DataTable
+        Try
+            Dim dataAdapt As New SqlDataAdapter(sqlQuery, myConn)
+
+
+            'dataAdapt = New SqlDataAdapter(sqlQuery, myConn)
+            dataAdapt.Fill(table)
+            'tableReturn = values
+
+        Catch ex As Exception
+
+        End Try
+        Disconnect()
+        Return table
+    End Function
 End Class
