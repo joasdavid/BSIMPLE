@@ -1,6 +1,6 @@
 ﻿Imports System.Configuration
 Imports System.IO
-Imports System.IO.StreamReader
+Imports System.Text.RegularExpressions
 
 Public Class Message
 
@@ -260,10 +260,19 @@ Public Class Message
 
     Public Function Valide() As Boolean
 
-        If (MSH(1) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) = Nothing Or MSH(11) = Nothing) Then
+        If (MSH(0) = Nothing Or MSH(7) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) <> "2.3.1") Then
             ' 1- enconding chars , 8- Message type, 9- message control id ,10 -processing id 11- versao hl7
             Return False
         End If
+        Dim regex = New Regex("[0-9][0-9]*\^.*")
+
+        For i = 0 To haveOBX - 1
+
+            Dim match = regex.Match(OBX(i, 2))
+            If (Not match.Success) Then
+                Return False
+            End If
+        Next
         Dim msgValidate As Integer = CInt(MSH(8))
         If msgValidate = 103 Then
             If (PID(2) = Nothing Or PID(4) = Nothing) Then
@@ -274,10 +283,12 @@ Public Class Message
                 '1-Patient Class
                 Return False
             End If
-            If (OBR(3) = Nothing) Then
-                '3- universal service id(Monitor MindRay)
-                Return False
-            End If
+            For i = 0 To haveOBR
+                If (OBR(i, 3) = Nothing) Then
+                    '3- universal service id(Monitor MindRay)
+                    Return False
+                End If
+            Next
             For i = 0 To haveOBX
                 If (OBX(i, 1) = Nothing Or OBX(i, 2) = Nothing Or OBX(i, 4) = Nothing Or OBX(i, 10) = Nothing) Then
                     '1-value type ,2-Observation Identifier, 4-Observation Results ,10-Observation Results
@@ -291,7 +302,7 @@ Public Class Message
                     Return False
                 End If
             Next
-            
+
         End If
         Return True
 
