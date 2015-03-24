@@ -25,6 +25,7 @@ Public Class Message
     Private c11 As Char = Chr(11)
     Private c33 As Char = Chr(161)
 
+    Private tempoChegada As String
 
 
     Private strdata As String = ""
@@ -34,6 +35,7 @@ Public Class Message
     End Sub
     Sub New(msg As String)
         parseData(msg)
+        tempoChegada = DateTime.Now.ToLongTimeString()
     End Sub
 
     Public Function parseData(ByVal data As String) As String
