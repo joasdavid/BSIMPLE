@@ -213,6 +213,9 @@
         ElseIf seg = "MSH" Then
             Dim strReturn = "" & MSH(pos)
             Return strReturn
+        ElseIf seg = "PV1" Then
+            Dim strReturn = "" & PV1(pos)
+            Return strReturn
         End If
         Return Nothing
     End Function

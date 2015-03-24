@@ -92,16 +92,4 @@ Public Class HL7toDB
     Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
 
     End Sub
-
-    Private Sub Button1_Click_1(sender As Object, e As EventArgs)
-        Label1.Text = Val(Label1.Text) + 1
-    End Sub
-
-    Private Sub Button2_Click_1(sender As Object, e As EventArgs)
-
-        Label1.Text = Val(Label1.Text) - 1
-        If (Val(Label1.Text < 1)) Then
-            Label1.Text = 1
-        End If
-    End Sub
 End Class

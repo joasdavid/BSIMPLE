@@ -36,7 +36,8 @@ Module Test
         Console.Write(".>")
         op = Console.ReadLine()
         'Console.WriteLine("{0}XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", Integer.Parse(op))
-        Dim c As MSSQLController = MSSQLController.Instance
+        'Dim c As MSSQLController = MSSQLController.Instance
+        Dim c As MSSQLControllerMindray = MSSQLControllerMindray.Instance
         Dim count = 0
         For Each msg In listMSG
             c.addMSGtoDB(msg)
@@ -44,9 +45,10 @@ Module Test
 
         Next
 
+
         Console.WriteLine("upload done!")
         Console.WriteLine(count)
-
+        Console.ReadKey()
     End Sub
 
     Private Sub DebugGetBD_Paciente()
