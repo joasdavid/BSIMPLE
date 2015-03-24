@@ -89,11 +89,11 @@ Public Class MSSQLConnection
             'dataAdapt = New SqlDataAdapter(sqlQuery, myConn)
             dataAdapt.Fill(table)
             'tableReturn = values
-
+            Return table
         Catch ex As Exception
-
+            Console.WriteLine(ex.Message)
         End Try
         Disconnect()
-        Return table
+        Return Nothing
     End Function
 End Class

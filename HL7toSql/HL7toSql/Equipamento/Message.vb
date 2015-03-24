@@ -25,6 +25,7 @@ Public Class Message
     Private c11 As Char = Chr(11)
     Private c33 As Char = Chr(161)
 
+    Private tempoChegada As String
 
 
     Private strdata As String = ""
@@ -34,6 +35,7 @@ Public Class Message
     End Sub
     Sub New(msg As String)
         parseData(msg)
+        tempoChegada = DateTime.Now.ToString("u"c)
     End Sub
 
     Public Function parseData(ByVal data As String) As String
@@ -208,7 +210,9 @@ Public Class Message
     Public Function toString() As String
         Return strdata
     End Function
-
+    Public Function getTime() As String
+        Return tempoChegada
+    End Function
 
     Public Function getSegmentField(seg As String, pos As Integer) As String
         If (seg = "PID") Then

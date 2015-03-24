@@ -17,8 +17,8 @@ Public Class MSSQLControllerMindray
         'ver se o paciente ja existe
         Dim tb As DataTable = bd.sendQuery2("select Count(*) from Paciente where IdPaciente like '" & _idPaciente & "'")
         Dim isNew As Integer = tb.Rows(0).Item(0)
-        'caso nao exista
 
+        'campos
         idPaciente = _idPaciente
         Dim fullName = msg.getSegmentField("PID", 4).Split("^")
         Dim fName = fullName(0)
@@ -41,7 +41,7 @@ Public Class MSSQLControllerMindray
                 paceSwitch = CInt(_valor(0))
             End If
         Next
-        Console.WriteLine("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}", idPaciente, fName, lName, dataNascim, sexo, tipoPaciente, tipoSangue, paceSwitch)
+        'caso nao exista cria
         If (isNew = 0) Then
             Dim _date
             If (dataNascim = "" Or dataNascim = Nothing) Then
@@ -49,8 +49,15 @@ Public Class MSSQLControllerMindray
             Else
                 _date = "CONVERT(DATETIME, '" & dataNascim & "')"
             End If
-            bd.execQuery("insert into Paciente VALUES('" & idPaciente & "', '" & fName & "', '" & lName & "'," & _date & ", '" & sexo & "','asd', '" & tipoSangue & "','" & tipoPaciente & "', '" & paceSwitch & "')")
-        Else
+            bd.execQuery("insert into Paciente VALUES('" & idPaciente & "', '" &
+                                                           fName & "', '" &
+                                                           lName & "'," &
+                                                           _date & ", '" &
+                                                           sexo & "','asd', '" &
+                                                           tipoSangue & "','" &
+                                                           tipoPaciente & "', '" &
+                                                           paceSwitch & "')")
+        Else 'caso exista faz update
             Dim _date
             If (dataNascim = "" Or dataNascim = Nothing) Then
                 _date = "NULL"
@@ -73,7 +80,38 @@ Public Class MSSQLControllerMindray
     'Unsolicited Observation Reporting Message
     'Periodic parameters
     Private Sub PP(msg As Message)
-        'valida
+        Dim bd = New MSSQLConnection(strConn)
+        'para cada obx na mensagem
+        For i = 0 To msg.getSegmentCont("OBX") - 1 Step 1
+            'get data
+            Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
+            Dim idOBX = _idAndDesc(0)
+            Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
+            Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
+
+            'Monitorização
+            Dim tb As DataTable
+            tb = bd.sendQuery2("select Count(*) from Monitorizacao as m where  m.IdOBX = " & idOBX & " and m.IdPaciente like '" & idPaciente & "'")
+            Dim isNew As Integer = tb.Rows(0).Item(0)
+            'casso nao exista
+            If (isNew = 0) Then
+                bd.execQuery("insert into Monitorizacao VALUES(" & idOBX & ",'" & idPaciente & "')")
+            End If
+            'valores
+            Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
+            Dim df = di
+            tb = bd.sendQuery2("SELECT TOP 1 * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.DataFinal desc")
+            Dim ultimoValor As Double = Nothing
+            If (tb.Rows.Count <> Nothing) Then
+                ultimoValor = CDbl(tb.Rows(0).Item(6))
+            End If
+            If (valor = ultimoValor) Then
+                bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdPaciente like '" & idPaciente & "' and IdOBX =" & idOBX)
+            Else 'caso exista alteração
+                bd.execQuery("insert into Valores(IdPaciente, IdOBX, Sub_id, Valor, DataInicio, DataFinal) " &
+                                          "VALUES('" & idPaciente & "', " & idOBX & ", " & subidOBX & ", " & valor.ToString().Replace(",", ".") & "," & di & "," & df & ")")
+            End If
+        Next
 
     End Sub
 
@@ -87,9 +125,9 @@ Public Class MSSQLControllerMindray
     Public Sub addMSGtoDB(msg As Message)
         Dim id = CInt(msg.getSegmentField("MSH", 8))
         If id = 103 Then
-            'r()
+            PIC(msg)
         ElseIf id = 204 Then
-
+            PP(msg)
         ElseIf id = 503 Then
             'r()
         Else
