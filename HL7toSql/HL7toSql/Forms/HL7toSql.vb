@@ -16,7 +16,7 @@ Public Class HL7toDB
     Private Sub showBDcontent()
         Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
         myConn = New SqlConnection(strConn)
-        Dim SQL As String = "SELECT IdPaciente,IdOBX,Sub_id,Valor,DataInicio,DataFinal FROM Valores"
+        Dim SQL As String = "SELECT IdValores, IdPaciente,IdOBX,Sub_id,Valor,DataInicio,DataFinal FROM Valores"
         'Atualiza dataset
         da = New SqlDataAdapter(SQL, myConn)
         'coloca a infomação em memoria
@@ -88,20 +88,26 @@ Public Class HL7toDB
             'Dim oReader = New StreamReader("C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\MindrayMini.txt", True)
             Dim strMSG As String = ""
             Dim line As String = ""
+            Dim text As String = ""
             Do While oReader.Peek() <> -1
-                line = oReader.ReadLine() + Chr(10)
-                If line.Chars(0) = Chr(28) Then
-                    Dim m = New Message(strMSG)
+                Try
+                    line = oReader.ReadLine() + Chr(10)
+                    If line.Chars(0) = Chr(28) Then
+                        Dim m = New Message(strMSG)
                         listMsg.Add(m)
                         strMSG = ""
-                        TextBox2.Text += vbNewLine
+                        text += vbNewLine
                     Else
                         strMSG += line
-                        TextBox2.Text += line + vbNewLine
+                        text += line + vbNewLine
                     End If
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
             Loop
             oReader.Close()
-            End If
+            TextBox2.Text = text
+        End If
     End Sub
     Private Sub Load2DB_Click(sender As Object, e As EventArgs) Handles Load2DB.Click
 
