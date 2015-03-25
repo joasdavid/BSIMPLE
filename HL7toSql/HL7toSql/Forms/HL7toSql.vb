@@ -30,6 +30,8 @@ Public Class HL7toDB
         'Limpa a ligação à base de dados
         myConn = Nothing
 
+
+
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
