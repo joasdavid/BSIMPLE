@@ -107,9 +107,9 @@ Public Class MSSQLControllerMindray
                 idValor = tb.Rows(0).Item(0)
                 ultimoValor = CDbl(tb.Rows(0).Item(6))
             End If
+            tb.Dispose()
             If (valor = ultimoValor) Then
                 bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & idValor)
-                bd.execQuery("COMMIT")
             Else 'caso exista alteração
                 If idOBX = "101" Then
                     Console.WriteLine("{0} = {1}", valor, ultimoValor)
