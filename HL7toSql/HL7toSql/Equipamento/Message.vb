@@ -35,7 +35,7 @@ Public Class Message
     End Sub
     Sub New(msg As String)
         parseData(msg)
-        tempoChegada = DateTime.Now.ToString("u"c)
+        tempoChegada = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff")
     End Sub
 
     Public Function parseData(ByVal data As String) As String
