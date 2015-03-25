@@ -71,6 +71,7 @@ Partial Class HL7toDB
         '
         'TextBox2
         '
+        Me.TextBox2.AcceptsReturn = True
         Me.TextBox2.Location = New System.Drawing.Point(21, 89)
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
