@@ -94,12 +94,14 @@ Public Class HL7toDB
             Dim strMSG As String = ""
             Dim line As String = ""
             Dim text As String = ""
+            Dim countR As Integer = 0
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
                     If line.Chars(0) = Chr(28) Then
                         Dim m = New Message(strMSG)
                         listMsg.Add(m)
+                        countR += m.getSegmentCont("OBX")
                         strMSG = ""
                         text += vbNewLine
                         For j = -10000 To 90000 Step 1
@@ -118,6 +120,7 @@ Public Class HL7toDB
             Loop
             oReader.Close()
             TextBox2.Text = text
+            MsgBox(countR)
         End If
     End Sub
     Private Sub Load2DB_Click(sender As Object, e As EventArgs) Handles Load2DB.Click
