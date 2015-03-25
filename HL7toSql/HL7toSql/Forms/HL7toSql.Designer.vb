@@ -101,6 +101,7 @@ Partial Class HL7toDB
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Select_file)
         Me.Controls.Add(Me.Export2Sql)
+        Me.MaximizeBox = False
         Me.Name = "HL7toDB"
         Me.Text = "Hl7 to DB"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
