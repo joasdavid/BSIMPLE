@@ -87,6 +87,7 @@ Public Class MSSQLControllerMindray
             Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
             Dim idOBX = _idAndDesc(0)
             Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
+            Dim idValor
             Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
 
             'Monitorização
@@ -100,14 +101,19 @@ Public Class MSSQLControllerMindray
             'valores
             Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
             Dim df = di
-            tb = bd.sendQuery2("SELECT TOP 1 * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.DataFinal desc")
+            tb = bd.sendQuery2("SELECT * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.DataFinal desc")
             Dim ultimoValor As Double = Nothing
             If (tb.Rows.Count <> Nothing) Then
+                idValor = tb.Rows(0).Item(0)
                 ultimoValor = CDbl(tb.Rows(0).Item(6))
             End If
             If (valor = ultimoValor) Then
-                bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdPaciente like '" & idPaciente & "' and IdOBX =" & idOBX)
+                bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & idValor)
+                bd.execQuery("COMMIT")
             Else 'caso exista alteração
+                If idOBX = "101" Then
+                    Console.WriteLine("{0} = {1}", valor, ultimoValor)
+                End If
                 bd.execQuery("insert into Valores(IdPaciente, IdOBX, Sub_id, Valor, DataInicio, DataFinal) " &
                                           "VALUES('" & idPaciente & "', " & idOBX & ", " & subidOBX & ", " & valor.ToString().Replace(",", ".") & "," & di & "," & df & ")")
             End If
@@ -118,7 +124,7 @@ Public Class MSSQLControllerMindray
     'NIBP Parameter Message
     Private Sub NIBP(msg As Message)
         'valida
-
+        PP(msg)
     End Sub
 
 
@@ -129,7 +135,7 @@ Public Class MSSQLControllerMindray
         ElseIf id = 204 Then
             PP(msg)
         ElseIf id = 503 Then
-            'r()
+            NIBP(msg)
         Else
             'r()
         End If
