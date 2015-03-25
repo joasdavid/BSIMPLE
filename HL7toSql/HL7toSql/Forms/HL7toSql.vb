@@ -16,7 +16,7 @@ Public Class HL7toDB
     Private Sub showBDcontent()
         Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
         myConn = New SqlConnection(strConn)
-        Dim SQL As String = "SELECT * FROM Valores"
+        Dim SQL As String = "SELECT IdPaciente,IdOBX,Sub_id,Valor,DataInicio,DataFinal FROM Valores"
         'Atualiza dataset
         da = New SqlDataAdapter(SQL, myConn)
         'coloca a infomação em memoria
@@ -64,7 +64,8 @@ Public Class HL7toDB
         OpenFileDialog1.FileName = ""
         OpenFileDialog1.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
         OpenFileDialog1.Multiselect = False
-
+        TextBox1.Text = ""
+        TextBox2.Text = ""
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             oReader = New StreamReader(OpenFileDialog1.FileName, True)
 
