@@ -287,20 +287,20 @@ Public Class Message
                 '1-Patient Class
                 Return False
             End If
-            For i = 0 To haveOBR
+            For i = 0 To haveOBR - 1
                 If (OBR(i, 3) = Nothing) Then
                     '3- universal service id(Monitor MindRay)
                     Return False
                 End If
             Next
-            For i = 0 To haveOBX
+            For i = 0 To haveOBX - 1
                 If (OBX(i, 1) = Nothing Or OBX(i, 2) = Nothing Or OBX(i, 4) = Nothing Or OBX(i, 10) = Nothing) Then
                     '1-value type ,2-Observation Identifier, 4-Observation Results ,10-Observation Results
                     Return False
                 End If
             Next
         ElseIf msgValidate = 204 Or msgValidate = 503 Then
-            For i = 0 To haveOBX
+            For i = 0 To haveOBX - 1
                 If (OBX(i, 1) = Nothing Or OBX(i, 2) = Nothing Or OBX(i, 4) = Nothing Or OBX(i, 10) = Nothing) Then
                     '1-value type ,2-Observation Identifier, 4-Observation Results ,10-Observation Results
                     Return False

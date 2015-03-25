@@ -11,28 +11,38 @@ Public Class HL7toDB
     Private da As SqlDataAdapter
     Private ds As DataSet
     Private listMsg As New List(Of Message)
+    Private c28 As Char = Chr(28)
 
-
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+    Private Sub showBDcontent()
         Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
         myConn = New SqlConnection(strConn)
-        Dim SQL As String = "SELECT * FROM ViewDataGridView"
+        Dim SQL As String = "SELECT * FROM Valores"
         'Atualiza dataset
         da = New SqlDataAdapter(SQL, myConn)
         'coloca a infomação em memoria
         ds = New DataSet
         'coloca a informação defenida no dataset
-        da.Fill(ds, "ViewDataGridView")
+        da.Fill(ds, "Valores")
         ' Define a DataSet é a fonte de dados do datagridview
-        Me.DataGridView1.DataSource = ds.Tables("ViewDataGridView")
+        Me.DataGridView1.DataSource = ds.Tables("Valores")
         'Limpa a ligação à base de dados
         myConn = Nothing
 
     End Sub
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        showBDcontent()
+    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Export2Sql.Click
+        Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
 
+        For Each envia In listMsg
+            If (envia.Valide()) Then
+                controler.addMSGtoDB(envia)
+            End If
+        Next
+        showBDcontent()
     End Sub
 
     Private Sub OpenFileDialog1_FileOk_1(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
@@ -45,8 +55,8 @@ Public Class HL7toDB
     Private Sub Button2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Select_file.Click
 
         Dim oReader As StreamReader
-        Dim TextoLinha As String
-        'Dim c28 As Char = Chr(28)
+        Dim TextoLinha As String = ""
+
 
         OpenFileDialog1.CheckFileExists = True
         OpenFileDialog1.CheckPathExists = True
@@ -57,29 +67,40 @@ Public Class HL7toDB
 
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             oReader = New StreamReader(OpenFileDialog1.FileName, True)
+
+
+            '    Do While oReader.Peek() <> -1
+            '        Dim Linha = oReader.ReadLine() + Chr(10)
+            '        If (Linha.Chars(0) = c28) Then
+            '            Dim asd As New Message()
+            '            asd.parseData(TextoLinha)
+            '            If (asd.Valide) Then
+            '                listMsg.Add(asd)
+            '            End If
+            '            TextoLinha = ""
+            '        Else
+            '            TextoLinha += Linha '+ Chr(10)
+            '        End If
+            '    Loop
+            '    oReader.Close()
+            'End If
+            'Dim oReader = New StreamReader("C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\MindrayMini.txt", True)
+            Dim strMSG As String = ""
+            Dim line As String = ""
             Do While oReader.Peek() <> -1
-
-                TextoLinha = TextoLinha & oReader.ReadLine() & vbNewLine
-
+                line = oReader.ReadLine() + Chr(10)
+                If line.Chars(0) = Chr(28) Then
+                    Dim m = New Message(strMSG)
+                        listMsg.Add(m)
+                        strMSG = ""
+                        TextBox2.Text += vbNewLine
+                    Else
+                        strMSG += line
+                        TextBox2.Text += line + vbNewLine
+                    End If
             Loop
-
-            TextBox2.Text = TextoLinha
-
             oReader.Close()
-        End If
-        'Do While oReader.Peek() <> -1
-        '    Dim Linha = oReader.ReadLine()
-        '    If (Linha.Chars(0) = c28) Then
-        '        Dim asd As New Message()
-        '        asd.parseData(TextoLinha)
-        '        listMsg.Add(asd)
-        '        TextoLinha = ""
-        '    Else
-        '        TextoLinha = TextoLinha & Linha & vbNewLine
-        '    End If
-        'Loop
-
-        'TextBox2.Text = listMsg.Item(0).ToString
+            End If
     End Sub
     Private Sub Load2DB_Click(sender As Object, e As EventArgs) Handles Load2DB.Click
 
