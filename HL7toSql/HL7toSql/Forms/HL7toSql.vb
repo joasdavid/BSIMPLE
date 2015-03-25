@@ -104,12 +104,7 @@ Public Class HL7toDB
                         countR += m.getSegmentCont("OBX")
                         strMSG = ""
                         text += vbNewLine
-                        For j = -10000 To 90000 Step 1
-                            For d = -1 To 2
-                                '        strMSG = ""
-                                '        Console.Write(".")
-                            Next
-                        Next
+                        Threading.Thread.Sleep(50)
                     Else
                         strMSG += line
                         text += line + vbNewLine
