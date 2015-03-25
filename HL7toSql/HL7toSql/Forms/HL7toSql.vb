@@ -25,6 +25,8 @@ Public Class HL7toDB
         da.Fill(ds, "Valores")
         ' Define a DataSet é a fonte de dados do datagridview
         Me.DataGridView1.DataSource = ds.Tables("Valores")
+        Me.DataGridView1.Columns(5).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:ff"
+        Me.DataGridView1.Columns(6).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:ff"
         'Limpa a ligação à base de dados
         myConn = Nothing
 
@@ -57,6 +59,7 @@ Public Class HL7toDB
         Dim oReader As StreamReader
         Dim TextoLinha As String = ""
 
+        listMsg.Clear()
 
         OpenFileDialog1.CheckFileExists = True
         OpenFileDialog1.CheckPathExists = True
@@ -97,6 +100,12 @@ Public Class HL7toDB
                         listMsg.Add(m)
                         strMSG = ""
                         text += vbNewLine
+                        For j = -10000 To 90000 Step 1
+                            For d = -1 To 2
+                                '        strMSG = ""
+                                '        Console.Write(".")
+                            Next
+                        Next
                     Else
                         strMSG += line
                         text += line + vbNewLine

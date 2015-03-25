@@ -43,6 +43,21 @@ Public Class MSSQLConnection
         Disconnect()
     End Sub
 
+    Public Sub execQuery(tableName As String, dataRow As DataRow)
+        Connect()
+        Try
+            Dim sqlQuery = "SELECT * FROM " & tableName
+            Dim dataAdapt As New SqlDataAdapter(sqlQuery, myConn)
+            Dim table As New DataTable
+            table.Rows.Add(dataRow)
+            table.AcceptChanges()
+            table.Dispose()
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        End Try
+        Disconnect()
+    End Sub
+
     Public Function sendQuery(sqlQuery As String) As Object(,)
         Dim tableReturn(,) As Object
         Connect()
