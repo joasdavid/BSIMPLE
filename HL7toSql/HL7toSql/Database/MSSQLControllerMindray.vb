@@ -107,47 +107,6 @@ Public Class MSSQLControllerMindray
                 idValor = tb.Rows(0).Item(0)
                 ultimoValor = CDbl(tb.Rows(0).Item(6))
             End If
-            If (valor = ultimoValor) Then
-                bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & idValor)
-            Else 'caso exista alteração
-                If idOBX = "101" Then
-                    Console.WriteLine("{0} = {1}", valor, ultimoValor)
-                End If
-                bd.execQuery("insert into Valores(IdPaciente, IdOBX, Sub_id, Valor, DataInicio, DataFinal) " &
-                                          "VALUES('" & idPaciente & "', " & idOBX & ", " & subidOBX & ", " & valor.ToString().Replace(",", ".") & "," & di & "," & df & ")")
-            End If
-        Next
-
-    End Sub
-
-    Private Sub PP2(msg As Message)
-        Dim bd = New MSSQLConnection(strConn)
-        'para cada obx na mensagem
-        For i = 0 To msg.getSegmentCont("OBX") - 1 Step 1
-            'get data
-            Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
-            Dim idOBX = _idAndDesc(0)
-            Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
-            Dim idValor
-            Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
-
-            'Monitorização
-            Dim tb As DataTable
-            tb = bd.sendQuery2("select Count(*) from Monitorizacao as m where  m.IdOBX = " & idOBX & " and m.IdPaciente like '" & idPaciente & "'")
-            Dim isNew As Integer = tb.Rows(0).Item(0)
-            'casso nao exista
-            If (isNew = 0) Then
-                bd.execQuery("insert into Monitorizacao VALUES(" & idOBX & ",'" & idPaciente & "')")
-            End If
-            'valores
-            Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
-            Dim df = di
-            tb = bd.sendQuery2("SELECT * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.DataFinal desc")
-            Dim ultimoValor As Double = Nothing
-            If (tb.Rows.Count <> Nothing) Then
-                idValor = tb.Rows(0).Item(0)
-                ultimoValor = CDbl(tb.Rows(0).Item(6))
-            End If
             tb.Dispose()
             If (valor = ultimoValor) Then
                 bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & idValor)
