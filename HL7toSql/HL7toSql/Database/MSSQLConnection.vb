@@ -33,9 +33,6 @@ Public Class MSSQLConnection
             'Dim myCmd As SqlCommand = myConn.CreateCommand
             'myCmd.CommandText = sqlQuery
             Dim myCmd As New SqlCommand(sqlQuery, myConn)
-            If myConn.State <> ConnectionState.Closed Then
-                Console.WriteLine("OFF.............")
-            End If
             myCmd.Connection.Open()
             myCmd.Connection = myConn
             myCmd.ExecuteNonQuery()
