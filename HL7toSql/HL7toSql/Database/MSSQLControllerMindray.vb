@@ -87,7 +87,7 @@ Public Class MSSQLControllerMindray
             Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
             Dim idOBX = _idAndDesc(0)
             Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
-            Dim idValor
+            Dim idValor = Nothing
             Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
 
             'Monitorização
@@ -129,7 +129,7 @@ Public Class MSSQLControllerMindray
             Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
             Dim idOBX = _idAndDesc(0)
             Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
-            Dim idValor
+            Dim idValor = Nothing
             Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
 
             'Monitorização

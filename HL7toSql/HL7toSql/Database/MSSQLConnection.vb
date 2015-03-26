@@ -59,7 +59,7 @@ Public Class MSSQLConnection
     End Sub
 
     Public Function sendQuery(sqlQuery As String) As Object(,)
-        Dim tableReturn(,) As Object
+        Dim tableReturn(,) As Object = Nothing
         Connect()
         Try
             Dim dataAdapt As New SqlDataAdapter(sqlQuery, myConn)
