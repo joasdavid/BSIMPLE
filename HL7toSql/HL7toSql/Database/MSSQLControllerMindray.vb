@@ -80,6 +80,7 @@ Public Class MSSQLControllerMindray
     'Unsolicited Observation Reporting Message
     'Periodic parameters
     Private Sub Parameters(msg As Message)
+        Dim bd = New MSSQLConnection(strConn)
         'para cada obx na mensagem
         For i = 0 To msg.getSegmentCont("OBX") - 1 Step 1
             'get data
@@ -87,11 +88,23 @@ Public Class MSSQLControllerMindray
             Dim idOBX = _idAndDesc(0) '<id>
             Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas para eviar ser "Nothing"
             Dim valor = msg.getSegmentField("OBX", i, 4)
+
+            'Monitorização
+            Dim tb As DataTable
+            tb = bd.sendQuery2("select Count(*) from Monitorizacao as m where  m.IdOBX = " & idOBX & " and m.IdPaciente like '" & idPaciente & "'")
+            Dim isNew As Integer = tb.Rows(0).Item(0)
+            'casso nao exista
+            If (isNew = 0) Then
+                bd.execQuery("insert into Monitorizacao VALUES(" & idOBX & ",'" & idPaciente & "')")
+            End If
+            'valores
+
             Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
             Dim df = di
 
             'guarda informação da Monitorização
             saveMonitorizacao(idOBX)
+
 
             'guarda os valores da Monitorização
             saveValor(idOBX, subidOBX, valor, di, df)
