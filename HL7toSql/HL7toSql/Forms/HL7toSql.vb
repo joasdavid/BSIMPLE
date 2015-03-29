@@ -74,23 +74,6 @@ Public Class HL7toDB
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             oReader = New StreamReader(OpenFileDialog1.FileName, True)
 
-
-            '    Do While oReader.Peek() <> -1
-            '        Dim Linha = oReader.ReadLine() + Chr(10)
-            '        If (Linha.Chars(0) = c28) Then
-            '            Dim asd As New Message()
-            '            asd.parseData(TextoLinha)
-            '            If (asd.Valide) Then
-            '                listMsg.Add(asd)
-            '            End If
-            '            TextoLinha = ""
-            '        Else
-            '            TextoLinha += Linha '+ Chr(10)
-            '        End If
-            '    Loop
-            '    oReader.Close()
-            'End If
-            'Dim oReader = New StreamReader("C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\MindrayMini.txt", True)
             Dim strMSG As String = ""
             Dim line As String = ""
             Dim text As String = ""
@@ -116,17 +99,6 @@ Public Class HL7toDB
             TextBox2.Text = text
             MsgBox(countR)
         End If
-    End Sub
-    Private Sub Load2DB_Click(sender As Object, e As EventArgs) Handles Load2DB.Click
-
-    End Sub
-
-    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
-
-    End Sub
-
-    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
-
     End Sub
 
 End Class
