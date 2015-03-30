@@ -207,7 +207,7 @@ Public Class Message
     End Sub
 
 
-    Public Function toString() As String
+    Public Overloads Function toString() As String
         Return strdata
     End Function
     Public Function getTime() As String

@@ -25,8 +25,8 @@ Public Class HL7toDB
         da.Fill(ds, "Valores")
         ' Define a DataSet é a fonte de dados do datagridview
         Me.DataGridView1.DataSource = ds.Tables("Valores")
-        Me.DataGridView1.Columns(5).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:ff"
-        Me.DataGridView1.Columns(6).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:ff"
+        Me.DataGridView1.Columns(5).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
+        Me.DataGridView1.Columns(6).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
         'Limpa a ligação à base de dados
         myConn = Nothing
 
@@ -104,7 +104,6 @@ Public Class HL7toDB
                         countR += m.getSegmentCont("OBX")
                         strMSG = ""
                         text += vbNewLine
-                        Threading.Thread.Sleep(50)
                     Else
                         strMSG += line
                         text += line + vbNewLine

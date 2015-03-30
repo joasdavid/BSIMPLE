@@ -87,7 +87,7 @@ Public Class MSSQLControllerMindray
             Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
             Dim idOBX = _idAndDesc(0)
             Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
-            Dim idValor
+            Dim idValor = Nothing
             Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
 
             'Monitorização
@@ -101,7 +101,7 @@ Public Class MSSQLControllerMindray
             'valores
             Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
             Dim df = di
-            tb = bd.sendQuery2("SELECT * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.DataFinal desc")
+            tb = bd.sendQuery2("SELECT * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.idvalores desc")
             Dim ultimoValor As Double = Nothing
             If (tb.Rows.Count <> Nothing) Then
                 idValor = tb.Rows(0).Item(0)
@@ -129,7 +129,7 @@ Public Class MSSQLControllerMindray
             Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
             Dim idOBX = _idAndDesc(0)
             Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
-            Dim idValor
+            Dim idValor = Nothing
             Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
 
             'Monitorização
