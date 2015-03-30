@@ -94,14 +94,17 @@ Partial Class HL7toDB
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(980, 493)
+        Me.ClientSize = New System.Drawing.Size(980, 470)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Load2DB)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Select_file)
         Me.Controls.Add(Me.Export2Sql)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(996, 509)
+        Me.MinimumSize = New System.Drawing.Size(996, 509)
         Me.Name = "HL7toDB"
         Me.Text = "Hl7 to DB"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()

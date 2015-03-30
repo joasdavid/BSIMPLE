@@ -164,8 +164,8 @@ Public Class MSSQLControllerMindray
                 dr("IdOBX") = idOBX
                 dr("Sub_id") = subidOBX
                 dr("Valor") = valor.ToString().Replace(",", ".")
-                dr("DataInicio") = di
-                dr("DataFinal") = df
+                dr("DataInicio") = di + ""
+                dr("DataFinal") = df + ""
                 bd.execQuery("Valores", dr)
             End If
         Next
