@@ -264,7 +264,7 @@ Public Class Message
 
     Public Function Valide() As Boolean
         If (Not (ValideMSH() And _
-                 ValideOBX())) Then
+                 (ValideOBX() And haveOBX > 0))) Then
             Return False
         End If
 
@@ -280,8 +280,24 @@ Public Class Message
     End Function
 
     Private Function ValideMSH() As Boolean
-        If (MSH(0) = Nothing Or MSH(7) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) <> versao) Then
-            ' 1- enconding chars , 8- Message type, 9- message control id ,10 -processing id 11- versao hl7
+        If MSH(0) <> Nothing Then
+            Dim count = 0
+            For Each encodChar In MSH(0)
+                For Each encodChar2 In MSH(0)
+                    If (encodChar = encodChar2) Then
+                        count += 1
+                    End If
+                Next
+                If count > 1 Then
+                    Return False
+                End If
+                count = 0
+            Next
+        Else
+        Return False
+        End If
+        If (MSH(0).Length <> 4 Or MSH(7) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) <> versao) Then
+            ' 1- enconding chars = 4 , 8- Message type, 9- message control id ,10 -processing id 11- versao hl7
             Return False
         End If
         Return True
