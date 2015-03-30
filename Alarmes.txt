@@ -1,0 +1,425 @@
+10000 Unknown Phys. Alarm
+10001 HR Too High
+10002 HR Too Low
+10003 ST1 Too High
+10004 ST1 Too Low
+10005 ST2 Too High
+10006 ST2 Too Low
+10007 ST-I Too High
+10008 ST-I Too Low
+10009 ST-II Too High
+10010 ST-II Too Low
+10011 ST-III Too High
+10012 ST-III Too Low
+10013 ST-aVR Too High
+10014 ST-aVR Too Low
+10015 ST-aVL Too High
+10016 ST-aVL Too Low
+10017 ST-aVF Too High
+10018 ST-aVF Too Low
+10019 ST-V1 Too High
+10020 ST-V1 Too Low
+10021 ST-V2 Too High
+10022 ST-V2 Too Low
+10023 ST-V3 Too High
+10024 ST-V3 Too Low
+10025 ST-V4 Too High
+10026 ST-V4 Too Low
+10027 ST-V5 Too High
+10028 ST-V5 Too Low
+10029 ST-V6 Too High
+10030 ST-V6 Too Low
+10031 PVCs Too High
+10032 PVCs Too Low
+10033 SpO2 Too High
+10034 SpO2 Too Low
+10035 PR Too High
+10036 PR Too Low
+10037 NIBP-Sys Too High
+10038 NIBP-Sys Too Low
+10039 NIBP-Mean Too High
+10040 NIBP-Mean Too Low
+10041 NIBP-Dia Too High
+10042 NIBP-Dia Too Low
+10043 RR Too High
+10044 RR Too Low
+10045 IBP1-Sys Too High
+10046 IBP1-Sys Too Low
+10047 IBP1-Mean Too High
+10048 IBP1-Mean Too Low
+10049 IBP1-Dia Too High
+10050 IBP1-Dia Too Low
+10051 IBP2-Sys Too High
+10052 IBP2-Sys Too Low
+10053 IBP2-Mean Too High
+10054 IBP2-Mean Too Low
+10055 IBP2-Dia Too High
+10056 IBP2-Dia Too Low
+10057 IBP3-Sys Too High
+10058 IBP3-Sys Too Low
+10059 IBP3-Mean Too High
+10060 IBP3-Mean Too Low
+10061 IBP3-Dia Too High
+10062 IBP3-Dia Too Low
+10063 IBP4-Sys Too High
+10064 IBP4-Sys Too Low
+10065 IBP4-Mean Too High
+10066 IBP4-Mean Too Low
+10067 IBP4-Dia Too High
+10068 IBP4-Dia Too Low
+10069 FiCO2 Too High
+10070 FiCO2 Too Low
+10071 EtCO2 Too High
+10072 EtCO2 Too Low
+10073 awRR Too High
+10074 awRR Too Low
+10075 T1 Too High
+10076 T1 Too Low
+10077 T2 Too High
+10078 T2 Too Low
+10079 Td Too High
+10080 Td Too Low
+10081 TB Too High
+10082 TB Too Low
+10083 EtCO2 Too High
+10084 EtCO2 Too Low
+10085 FiCO2 Too High
+10086 FiCO2 Too Low
+10087 EtO2 Too High
+10088 EtO2 Too Low
+10089 FiO2 Too High
+10090 FiO2 Too Low
+10091 EtN2O Too High
+10092 EtN2O Too Low
+10093 FiN2O Too High
+10094 FiN2O Too Low
+10095 EtAA Too High
+10096 EtAA Too Low
+10097 FiAA Too High
+10098 FiAA Too Low
+10099 EtHAL Too High
+10100 EtHAL Too Low
+10101 FiHAL Too High
+10102 FiHAL Too Low
+10103 EtENF Too High
+10104 EtENF Too Low
+10105 FiENF Too High
+10106 FiENF Too Low
+10107 EtISO Too High
+10108 EtISO Too Low
+10109 FiISO Too High
+10110 FiISO Too Low
+10111 EtSEV Too High
+10112 EtSEV Too Low
+10113 FiSEV Too High
+10114 FiSEV Too Low
+10115 EtDES Too High
+10116 EtDES Too Low
+10117 FiDES Too High
+10118 FiDES Too Low
+10119 AgAwRR Too High
+10120 AgAwRR Too Low
+10121 GAS Apnea
+10122 ECG LOST
+10123 No Pulse
+10124 Apnea
+10125 RESP Artifact
+10126 CO2 Apnea
+10127 Asystole
+10128 Vfib/Vtac
+10129 R ON T
+10130 VT > 2
+10131 Couplet
+10132 PVC
+10133 Bigeminy
+10134 Trigeminy
+10135 Tachy
+10136 Brady
+10137 PNC
+10138 PNP
+10139 Missed Beats
+10140 SpO2 Desat
+10141 FiO2 Too High
+10142 FiO2 Too Low
+10143 VTe Too High
+10144 VTe Too Low
+10145 MV Too High
+10146 MV Too Low
+10154 RMRR Too High
+10155 RMRR Too Low
+10156 PEEP Too High
+10157 PEEP Too Low
+10158 PIP Too High
+10159 PIP Too Low
+10160 MVe Too High
+10161 MVe Too Low
+10162 RM Apnea
+10163 BIS Too High
+10164 BIS Too Low
+10165 C.I. Too High
+10166 C.I. Too Low
+10167 TFC Too High
+10168 TFC Too Low
+10169 PR Too High
+10170 PR Too Low
+10171 ART-Sys Too High
+10172 ART-Sys Too Low
+10173 ART-Mean Too High
+10174 ART-Mean Too Low
+10175 ART-Dia Too High
+10176 ART-Dia Too Low
+10177 PA-Sys Too High
+10178 PA-Sys Too Low
+10179 PA-Mean Too High
+10180 PA-Mean Too Low
+10181 PA-Dia Too High
+10182 PA-Dia Too Low
+10183 Ao-Sys Too High
+10184 Ao-Sys Too Low
+10185 Ao-Mean Too High
+10186 Ao-Mean Too Low
+10187 Ao-Dia Too High
+10188 Ao-Dia Too Low
+10189 UAP-Sys Too High
+10190 UAP-Sys Too Low
+10191 UAP-Mean Too High
+10192 UAP-Mean Too Low
+10193 UAP-Dia Too High
+10194 UAP-Dia Too Low
+10195 BAP-Sys Too High
+10196 BAP-Sys Too Low
+10197 BAP-Mean Too High
+10198 BAP-Mean Too Low
+10199 BAP-Dia Too High
+10200 BAP-Dia Too Low
+10201 FAP-Sys Too High
+10202 FAP-Sys Too Low
+10203 FAP-Mean Too High
+10204 FAP-Mean Too Low
+10205 FAP-Dia Too High
+10206 FAP-Dia Too Low
+10207 P1-Sys Too High
+10208 P1-Sys Too Low
+10209 P1-Mean Too High
+10210 P1-Mean Too Low
+10211 P1-Dia Too High
+10212 P1-Dia Too Low
+10213 P2-Sys Too High
+10214 P2-Sys Too Low
+10215 P2-Mean Too High
+10216 P2-Mean Too Low
+10217 P2-Dia Too High
+10218 P2-Dia Too Low
+10219 P3-Sys Too High
+10220 P3-Sys Too Low
+10221 P3-Mean Too High
+10222 P3-Mean Too Low
+10223 P3-Dia Too High
+10224 P3-Dia Too Low
+10225 P4-Sys Too High
+10226 P4-Sys Too Low
+10227 P4-Mean Too High
+10228 P4-Mean Too Low
+10229 P4-Dia Too High
+10230 P4-Dia Too Low
+10231 P5-Sys Too High
+10232 P5-Sys Too Low
+10233 P5-Mean Too High
+10234 P5-Mean Too Low
+10235 P5-Dia Too High
+10236 P5-Dia Too Low
+10237 P6-Sys Too High
+10238 P6-Sys Too Low
+10239 P6-Mean Too High
+10240 P6-Mean Too Low
+10241 P6-Dia Too High
+10242 P6-Dia Too Low
+10243 P7-Sys Too High
+10244 P7-Sys Too Low
+10245 P7-Mean Too High
+10246 P7-Mean Too Low
+10247 P7-Dia Too High
+10248 P7-Dia Too Low
+10249 P8-Sys Too High
+10250 P8-Sys Too Low
+10251 P8-Mean Too High
+10252 P8-Mean Too Low
+10253 P8-Dia Too High
+10254 P8-Dia Too Low
+10255 Cust IBP 1-Sys Too High
+10256 Cust IBP 1-Sys Too Low
+10257 Cust IBP 1-Mean Too High
+10258 Cust IBP 1-Mean Too Low
+10259 Cust IBP 1-Dia Too High
+10260 Cust IBP 1-Dia Too Low
+10261 Cust IBP 2-Sys Too High
+10262 Cust IBP 2-Sys Too Low
+10263 Cust IBP 2-Mean Too High
+10264 Cust IBP 2-Mean Too Low
+10265 Cust IBP 2-Dia Too High
+10266 Cust IBP 2-Dia Too Low
+10267 Cust IBP 3-Sys Too High
+10268 Cust IBP 3-Sys Too Low
+10269 Cust IBP 3-Mean Too High
+10270 Cust IBP 3-Mean Too Low
+10271 Cust IBP 3-Dia Too High
+10272 Cust IBP 3-Dia Too Low
+10273 Cust IBP 4-Sys Too High
+10274 Cust IBP 4-Sys Too Low
+10275 Cust IBP 4-Mean Too High
+10276 Cust IBP 4-Mean Too Low
+10277 Cust IBP 4-Dia Too High
+10278 Cust IBP 4-Dia Too Low
+10279 Cust IBP 5-Sys Too High
+10280 Cust IBP 5-Sys Too Low
+10281 Cust IBP 5-Mean Too High
+10282 Cust IBP 5-Mean Too Low
+10283 Cust IBP 5-Dia Too High
+10284 Cust IBP 5-Dia Too Low
+10285 Cust IBP 6-Sys Too High
+10286 Cust IBP 6-Sys Too Low
+10287 Cust IBP 6-Mean Too High
+10288 Cust IBP 6-Mean Too Low
+10289 Cust IBP 6-Dia Too High
+10290 Cust IBP 6-Dia Too Low
+10291 Cust IBP 7-Sys Too High
+10292 Cust IBP 7-Sys Too Low
+10293 Cust IBP 7-Mean Too High
+10294 Cust IBP 7-Mean Too Low
+10295 Cust IBP 7-Dia Too High
+10296 Cust IBP 7-Dia Too Low
+10297 Cust IBP 8-Sys Too High
+10298 Cust IBP 8-Sys Too Low
+10299 Cust IBP 8-Mean Too High
+10300 Cust IBP 8-Mean Too Low
+10301 Cust IBP 8-Dia Too High
+10302 Cust IBP 8-Dia Too Low
+10303 CVP-Mean Too High
+10304 CVP-Mean Too Low
+10305 RAP-Mean Too High
+10306 RAP-Mean Too Low
+10307 LAP-Mean Too High
+10308 LAP-Mean Too Low
+10309 ICP-Mean Too High
+10310 ICP-Mean Too Low
+10311 UVP-Mean Too High
+10312 UVP-Mean Too Low
+10314 ST-V Too High
+10315 ST-V Too Low
+10316 FiO2 Shortage
+10317 VTAC
+10318 VRT
+10319 Multif. PVC
+10320 Irr.Rhythm
+10321 VFib
+10322 Anesthetic Mixture's MAC>3
+10333 LV-Mean Too High
+10334 LV-Mean Too Low
+10345 LV-Sys Too High
+10346 LV-Sys Too Low
+10357 LV-Dia Too High
+10358 LV-Dia Too Low
+10359 High Phys.Alarm
+10360 Low Phys.Alarm
+10361 High Phys.Alarm
+10362 Low Phys.Alarm
+10363 High Phys.Alarm
+10364 Low Phys.Alarm
+10365 Anesthetic Mixture
+10366 BIS L Too High
+10367 BIS L Too Low
+10368 BIS R Too High
+10369 BIS R Too Low
+10370 Vent. Brady
+10371 Extreme Tachy
+10372 Extreme Brady
+10373 Nonsus. Vtac
+10374 Pause
+10375 AFib
+10385 CCO Too High
+10386 CCO Too Low
+10387 CCI Too High
+10388 CCI Too Low
+10389 C.O. Too High
+10390 C.O. Too Low
+10391 C.I. Too High
+10392 C.I. Too Low
+10393 RVEF Too High
+10394 RVEF Too Low
+10395 TB Too High
+10396 TB Too Low
+10397 SVR Too High
+10398 SVR Too Low
+10399 SVRI Too High
+10400 SVRI Too Low
+10401 SV Too High
+10402 SV Too Low
+10403 SVI Too High
+10404 SVI Too Low
+10405 EDV Too High
+10406 EDV Too Low
+10407 EDVI Too High
+10408 EDVI Too Low
+10409 ESV Too High
+10410 ESV Too Low
+10411 ESVI Too High
+10412 ESVI Too Low
+10413 CVP Too High
+10414 CVP Too Low
+10415 MAP Too High
+10416 MAP Too Low
+10417 HR Too High
+10418 HR Too Low
+10419 SVV Too High
+10420 SVV Too Low
+10468 SvO2 Too High
+10469 SvO2 Too Low
+10470 ScvO2 Too High
+10471 ScvO2 Too Low
+10472 SaO2 Too High
+10473 SaO2 Too Low
+10474 VO2 Too High
+10475 VO2 Too Low
+10476 O2EI Too High
+10477 O2EI Too Low
+10478 DO2 Too High
+10479 DO2 Too Low
+10480 SQI Too High
+10481 SQI Too Low
+10531 pART-Sys Too High
+10532 pART-Sys Too Low
+10533 pART-Mean Too High
+10534 pART-Mean Too Low
+10535 pART-Dia Too High
+10536 pART-Dia Too Low
+10537 pCVP-Sys Too High
+10538 pCVP-Sys Too Low
+10539 pCVP Too High
+10540 pCVP Too Low
+10541 pCVP-Dia Too High
+10542 pCVP-Dia Too Low
+10543 Alarm Pause
+10544 Extra Circulation
+10545 SPO2b Too High
+10546 SPO2b Too Low
+10547 Delta SPO2 Too High
+10548 SPO2b Below Desat Limit
+10549 TCGAS TCPCO2 OVER LINE
+10550 TCGAS TCPO2 OVER LINE
+10551 TCGAS SPO2 OVER LINE
+10552 TCGAS PR OVER LINE
+10592 Unknown Phys. Alarm
+10593 Unknown Phys. Alarm
+10594 Unknown Phys. Alarm
+10595 Unknown Phys. Alarm
+10596 Unknown Phys. Alarm
+10597 Unknown Phys. Alarm
+10598 Unknown Phys. Alarm
+10599 Unknown Phys. Alarm
+10609 PR Too High
+10610 PR Too Low
+10611 Temp Too High
+10612 Temp Too Low
+10613 RR Too High
+10614 RR Too Low
+10624 NMT Block Recovery

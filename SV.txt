@@ -1,0 +1,361 @@
+0 Unknown / Unknown Alarm /
+1 Red / Red Alarm, critical alarm, high level /
+2 Orange / Orange Alarm, serious alarm, medium level /
+3 Yellow / Yellow Alarm, general alarm, low level /
+4 Message / Common Message /
+51 Weight / Patient Weight kg
+52 Height / Patent Height cm
+101 HR ECG Heat Rate bpm
+102 PVCs ECG PVC sum /min
+103 ST1 ECG ST parameter - value ST1 mv
+104 ST2 ECG ST parameter - value ST2 mv
+105 ST_I ECG ST parameter - value ST_I mv
+106 ST_II ECG ST parameter - value ST_II mv
+107 ST_III ECG ST parameter - value ST_III mv
+108 ST_aVR ECG ST parameter - value ST_aVR mv
+109 ST_aVL ECG ST parameter - value ST_aVL mv
+110 ST_aVF ECG ST parameter - value ST_aVF mv
+111 ST_V1 ECG ST parameter - value ST_V1 mv
+112 ST_V2 ECG ST parameter - value ST_V2 mv
+113 ST_V3 ECG ST parameter - value ST_V3 mv
+114 ST_V4 ECG ST parameter - value ST_V4 mv
+115 ST_V5 ECG ST parameter - value ST_V5 mv
+116 ST_V6 ECG ST parameter - value ST_V6 mv
+117 ST_V ECG ST parameter - value ST_V mv
+151 RR RESP Respiration wave/rate rpm
+160 SPO2 SPO2 Percent Oxyhemoglobin Saturation - Arterial %
+161 PR SPO2 Pulse Rate bpm
+170 NIBP S NIBP Non-invasive Blood Pressure Systolic mmHg
+171 NIBP D NIBP Non-invasive Blood Pressure Diastolic mmHg
+172 NIBP M NIBP Non-invasive Blood Pressure Mean mmHg
+174 IBP1_M IBP CH1 Invasive Blood Pressure Mean: Channel 1 mmHg
+175 IBP1_S IBP CH1 Invasive Blood Pressure Systolic: Channel 1 mmHg
+176 IBP1_D IBP CH1 Invasive Blood Pressure Diastolic: Channel 1 mmHg
+178 IBP2_M IBP CH2 Invasive Blood Pressure Mean: Channel 2 mmHg
+179 IBP2_S IBP CH2 Invasive Blood Pressure Systolic: Channel 2 mmHg
+180 IBP2_D IBP CH2 Invasive Blood Pressure Diastolic: Channel 2 mmHg
+182 IBP3_M IBP CH3 Invasive Blood Pressure Mean: Channel 3 mmHg
+183 IBP3_S IBP CH3 Invasive Blood Pressure Systolic: Channel 3 mmHg
+184 IBP3_D IBP CH3 Invasive Blood Pressure Diastolic: Channel 3 mmHg
+186 IBP4_M IBP CH4 Invasive Blood Pressure Mean: Channel 4 mmHg
+187 IBP4_S IBP CH4 Invasive Blood Pressure Systolic: Channel 4 mmHg
+188 IBP4_D IBP CH4 Invasive Blood Pressure Diastolic: Channel 4 mmHg
+200 T1 TEMP Non-specific temperature 1 ℃
+201 T2 TEMP Non-specific temperature 2 ℃
+202 TD TEMP Delta Temperature between non-specific temperature labels ℃
+203 Temp TEMP temperature ℃
+210 C.O. C.O. Cardiac output L/min
+211 TI C.O. ℃
+212 C.I. C.O. Aperiodic parameter，Cardiac Index L/min/m²
+213 TB C.O. Aperiodic parameter，Blood temperature - delivered by C.O. ℃
+220 CO2 CO2 End of Tidal CO2 mmHg
+221 INS CO2 Inspired Minimum CO2 mmHg
+222 AWRR CO2 Airway Respiration Rate rpm
+250 CO2Et AG End tidal Carbon Dioxide mmHg
+251 CO2Fi AG Inspired C2O mmHg
+253 O2Et AG End-Tidal O2 mmHg
+254 O2Fi AG Inspired O2 mmHg
+256 N2OEt AG End-Tidal N2O %
+257 N2OFi AG Inspired N2O %
+259 AAEt AG End-Tidal Anesthetic %
+260 AAFi AG Inspired Anesthetic Agent %
+262 HALEt AG End-Tidal Heathen %
+263 HALFi AG Inspired Heathen %
+265 ENFEt AG Inspired Enflurane %
+266 ENFFi AG End-Tidal Enflurane %
+268 ISOEt AG End-Tidal Isoflurane %
+269 ISOFi AG Inspired Isoflurane %
+271 SEVEt AG End-Tidal Sevoflurane %
+272 SEVFi AG Inspired Sevoflurane %
+274 DESEt AG End-Tidal Desflurane %
+275 DESFi AG Inspired Desflurane %
+280 AgAwRR AG rpm
+281 MAC AG /
+301 Pmean VENT Mean airway pressure cmH2O
+302 PEEP VENT Positive end-expiratory pressure cmH2O
+303 Pplat VENT Plateau pressure cmH2O
+304 Pmax VENT Maximum airway pressure cmH2O
+305 MV VENT Minute volume l/min
+306 VTE VENT Expired tidal volume ml
+307 VTI VENT Inspired tidal volume ml
+308 I:E VENT Inspiratory time:Expiratory time ratio /
+309 Freq VENT Breath rate BPM
+310 FiO2 VENT Fractional concentration of O2 in inspired gas %
+311 Compliance VENT Compliance ml/cmH2O
+312 Resistance VENT Resistance cmH2O/（l/s）
+313 SIMV Total Frequency VENT （SIMV）Total breath rate BPM
+314 Spontaneous Frequency in SIMV VENT （SIMV）Spontaneous breath rates BPM
+315 Spoutaneous MV in SIMV VENT （SIMV）Spontaneous minute volume l/min
+350 BIS BIS BIS Parameters
+351 SQI BIS BIS Parameters %
+352 SR BIS BIS Parameters %
+353 SEF BIS BIS Parameters Hz
+354 EMG BIS BIS Parameters dB
+355 TP BIS BIS Parameters dB
+357 BIS_L BISX4 BISX4 Parameters /
+358 BIS_R BISX4 BISX4 Parameters /
+359 SQI_L BISX4 BISX4 Parameters %
+360 SQI_R BISX4 BISX4 Parameters %
+361 SR_L BISX4 BISX4 Parameters %
+362 SR_R BISX4 BISX4 Parameters %
+363 SEF_L BISX4 BISX4 Parameters Hz
+364 SEF_R BISX4 BISX4 Parameters Hz
+365 EMG_L BISX4 BISX4 Parameters dB
+366 EMG_R BISX4 BISX4 Parameters dB
+367 TP_L BISX4 BISX4 Parameters dB
+368 TP_R BISX4 BISX4 Parameters dB
+369 BC_L BISX4 BISX4 Parameters /
+370 BC_R BISX4 BISX4 Parameters /
+371 sBIS_L BISX4 BISX4 Parameters /
+372 sBIS_R BISX4 BISX4 Parameters /
+373 sEMG_L BISX4 BISX4 Parameters /
+374 sEMG_R BISX4 BISX4 Parameters /
+375 ASYM BISX4 BISX4 Parameters %
+400 RR RM RM Parameters rpm
+401 MVE RM RM Parameters L/min
+402 PEEP RM RM Parameters cmH2O
+403 PIP RM RM Parameters cmH2O
+404 I:E RM RM Parameters /
+405 FEV1.0 RM RM Parameters %
+406 Pmean RM RM Parameters cmH2O
+407 Tvi RM RM Parameters ml
+408 Tve RM RM Parameters ml
+409 Mvi RM RM Parameters L/min
+410 PEF RM RM Parameters L/min
+411 PIF RM RM Parameters L/min
+412 Pplat RM RM Parameters cmH2O
+413 WOB RM RM Parameters J
+414 Compl RM RM Parameters ml/cmH2O
+415 Raw RM RM Parameters cmH2O/L/s
+416 RSBI RM RM Parameters rpm/L
+417 NIP RM RM Parameters cmH2O
+418 APNEA RM RM Parameters
+450 C.I. ICG ICG Parameters L/min/m²
+451 C.O. ICG ICG Parameters L/min
+452 SV ICG ICG Parameters ml
+453 SI ICG ICG Parameters ml/m²
+454 SVR ICG ICG Parameters DS/cm5
+455 SVRI ICG ICG Parameters DS·m²/cm5
+456 PVR ICG ICG Parameters DS/cm5
+457 PVRI ICG ICG Parameters DS·m²/cm5
+458 TFC ICG ICG Parameters /ke
+459 TFI ICG ICG Parameters e
+460 EF ICG ICG Parameters %
+461 ACI ICG ICG Parameters /100s²
+462 VI ICG ICG Parameters /1000s
+463 LCW ICG ICG Parameters kg·m
+464 LCWI ICG ICG Parameters kg·m/m²
+465 LVSW ICG ICG Parameters g·m
+466 LVSWI ICG ICG Parameters g·m/m²
+467 RCW ICG ICG Parameters kg·m
+468 RCWI ICG ICG Parameters kg·m/m²
+469 RVSW ICG ICG Parameters g·m
+470 RVSWI ICG ICG Parameters g·m/m²
+471 STR ICG ICG Parameters
+472 PEP ICG ICG Parameters ms
+473 LVET ICG ICG Parameters ms
+474 HR ICG ICG Parameters bpm
+475 BSA ICG ICG Parameters m²
+476 VEPT ICG ICG Parameters ml
+500 Sys ART Art Module Invasive Blood Pressure Systolic mmHg
+501 Mean ART Art Module Invasive Blood Pressure Mean mmHg
+502 Dia ART Art Module Invasive Blood Pressure Diastolic mmHg
+503 Sys PA PA Module Invasive Blood Pressure Systolic mmHg
+504 Mean PA PA Module Invasive Blood Pressure Mean mmHg
+505 Dia PA PA Module Invasive Blood Pressure Diastolic mmHg
+506 Sys Ao Ao Module Invasive Blood Pressure Systolic mmHg
+507 Mean Ao Ao Module Invasive Blood Pressure Mean mmHg
+508 Dia Ao Ao Module Invasive Blood Pressure Diastolic mmHg
+509 Sys UAP UAP Module Invasive Blood Pressure Systolic mmHg
+510 Mean UAP UAP Module Invasive Blood Pressure Mean mmHg
+511 Dia UAP UAP Module Invasive Blood Pressure Diastolic mmHg
+512 Sys BAP BAP Module Invasive Blood Pressure Systolic mmHg
+513 Mean BAP BAP Module Invasive Blood Pressure Mean mmHg
+514 Dia BAP BAP Module Invasive Blood Pressure Diastolic mmHg
+515 Sys FAP FAP Module Invasive Blood Pressure Systolic mmHg
+516 Mean FAP FAP Module Invasive Blood Pressure Mean mmHg
+517 Dia FAP FAP Module Invasive Blood Pressure Diastolic mmHg
+518 Sys IBP P1 IBP P1 Module Invasive Blood Pressure Systolic mmHg
+519 Mean IBP P1 IBP P1 Module Invasive Blood Pressure Mean mmHg
+520 Dia IBP P1 IBP P1 Module Invasive Blood Pressure Diastolic mmHg
+521 Sys IBP P2 IBP P2 Module Invasive Blood Pressure Systolic mmHg
+522 Mean IBP P2 IBP P2 Module Invasive Blood Pressure Mean mmHg
+523 Dia IBP P2 IBP P2 Module Invasive Blood Pressure Diastolic mmHg
+524 Sys IBP P3 IBP P3 Module Invasive Blood Pressure Systolic mmHg
+525 Mean IBP P3 IBP P3 Module Invasive Blood Pressure Mean mmHg
+526 Dia IBP P3 IBP P3 Module Invasive Blood Pressure Diastolic mmHg
+527 Sys IBP P4 IBP P4 Module Invasive Blood Pressure Systolic mmHg
+528 Mean IBP P4 IBP P4 Module Invasive Blood Pressure Mean mmHg
+529 Dia IBP P4 IBP P4 Module Invasive Blood Pressure Diastolic mmHg
+530 Sys IBP P5 IBP P5 Module Invasive Blood Pressure Systolic mmHg
+531 Mean IBP P5 IBP P5 Module Invasive Blood Pressure Mean mmHg
+532 Dia IBP P5 IBP P5 Module Invasive Blood Pressure Diastolic mmHg
+533 Sys IBP P6 IBP P6 Module Invasive Blood Pressure Systolic mmHg
+534 Mean IBP P6 IBP P6 Module Invasive Blood Pressure Mean mmHg
+535 Dia IBP P6 IBP P6 Module Invasive Blood Pressure Diastolic mmHg
+536 Sys IBP P7 IBP P7 Module Invasive Blood Pressure Systolic mmHg
+537 Mean IBP P7 IBP P7 Module Invasive Blood Pressure Mean mmHg
+538 Dia IBP P7 IBP P7 Module Invasive Blood Pressure Diastolic mmHg
+539 Sys IBP P8 IBP P8 Module Invasive Blood Pressure Systolic mmHg
+540 Mean IBP P8 IBP P8 Module Invasive Blood Pressure Mean mmHg
+541 Dia IBP P8 IBP P8 Module Invasive Blood Pressure Diastolic mmHg
+542 Sys IBP AUX1 IBP AUX1 Module Invasive Blood Pressure Systolic mmHg
+543 Mean IBP AUX1 IBP AUX1 Module Invasive Blood Pressure Mean mmHg
+544 Dia IBP AUX1 IBP AUX1 Module Invasive Blood Pressure Diastolic mmHg
+545 Sys IBP AUX2 IBP AUX2 Module Invasive Blood Pressure Systolic mmHg
+546 Mean IBP AUX2 IBP AUX2 Module Invasive Blood Pressure Mean mmHg
+547 Dia IBP AUX2 IBP AUX2 Module Invasive Blood Pressure Diastolic mmHg
+548 Sys IBP AUX3 IBP AUX3 Module Invasive Blood Pressure Systolic mmHg
+549 Mean IBP AUX3 IBP AUX3 Module Invasive Blood Pressure Mean mmHg
+550 Dia IBP AUX3 IBP AUX3 Module Invasive Blood Pressure Diastolic mmHg
+551 Sys IBP AUX4 IBP AUX4 Module Invasive Blood Pressure Systolic mmHg
+552 Mean IBP AUX4 IBP AUX4 Module Invasive Blood Pressure Mean mmHg
+553 Dia IBP AUX4 IBP AUX4 Module Invasive Blood Pressure Diastolic mmHg
+554 Sys IBP AUX5 IBP AUX5 Module Invasive Blood Pressure Systolic mmHg
+555 Mean IBP AUX5 IBP AUX5 Module Invasive Blood Pressure Mean mmHg
+556 Dia IBP AUX5 IBP AUX5 Module Invasive Blood Pressure Diastolic mmHg
+557 Sys IBP AUX6 IBP AUX6 Module Invasive Blood Pressure Systolic mmHg
+558 Mean IBP AUX6 IBP AUX6 Module Invasive Blood Pressure Mean mmHg
+559 Dia IBP AUX6 IBP AUX6 Module Invasive Blood Pressure Diastolic mmHg
+560 Sys IBP AUX7 IBP AUX7 Module Invasive Blood Pressure Systolic mmHg
+561 Mean IBP AUX7 IBP AUX7 Module Invasive Blood Pressure Mean mmHg
+562 Dia IBP AUX7 IBP AUX7 Module Invasive Blood Pressure Diastolic mmHg
+563 Sys IBP AUX8 IBP AUX8 Module Invasive Blood Pressure Systolic mmHg
+564 Mean IBP AUX8 IBP AUX8 Module Invasive Blood Pressure Mean mmHg
+565 Dia IBP AUX8 IBP AUX8 Module Invasive Blood Pressure Diastolic mmHg
+566 Mean IBP CVP IBP CVP Module Invasive Blood Pressure Mean mmHg
+567 Mean IBP RAP IBP RAP Module Invasive Blood Pressure Mean mmHg
+568 Mean IBP LAP IBP LAP Module Invasive Blood Pressure Mean mmHg
+569 Mean IBP ICP IBP ICP Module Invasive Blood Pressure Mean mmHg
+570 Mean IBP UVP IBP UVP Module Invasive Blood Pressure Mean mmHg
+571 Mean IBP LVP IBP LVP Module Invasive Blood Pressure Mean mmHg
+573 Sys IBP CVP IBP CVP Module Invasive Blood Pressure Systolic mmHg
+574 Sys IBP RAP IBP RAP Module Invasive Blood Pressure Systolic mmHg
+575 Sys IBP LAP IBP LAP Module Invasive Blood Pressure Systolic mmHg
+576 Sys IBP ICP IBP ICP Module Invasive Blood Pressure Systolic mmHg
+577 Sys IBP UVP IBP UVP Module Invasive Blood Pressure Systolic mmHg
+578 Sys IBP LVP IBP LVP Module Invasive Blood Pressure Systolic mmHg
+580 Dia IBP CVP IBP CVP Module Invasive Blood Pressure Diastolic mmHg
+581 Dia IBP RAP IBP RAP Module Invasive Blood Pressure Diastolic mmHg
+582 Dia IBP LAP IBP LAP Module Invasive Blood Pressure Diastolic mmHg
+583 Dia IBP ICP IBP ICP Module Invasive Blood Pressure Diastolic mmHg
+584 Dia IBP UVP IBP UVP Module Invasive Blood Pressure Diastolic mmHg
+585 Dia IBP LVP IBP LVP Module Invasive Blood Pressure Diastolic mmHg
+586 ICP_CePP IBP mmHg
+587 PPV ART %
+588 PPV AO %
+589 PPV UAP %
+590 PPV FAP %
+591 PPV BAP %
+592 PPV LVP %
+593 PPV IBP1 %
+594 PPV IBP2 %
+595 PPV IBP3 %
+596 PPV IBP4 %
+600 PR PR PR Module Parameter PR bpm
+601 Sys IBP pART IBP pART Module Invasive Blood Pressure Systolic mmHg
+602 Mean IBP pART IBP pART Module Invasive Blood Pressure Mean mmHg
+603 Dia IBP pART IBP pART Module Invasive Blood Pressure Diastolic mmHg
+604 Sys IBP pCVP IBP pCVP Module Invasive Blood Pressure Systolic mmHg
+605 Mean IBP pCVP IBP pCVP Module Invasive Blood Pressure Mean mmHg
+606 Dia IBP pCVP IBP pCVP Module Invasive Blood Pressure Diastolic mmHg
+650 CCO CCO L/min
+651 CCI CCO L/min/m²
+652 C.O. CCO An aperiodic parameter L/min
+653 C.I. CCO An aperiodic parameter L/min/m²
+654 RVEF CCO %
+655 TB CCO Blood temperature - delivered by CCO Module ℃
+656 SVR CCO DS/cm5
+657 SVRI CCO DS·cm²/cm5
+658 SV CCO ml/b
+659 SVI CCO ml/b/m²
+660 EDV CCO ml
+661 EDVI CCO ml/m²
+662 ESV CCO ml
+663 ESVI CCO ml/m²
+664 CVP CCO mmHg
+665 MAP CCO mmHg
+666 HR CCO bpm
+667 SVV CCO %
+668 GEDV CCO ml
+669 GEDI CCO ml/m2
+670 ITBV CCO ml
+671 ITBI CCO ml/m2
+672 PPV CCO %
+673 EVLW CCO ml
+674 ELWI CCO ml/Kg
+675 CPO CCO W
+676 CPI CCO W/m2
+677 PVPI CCO /
+678 GEF CCO %
+679 dPmx CCO mmHg/s
+680 CFI CCO 1/min
+681 TI CCO ℃
+750 SvO2 SvO2 %
+751 ScvO2 SvO2 %
+752 SaO2 SvO2 %
+753 VO2 SvO2 ml/min
+754 O2EI SvO2 %
+755 DO2 SvO2 ml/min
+756 SQI SvO2
+757 DO2I SvO2 /
+758 VO2I SvO2 /
+759 Hb SvO2 /
+800 SpO2b SPO2B
+801 fSpO2 SPO2B
+820 tcpCO2 TCGas
+821 tcpO2 TCGas
+822 SpO2 TCGas
+823 PR TCGas
+824 Power TCGas
+825 Tsensor TCGas
+826 SR1 EEG1
+827 SEF1 EEG1
+828 MF1 EEG1
+829 PPF1 EEG1
+830 TP1 EEG1
+831 EMG1 EEG1
+832 Delta1 EEG1
+833 Theta1 EEG1
+834 Alpha1 EEG1
+835 Beta1 EEG1
+836 SR2 EEG2
+837 SEF2 EEG2
+838 MF2 EEG2
+839 PPF2 EEG2
+840 TP2 EEG2
+841 EMG2 EEG2
+842 Delta2 EEG2
+843 Theta2 EEG2
+844 Alpha2 EEG2
+845 Beta2 EEG2
+846 SR3 EEG3
+847 SEF3 EEG3
+848 MF3 EEG3
+849 PPF3 EEG3
+850 TP3 EEG3
+851 EMG3 EEG3
+852 Delta3 EEG3
+853 Theta3 EEG3
+854 Alpha3 EEG3
+855 Beta3 EEG3
+856 SR4 EEG4
+857 SEF4 EEG4
+858 MF4 EEG4
+859 PPF4 EEG4
+860 TP4 EEG4
+861 EMG4 EEG4
+862 Delta4 EEG4
+863 Theta4 EEG4
+864 Alpha4 EEG4
+865 Beta4 EEG4
+879 TOF-Ratio NMT %
+880 TOF-Count NMT
+881 ST_Ratio NMT %
+882 ST_Count NMT
+883 DBS_Ratio NMT %
+884 DBS_Count NMT
+885 PTC NMT
+886 T1 NMT
+1024 DI_START Device Integration
+10240 DI_END Device Integration
