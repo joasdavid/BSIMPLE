@@ -27,7 +27,7 @@ Public Class Message
 
     Private tempoChegada As String
 
-
+    Private versao As String = "2.3.1"
     Private strdata As String = ""
 
     Sub New()
@@ -263,54 +263,100 @@ Public Class Message
     End Sub
 
     Public Function Valide() As Boolean
-
-        If (MSH(0) = Nothing Or MSH(7) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) <> "2.3.1") Then
-            ' 1- enconding chars , 8- Message type, 9- message control id ,10 -processing id 11- versao hl7
+        If (Not (ValideMSH() And _
+                 (ValideOBX() And haveOBX > 0))) Then
             Return False
         End If
-        Dim regex = New Regex("[0-9][0-9]*\^.*")
 
-        For i = 0 To haveOBX - 1
+        Dim msgValidate As Integer = CInt(MSH(8))
+        If msgValidate = 103 Then
+            If (Not (ValidePID() And _
+                     ValidePV1() And _
+                     ValideOBR())) Then
+                Return False
+            End If
+        End If
+        Return True
+    End Function
 
-            Dim match = regex.Match(OBX(i, 2), "[0-9][0-9]*\^.*")
-            If (match.Value <> OBX(i, 2)) Then
+    Private Function ValideMSH() As Boolean
+        If MSH(0) <> Nothing Then
+            Dim count = 0
+            For Each encodChar In MSH(0)
+                For Each encodChar2 In MSH(0)
+                    If (encodChar = encodChar2) Then
+                        count += 1
+                    End If
+                Next
+                If count > 1 Then
+                    Return False
+                End If
+                count = 0
+            Next
+        Else
+        Return False
+        End If
+        If (MSH(0).Length <> 4 Or MSH(7) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) <> versao) Then
+            ' 1- enconding chars = 4 , 8- Message type, 9- message control id ,10 -processing id 11- versao hl7
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Function ValidePID() As Boolean
+        If (PID(2) = Nothing Or PID(4) = Nothing Or ValidePID_Nome() = False) Then
+            '2 - patient id , 4 -name(<firstName>^<LastName>)
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Function ValidePV1() As Boolean
+        If (PV1(1) = Nothing) Then
+            '1-Patient Class
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Function ValideOBR() As Boolean
+        For i = 0 To haveOBR - 1
+            If (OBR(i, 3) = Nothing) Then
+                '3- universal service id(Monitor MindRay)
                 Return False
             End If
         Next
-        Dim msgValidate As Integer = CInt(MSH(8))
-        If msgValidate = 103 Then
-            If (PID(2) = Nothing Or PID(4) = Nothing) Then
-                '2 - patient id , 4 -name
-                Return False
-            End If
-            If (PV1(1) = Nothing) Then
-                '1-Patient Class
-                Return False
-            End If
-            For i = 0 To haveOBR - 1
-                If (OBR(i, 3) = Nothing) Then
-                    '3- universal service id(Monitor MindRay)
-                    Return False
-                End If
-            Next
-            For i = 0 To haveOBX - 1
-                If (OBX(i, 1) = Nothing Or OBX(i, 2) = Nothing Or OBX(i, 4) = Nothing Or OBX(i, 10) = Nothing) Then
-                    '1-value type ,2-Observation Identifier, 4-Observation Results ,10-Observation Results
-                    Return False
-                End If
-            Next
-        ElseIf msgValidate = 204 Or msgValidate = 503 Then
-            For i = 0 To haveOBX - 1
-                If (OBX(i, 1) = Nothing Or OBX(i, 2) = Nothing Or OBX(i, 4) = Nothing Or OBX(i, 10) = Nothing) Then
-                    '1-value type ,2-Observation Identifier, 4-Observation Results ,10-Observation Results
-                    Return False
-                End If
-            Next
-
-        End If
         Return True
-
     End Function
 
+    Private Function ValideOBX() As Boolean
+        For i = 0 To haveOBX - 1
+            If (OBX(i, 1) = Nothing Or _
+                OBX(i, 2) = Nothing Or _
+                ValideOBX_Identifier(i) = False Or _
+                OBX(i, 4) = Nothing Or _
+                OBX(i, 10) <> "F") Then
+                '1-value type ,2-Observation Identifier(<id>^descrição), 4-Observation Results ,10-Observation Results status
+                Return False
+            End If
+        Next
+        Return True
+    End Function
+
+    Private Function ValideOBX_Identifier(pos As Integer) As Boolean
+        Dim match = Regex.Match(OBX(pos, 2), "[0-9][0-9]*\^.*")
+        If (match.Value <> OBX(pos, 2)) Then
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Function ValidePID_Nome() As Boolean
+        Dim match = Regex.Match(PID(4), "[aA-zZ]+[aA-zZ]*\.{0,1}[aA-zZ]*\^[aA-zZ]+[aA-zZ]*\.{0,1}[aA-zZ]*")
+        If (match.Value <> PID(4)) Then
+            Return False
+        End If
+        Return True
+    End Function
 End Class
 

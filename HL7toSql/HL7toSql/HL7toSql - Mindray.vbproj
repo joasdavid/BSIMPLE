@@ -5,12 +5,12 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DCD2C3F9-B781-4FAC-8481-8C51A08D73AA}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <StartupObject>HL7toSql.Test</StartupObject>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>HL7toSql.My.MyApplication</StartupObject>
     <RootNamespace>HL7toSql</RootNamespace>
     <AssemblyName>HL7toSql</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>Console</MyType>
+    <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\MSSQLConnection.vb" />
-    <Compile Include="Database\MSSQLController.vb" />
     <Compile Include="Database\MSSQLControllerMindray.vb" />
     <Compile Include="Equipamento\Message.vb" />
     <Compile Include="Forms\HL7toSql.vb">

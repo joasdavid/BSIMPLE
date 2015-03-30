@@ -6,19 +6,18 @@ Public Class MSSQLControllerMindray
     Dim strConn As String
     Dim idPaciente As String
 
+#Region "Construtor"
     Private Sub New()
         strConn = ConfigurationManager.AppSettings("StrgConn").ToString
+        Dim bd = New MSSQLConnection(strConn)
     End Sub
-
+#End Region
+#Region "Gravar para Base de Dados"
     'Patient Information Change Message
     Private Sub PIC(msg As Message)
-        Dim _idPaciente = msg.getSegmentField("PID", 2)
         Dim bd = New MSSQLConnection(strConn)
-        'ver se o paciente ja existe
-        Dim tb As DataTable = bd.sendQuery2("select Count(*) from Paciente where IdPaciente like '" & _idPaciente & "'")
-        Dim isNew As Integer = tb.Rows(0).Item(0)
-
         'campos
+        Dim _idPaciente = msg.getSegmentField("PID", 2)
         idPaciente = _idPaciente
         Dim fullName = msg.getSegmentField("PID", 4).Split("^")
         Dim fName = fullName(0)
@@ -31,6 +30,7 @@ Public Class MSSQLControllerMindray
         Dim idOBX
         Dim tipoSangue As Integer = Nothing
         Dim paceSwitch As Integer = Nothing
+        Dim _date
         For i = 0 To msg.getSegmentCont("OBX") - 1 Step 1
             _fullOBX = msg.getSegmentField("OBX", i, 2).Split("^")
             idOBX = CInt(_fullOBX(0))
@@ -41,14 +41,20 @@ Public Class MSSQLControllerMindray
                 paceSwitch = CInt(_valor(0))
             End If
         Next
-        'caso nao exista cria
-        If (isNew = 0) Then
-            Dim _date
-            If (dataNascim = "" Or dataNascim = Nothing) Then
-                _date = "NULL"
-            Else
-                _date = "CONVERT(DATETIME, '" & dataNascim & "')"
-            End If
+
+        If (dataNascim = "" Or dataNascim = Nothing) Then 'valida se temos a data de nascimento
+            _date = "NULL"
+        Else ' se ouver data, foramata esta para ser convertida para DATE pela BD
+            _date = "CONVERT(DATETIME, '" & dataNascim & "')"
+        End If
+
+
+
+        'ver se o paciente ja existe
+        Dim tb As DataTable = bd.sendQuery("select Count(*) from Paciente where IdPaciente like '" & _idPaciente & "'")
+        Dim isNew As Integer = tb.Rows(0).Item(0) 'primeira linha, primeira coluna ... valor do Count(*)
+
+        If (isNew = 0) Then 'caso não exista
             bd.execQuery("insert into Paciente VALUES('" & idPaciente & "', '" &
                                                            fName & "', '" &
                                                            lName & "'," &
@@ -58,12 +64,6 @@ Public Class MSSQLControllerMindray
                                                            tipoPaciente & "', '" &
                                                            paceSwitch & "')")
         Else 'caso exista faz update
-            Dim _date
-            If (dataNascim = "" Or dataNascim = Nothing) Then
-                _date = "NULL"
-            Else
-                _date = "CONVERT(DATETIME, '" & dataNascim & "')"
-            End If
             bd.execQuery("UPDATE Paciente SET Frist_Name_Paciente = '" & fName & "'" &
                                              ",Last_Name_Paciente = '" & lName & "'" &
                                                        ", DataNas = " & _date &
@@ -79,112 +79,88 @@ Public Class MSSQLControllerMindray
 
     'Unsolicited Observation Reporting Message
     'Periodic parameters
-    Private Sub PP(msg As Message)
-        Dim bd = New MSSQLConnection(strConn)
+    Private Sub Parameters(msg As Message)
         'para cada obx na mensagem
         For i = 0 To msg.getSegmentCont("OBX") - 1 Step 1
             'get data
-            Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
-            Dim idOBX = _idAndDesc(0)
-            Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
-            Dim idValor = Nothing
-            Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
+            Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^") '<id>^<descrição>
+            Dim idOBX = _idAndDesc(0) '<id>
+            Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas para eviar ser "Nothing"
+            Dim valor = msg.getSegmentField("OBX", i, 4)
 
-            'Monitorização
-            Dim tb As DataTable
-            tb = bd.sendQuery2("select Count(*) from Monitorizacao as m where  m.IdOBX = " & idOBX & " and m.IdPaciente like '" & idPaciente & "'")
-            Dim isNew As Integer = tb.Rows(0).Item(0)
-            'casso nao exista
-            If (isNew = 0) Then
-                bd.execQuery("insert into Monitorizacao VALUES(" & idOBX & ",'" & idPaciente & "')")
-            End If
-            'valores
             Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
             Dim df = di
-            tb = bd.sendQuery2("SELECT * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.idvalores desc")
-            Dim ultimoValor As Double = Nothing
-            If (tb.Rows.Count <> Nothing) Then
-                idValor = tb.Rows(0).Item(0)
-                ultimoValor = CDbl(tb.Rows(0).Item(6))
-            End If
-            tb.Dispose()
-            If (valor = ultimoValor) Then
-                bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & idValor)
-            Else 'caso exista alteração
-                If idOBX = "101" Then
-                    Console.WriteLine("{0} = {1}", valor, ultimoValor)
-                End If
-                bd.execQuery("insert into Valores(IdPaciente, IdOBX, Sub_id, Valor, DataInicio, DataFinal) " &
-                                          "VALUES('" & idPaciente & "', " & idOBX & ", " & subidOBX & ", " & valor.ToString().Replace(",", ".") & "," & di & "," & df & ")")
-            End If
-        Next
 
-    End Sub
+            'guarda informação da Monitorização
+            saveMonitorizacao(idOBX)
 
-    Private Sub PP2(msg As Message)
-        Dim bd = New MSSQLConnection(strConn)
-        'para cada obx na mensagem
-        For i = 0 To msg.getSegmentCont("OBX") - 1 Step 1
-            'get data
-            Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^")
-            Dim idOBX = _idAndDesc(0)
-            Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas casso seja vazio
-            Dim idValor = Nothing
-            Dim valor = CDbl(msg.getSegmentField("OBX", i, 4).Replace(".", ","))
+            'guarda os valores da Monitorização
+            saveValor(idOBX, subidOBX, valor, di, df)
 
-            'Monitorização
-            Dim tb As DataTable
-            tb = bd.sendQuery2("select Count(*) from Monitorizacao as m where  m.IdOBX = " & idOBX & " and m.IdPaciente like '" & idPaciente & "'")
-            Dim isNew As Integer = tb.Rows(0).Item(0)
-            'casso nao exista
-            If (isNew = 0) Then
-                bd.execQuery("insert into Monitorizacao VALUES(" & idOBX & ",'" & idPaciente & "')")
-            End If
-            'valores
-            Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
-            Dim df = di
-            tb = bd.sendQuery2("SELECT * FROM Valores as v WHERE v.IdOBX = " & idOBX & "and v.IdPaciente like '" & idPaciente & "' order by v.DataFinal desc")
-            Dim ultimoValor As Double = Nothing
-            If (tb.Rows.Count <> Nothing) Then
-                idValor = tb.Rows(0).Item(0)
-                ultimoValor = CDbl(tb.Rows(0).Item(6))
-            End If
-            tb.Dispose()
-            If (valor = ultimoValor) Then
-                bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & idValor)
-            Else 'caso exista alteração
-                If idOBX = "101" Then
-                    Console.WriteLine("{0} = {1}", valor, ultimoValor)
-                End If
-                'bd.execQuery("insert into Valores(IdPaciente, IdOBX, Sub_id, Valor, DataInicio, DataFinal) " &
-                '                          "VALUES('" & idPaciente & "', " & idOBX & ", " & subidOBX & ", " & valor.ToString().Replace(",", ".") & "," & di & "," & df & ")")
-                Dim tb2 = bd.sendQuery2("Select * FROM Valores")
-                Dim dr = tb2.NewRow()
-                dr("IdPaciente") = idPaciente
-                dr("IdOBX") = idOBX
-                dr("Sub_id") = subidOBX
-                dr("Valor") = valor.ToString().Replace(",", ".")
-                dr("DataInicio") = di + ""
-                dr("DataFinal") = df + ""
-                bd.execQuery("Valores", dr)
-            End If
         Next
 
     End Sub
 
     'NIBP Parameter Message
     Private Sub NIBP(msg As Message)
-        'valida
-        PP(msg)
+        'como o formato do segmento OBX e identico
+        Parameters(msg)
     End Sub
 
+    'gurada a monitorizacao caso esta ainda não exista
+    Private Sub saveMonitorizacao(id As Integer)
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb As DataTable
 
+        'confirma se ja existe
+        tb = bd.sendQuery("select Count(*) from Monitorizacao as m where  m.IdOBX = " & id & " and m.IdPaciente like '" & idPaciente & "'")
+        Dim isNew As Integer = tb.Rows(0).Item(0) 'primeira linha, primeira coluna ... valor do Count(*)
+        tb.Dispose()
+
+        'casso nao exista
+        If (isNew = 0) Then 'se for 0 e porque ainda nao existe
+            bd.execQuery("insert into Monitorizacao VALUES(" & id & ",'" & idPaciente & "')")
+        End If
+
+    End Sub
+
+    Private Sub saveValor(id As Integer, subid As Integer, valor As String, di As String, df As String)
+        Dim bd = New MSSQLConnection(strConn)
+        Dim _valor = CDbl(valor.Replace(".", ",")).ToString()
+        'ultimo valor para uma monitorização
+        Dim valor_idvalor = needUpdateValor(id)
+        If (_valor = valor_idvalor(0)) Then 'se o valor é identico entao só faz update à data
+            bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & valor_idvalor(1))
+        Else 'caso exista alteração ao valor
+            bd.execQuery("insert into Valores(IdPaciente, IdOBX, Sub_id, Valor, DataInicio, DataFinal) " &
+                                      "VALUES('" & idPaciente & "', " & id & ", " & subid & ", " & valor & "," & di & "," & df & ")")
+        End If
+
+    End Sub
+
+    Private Function needUpdateValor(id As String) As Object()
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb As DataTable
+        Dim toReturn(1) As String
+        'Caso já existam valores obtém-se o ultimo valor inserido _
+        'para uma dada monitorização de um dado paciente
+        tb = bd.sendQuery("SELECT * FROM Valores as v WHERE v.IdOBX = " & id & "and v.IdPaciente like '" & idPaciente & "' order by v.IdValores desc")
+        If (tb.Rows.Count <> Nothing) Then 'se ouver algum valor na tabela
+            toReturn(1) = tb.Rows(0).Item(0).ToString()
+            toReturn(0) = CDbl(tb.Rows(0).Item(6))
+        End If
+        tb.Dispose()
+        Return toReturn
+    End Function
+
+#End Region
+#Region "Public"
     Public Sub addMSGtoDB(msg As Message)
         Dim id = CInt(msg.getSegmentField("MSH", 8))
         If id = 103 Then
             PIC(msg)
         ElseIf id = 204 Then
-            PP(msg)
+            Parameters(msg)
         ElseIf id = 503 Then
             NIBP(msg)
         Else
@@ -197,4 +173,5 @@ Public Class MSSQLControllerMindray
             Return _instance.Value
         End Get
     End Property
+#End Region
 End Class
