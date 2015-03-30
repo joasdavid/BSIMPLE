@@ -304,8 +304,8 @@ Public Class Message
     End Function
 
     Private Function ValidePID() As Boolean
-        If (PID(2) = Nothing Or PID(4) = Nothing) Then
-            '2 - patient id , 4 -name
+        If (PID(2) = Nothing Or PID(4) = Nothing Or ValidePID_Nome() = False) Then
+            '2 - patient id , 4 -name(<firstName>^<LastName>)
             Return False
         End If
         Return True
@@ -333,19 +333,27 @@ Public Class Message
         For i = 0 To haveOBX - 1
             If (OBX(i, 1) = Nothing Or _
                 OBX(i, 2) = Nothing Or _
-                ValideOBX_Identifier(i) Or _
+                ValideOBX_Identifier(i) = False Or _
                 OBX(i, 4) = Nothing Or _
-                OBX(i, 10) = Nothing) Then
-                '1-value type ,2-Observation Identifier(<id>^descrição), 4-Observation Results ,10-Observation Results
-                Return True
+                OBX(i, 10) <> "F") Then
+                '1-value type ,2-Observation Identifier(<id>^descrição), 4-Observation Results ,10-Observation Results status
+                Return False
             End If
         Next
-        Return False
+        Return True
     End Function
 
     Private Function ValideOBX_Identifier(pos As Integer) As Boolean
         Dim match = Regex.Match(OBX(pos, 2), "[0-9][0-9]*\^.*")
         If (match.Value <> OBX(pos, 2)) Then
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Function ValidePID_Nome() As Boolean
+        Dim match = Regex.Match(PID(4), "[aA-zZ]+[aA-zZ]*\.{0,1}[aA-zZ]*\^[aA-zZ]+[aA-zZ]*\.{0,1}[aA-zZ]*")
+        If (match.Value <> PID(4)) Then
             Return False
         End If
         Return True
