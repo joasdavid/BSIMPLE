@@ -14,7 +14,7 @@ Module Test2
 
 
         'readfile
-        Dim oReader = New StreamReader("C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\Alarmes.txt", True)
+        Dim oReader = New StreamReader("D:\workspace\B-simple\REP2\Alarmes.txt", True)
         Dim strMSG As String = ""
         Dim line As String = ""
 
@@ -43,7 +43,7 @@ Module Test2
 
 
         'readfile
-        Dim oReader = New StreamReader("C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\SV.txt", True)
+        Dim oReader = New StreamReader("D:\workspace\B-simple\REP2\SV.txt", True)
         Dim strMSG As String = ""
         Dim line As String = ""
         Dim count As Integer = 0
@@ -81,9 +81,51 @@ Module Test2
 
         Console.ReadKey()
     End Sub
+
+    Private Sub DebugCreatSVu()
+
+        Dim numero As String
+        Dim text As String
+
+
+        'readfile
+        Dim oReader = New StreamReader("D:\workspace\B-simple\REP2\SV2.txt", True)
+        Dim strMSG As String = ""
+        Dim line As String = ""
+        Dim count As Integer = 0
+        Do While oReader.Peek() <> -1
+            line = oReader.ReadLine
+            count = 0
+            For i = 0 To line.Length()
+                If (line.Chars(i) = " ") Then
+                    numero = line.Substring(0, count)
+                    Exit For
+                End If
+                count += 1
+            Next
+            text = line.Replace((numero & " "), "")
+            If text.Chars(text.Length - 1) = " " Then
+                text = text.Substring(0, text.Length - 1)
+            End If
+            'numero = line.Substring(0, 5)
+            'text = line.Replace((numero & " "), "").Replace("'", "")
+            myConn = New SqlConnection(ConfigurationManager.AppSettings("StrgConn").ToString)
+            Dim sql = "UPDATE SinaisVitais set Descricao ='" & text & "' where idSV =" & numero
+            myCmd = New SqlCommand(sql, myConn)
+            myCmd.Connection.Open()
+            myCmd.ExecuteNonQuery()
+            myCmd.Dispose()
+            myConn.Close()
+        Loop
+
+        oReader.Close()
+        'end readFile
+
+        Console.ReadKey()
+    End Sub
     Sub Main()
-        'DebugCreatAlame()
-        DebugCreatSV()
+        'DebugCreatMSG()
+        DebugCreatSVu()
     End Sub
 
 End Module
