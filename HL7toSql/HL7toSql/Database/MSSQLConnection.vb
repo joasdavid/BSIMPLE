@@ -27,7 +27,8 @@ Public Class MSSQLConnection
         End Try
     End Sub
 
-    Public Sub execQuery(sqlQuery As String)
+    Public Function execQuery(sqlQuery As String) As Boolean
+        Dim returnValue = False
         Connect()
         Try
             'Dim myCmd As SqlCommand = myConn.CreateCommand
@@ -36,12 +37,16 @@ Public Class MSSQLConnection
             myCmd.Connection.Open()
             myCmd.Connection = myConn
             myCmd.ExecuteNonQuery()
+            returnValue = True
             myCmd.Dispose()
         Catch ex As Exception
-            Console.WriteLine(ex.Message)
+            'Console.WriteLine(ex.Message)
+            returnValue = False
+        Finally
+            Disconnect()
         End Try
-        Disconnect()
-    End Sub
+        Return returnValue
+    End Function
 
     Public Function sendQuery(sqlQuery As String) As DataTable
         'Dim tableReturn(,) As Object

@@ -344,9 +344,16 @@ Public Class Message
     End Function
 
     Private Function ValideOBX_Identifier(pos As Integer) As Boolean
-        Dim match = Regex.Match(OBX(pos, 2), "[0-9][0-9]*\^.*")
-        If (match.Value <> OBX(pos, 2)) Then
-            Return False
+        If MSH(8) = "54" Then
+            Dim match = Regex.Match(OBX(pos, 2), "[0-4]")
+            If (match.Value <> OBX(pos, 2)) Then
+                Return False
+            End If
+        Else
+            Dim match = Regex.Match(OBX(pos, 2), "[0-9][0-9]*\^.*")
+            If (match.Value <> OBX(pos, 2)) Then
+                Return False
+            End If
         End If
         Return True
     End Function

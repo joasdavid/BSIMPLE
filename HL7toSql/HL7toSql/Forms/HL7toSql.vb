@@ -2,6 +2,7 @@
 Imports System.IO.StreamReader
 Imports System.Data.SqlClient
 Imports System.Configuration
+Imports System.Threading
 
 
 
@@ -12,21 +13,22 @@ Public Class HL7toDB
     Private ds As DataSet
     Private listMsg As New List(Of Message)
     Private c28 As Char = Chr(28)
+    Private ReadOnly lock As New Object
 
     Private Sub showBDcontent()
         Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
         myConn = New SqlConnection(strConn)
-        Dim SQL As String = "SELECT IdValores, IdPaciente,IdOBX,Sub_id,Valor,DataInicio,DataFinal FROM Valores"
+        Dim SQL As String = "SELECT * FROM Monitorizacao"
         'Atualiza dataset
         da = New SqlDataAdapter(SQL, myConn)
         'coloca a infomação em memoria
         ds = New DataSet
         'coloca a informação defenida no dataset
-        da.Fill(ds, "Valores")
+        da.Fill(ds, "Monitorizacao")
         ' Define a DataSet é a fonte de dados do datagridview
-        Me.DataGridView1.DataSource = ds.Tables("Valores")
-        Me.DataGridView1.Columns(5).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
-        Me.DataGridView1.Columns(6).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
+        Me.DataGridView1.DataSource = ds.Tables("Monitorizacao")
+        'Me.DataGridView1.Columns(5).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
+        'Me.DataGridView1.Columns(6).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
         'Limpa a ligação à base de dados
         myConn = Nothing
 
@@ -78,6 +80,7 @@ Public Class HL7toDB
             Dim line As String = ""
             Dim text As String = ""
             Dim countR As Integer = 0
+
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
@@ -86,16 +89,44 @@ Public Class HL7toDB
                         listMsg.Add(m)
                         countR += m.getSegmentCont("OBX")
                         strMSG = ""
-                        text += vbNewLine
+                        'text += vbNewLine
                     Else
                         strMSG += line
-                        text += line + vbNewLine
+                        ' text += line + vbNewLine
                     End If
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
             Loop
             oReader.Close()
+            Dim breakpoit As Integer = listMsg.Count / 2
+            Dim t1 = New Thread(Sub()
+                                    SyncLock lock
+                                        Dim _temp As String = ""
+                                        For i = 0 To breakpoit - 1
+                                            _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+                                        Next
+
+                                        text += _temp
+                                    End SyncLock
+                                End Sub)
+            Dim t2 = New Thread(Sub()
+
+                                    Dim _temp As String = ""
+                                    For i = breakpoit To listMsg.Count - 1
+                                        _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+                                    Next
+                                    SyncLock lock
+                                        text += _temp
+                                    End SyncLock
+                                End Sub)
+            t1.Start()
+            t2.Start()
+            t1.Join()
+            t2.Join()
+            'For Each m In listMsg
+            '    text += m.toString.Replace(Chr(10), vbNewLine) + vbNewLine
+            'Next
             TextBox2.Text = text
             MsgBox(countR)
         End If

@@ -85,17 +85,13 @@ Public Class MSSQLControllerMindray
             'get data
             Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^") '<id>^<descrição>
             Dim idOBX = _idAndDesc(0) '<id>
-            Dim subidOBX = msg.getSegmentField("OBX", i, 3) + "" 'add aspas para eviar ser "Nothing"
-            Dim valor = msg.getSegmentField("OBX", i, 4)
+             Dim valor = msg.getSegmentField("OBX", i, 4)
 
             Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
             Dim df = di
 
-            'guarda informação da Monitorização
-            saveMonitorizacao(idOBX)
-
             'guarda os valores da Monitorização
-            saveValor(idOBX, subidOBX, valor, di, df)
+            saveMonitorizacao(idOBX, valor, di, df)
 
         Next
 
@@ -107,34 +103,45 @@ Public Class MSSQLControllerMindray
         Parameters(msg)
     End Sub
 
-    'gurada a monitorizacao caso esta ainda não exista
-    Private Sub saveMonitorizacao(id As Integer)
-        Dim bd = New MSSQLConnection(strConn)
-        Dim tb As DataTable
+    'Physiological Alarm Message
+    Private Sub Alarm(msg As Message)
+        'para cada obx na mensagem
+        For i = 0 To msg.getSegmentCont("OBX") - 1 Step 1
+            'get data
+            Dim nivel = msg.getSegmentField("OBX", i, 2) 'nivel
+            Dim idSV_desc = msg.getSegmentField("OBX", i, 4).Split("^") '<id>^<desc>
+            Dim idSV = idSV_desc(0)
 
-        'confirma se ja existe
-        tb = bd.sendQuery("select Count(*) from Monitorizacao as m where  m.IdOBX = " & id & " and m.IdPaciente like '" & idPaciente & "'")
-        Dim isNew As Integer = tb.Rows(0).Item(0) 'primeira linha, primeira coluna ... valor do Count(*)
-        tb.Dispose()
+            Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
+            Dim df = di
 
-        'casso nao exista
-        If (isNew = 0) Then 'se for 0 e porque ainda nao existe
-            bd.execQuery("insert into Monitorizacao VALUES(" & id & ",'" & idPaciente & "')")
-        End If
+            'guarda os valores da Monitorização
+            saveAlarm(idSV, nivel, di, df)
 
+        Next
     End Sub
 
-    Private Sub saveValor(id As Integer, subid As Integer, valor As String, di As String, df As String)
+    'gurada a monitorizacao
+    Private Sub saveMonitorizacao(id As Integer, valor As String, di As String, df As String)
         Dim bd = New MSSQLConnection(strConn)
         Dim _valor = CDbl(valor.Replace(".", ",")).ToString()
         'ultimo valor para uma monitorização
         Dim valor_idvalor = needUpdateValor(id)
         If (_valor = valor_idvalor(0)) Then 'se o valor é identico entao só faz update à data
-            bd.execQuery("UPDATE [HL7Mindray].[dbo].[Valores] SET DataFinal = " & di & " WHERE IdValores = " & valor_idvalor(1))
+            bd.execQuery("UPDATE [HL7Mindray].[dbo].[Monitorizacao] SET DataFinal = " & di & " WHERE Id = " & valor_idvalor(1))
         Else 'caso exista alteração ao valor
-            bd.execQuery("insert into Valores(IdPaciente, IdOBX, Sub_id, Valor, DataInicio, DataFinal) " &
-                                      "VALUES('" & idPaciente & "', " & id & ", " & subid & ", " & valor & "," & di & "," & df & ")")
+            bd.execQuery("insert into Monitorizacao(IdPaciente, IdSV, Valor, DataInicio, DataFinal) " &
+                                      "VALUES('" & idPaciente & "', " & id & ", " & valor & "," & di & "," & df & ")")
         End If
+
+    End Sub
+
+    'gurada a alarme
+    Private Sub saveAlarm(id As String, nivel As String, di As String, df As String)
+        Dim bd = New MSSQLConnection(strConn)
+
+        bd.execQuery("insert into Monitorizacao(IdPaciente, IdAlarme, nivelAlarme, DataInicio, DataFinal) " &
+                                      "VALUES('" & idPaciente & "', " & id & ", " & nivel & "," & di & "," & df & ")")
 
     End Sub
 
@@ -144,10 +151,10 @@ Public Class MSSQLControllerMindray
         Dim toReturn(1) As String
         'Caso já existam valores obtém-se o ultimo valor inserido _
         'para uma dada monitorização de um dado paciente
-        tb = bd.sendQuery("SELECT * FROM Valores as v WHERE v.IdOBX = " & id & "and v.IdPaciente like '" & idPaciente & "' order by v.IdValores desc")
+        tb = bd.sendQuery("SELECT * FROM Monitorizacao as v WHERE v.IdSV = " & id & "and v.IdPaciente like '" & idPaciente & "' order by v.Id desc")
         If (tb.Rows.Count <> Nothing) Then 'se ouver algum valor na tabela
             toReturn(1) = tb.Rows(0).Item(0).ToString()
-            toReturn(0) = CDbl(tb.Rows(0).Item(6))
+            toReturn(0) = CDbl(tb.Rows(0).Item(2))
         End If
         tb.Dispose()
         Return toReturn
@@ -163,6 +170,8 @@ Public Class MSSQLControllerMindray
             Parameters(msg)
         ElseIf id = 503 Then
             NIBP(msg)
+        ElseIf id = 54 Then
+            Alarm(msg)
         Else
             'r()
         End If
