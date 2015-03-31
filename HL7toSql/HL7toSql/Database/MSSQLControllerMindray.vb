@@ -177,6 +177,19 @@ Public Class MSSQLControllerMindray
         End If
     End Sub
 
+    Public Function getTable(name As String) As DataSet
+        Dim dt As New DataSet
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb = bd.sendQuery("select * from " & name)
+        Dim r = tb.Rows.Count
+        dt.Tables.Add(tb)
+        Return dt
+    End Function
+
+    Public Sub setidPaciente(stg As String)
+        idPaciente = stg
+    End Sub
+
     Public Shared ReadOnly Property Instance() As MSSQLControllerMindray
         Get
             Return _instance.Value

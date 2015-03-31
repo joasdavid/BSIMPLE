@@ -16,24 +16,9 @@ Public Class HL7toDB
     Private ReadOnly lock As New Object
 
     Private Sub showBDcontent()
-        Dim strConn As String = ConfigurationManager.AppSettings("StrgConn").ToString
-        myConn = New SqlConnection(strConn)
-        Dim SQL As String = "SELECT * FROM Monitorizacao"
-        'Atualiza dataset
-        da = New SqlDataAdapter(SQL, myConn)
-        'coloca a infomação em memoria
-        ds = New DataSet
-        'coloca a informação defenida no dataset
-        da.Fill(ds, "Monitorizacao")
-        ' Define a DataSet é a fonte de dados do datagridview
-        Me.DataGridView1.DataSource = ds.Tables("Monitorizacao")
-        'Me.DataGridView1.Columns(5).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
-        'Me.DataGridView1.Columns(6).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
-        'Limpa a ligação à base de dados
-        myConn = Nothing
-
-
-
+        Me.DataGridView1.DataSource = MSSQLControllerMindray.Instance.getTable("Monitorizacao").Tables(0)
+        Me.DataGridView1.Columns(3).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
+        Me.DataGridView1.Columns(4).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -42,11 +27,13 @@ Public Class HL7toDB
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Export2Sql.Click
         Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
-
+        Dim max = Load2DB.Maximum
+        Dim inc = max / listMsg.Count
         For Each envia In listMsg
             If (envia.Valide()) Then
                 controler.addMSGtoDB(envia)
             End If
+            Load2DB.Increment(inc)
         Next
         showBDcontent()
     End Sub
@@ -80,25 +67,32 @@ Public Class HL7toDB
             Dim line As String = ""
             Dim text As String = ""
             Dim countR As Integer = 0
-
+            Dim m = New Message()
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
                     If line.Chars(0) = Chr(28) Then
-                        Dim m = New Message(strMSG)
+                        'm.parseData(line)
                         listMsg.Add(m)
                         countR += m.getSegmentCont("OBX")
                         strMSG = ""
+                        m = New Message()
                         'text += vbNewLine
                     Else
-                        strMSG += line
+                        m.parseData(line)
+                        'strMSG += line
                         ' text += line + vbNewLine
                     End If
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
             Loop
+
             oReader.Close()
+            'TextBox2.Text = listMsg.Item(0).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+            'TextBox2.Text += listMsg.Item(1).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+            'TextBox2.Text += listMsg.Item(2).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+            ''MsgBox(countR)
             Dim breakpoit As Integer = listMsg.Count / 2
             Dim t1 = New Thread(Sub()
                                     SyncLock lock
@@ -124,11 +118,14 @@ Public Class HL7toDB
             t2.Start()
             t1.Join()
             t2.Join()
+            Load2DB.Minimum = 0
+            Load2DB.Maximum = listMsg.Count
+            Load2DB.Value = 0
             'For Each m In listMsg
             '    text += m.toString.Replace(Chr(10), vbNewLine) + vbNewLine
             'Next
             TextBox2.Text = text
-            MsgBox(countR)
+            'MsgBox(countR)
         End If
     End Sub
 

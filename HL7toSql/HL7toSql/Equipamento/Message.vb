@@ -31,7 +31,7 @@ Public Class Message
     Private strdata As String = ""
 
     Sub New()
-
+        Me.New("")
     End Sub
     Sub New(msg As String)
         parseData(msg)
@@ -39,7 +39,10 @@ Public Class Message
     End Sub
 
     Public Function parseData(ByVal data As String) As String
-        strdata = data
+        If (data = "") Then
+            Return ""
+        End If
+        strdata += data
 
         Dim j, i As Integer
         Dim header, buffer As String
