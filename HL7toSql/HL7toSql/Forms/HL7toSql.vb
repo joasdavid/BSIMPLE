@@ -26,6 +26,7 @@ Public Class HL7toDB
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Export2Sql.Click
+
         Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
         Dim max = Load2DB.Maximum
         Dim inc = max / listMsg.Count
@@ -36,6 +37,7 @@ Public Class HL7toDB
             Load2DB.Increment(inc)
         Next
         showBDcontent()
+
     End Sub
 
     Private Sub OpenFileDialog1_FileOk_1(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
@@ -94,30 +96,28 @@ Public Class HL7toDB
             'TextBox2.Text += listMsg.Item(2).toString.Replace(Chr(10), vbNewLine) + vbNewLine
             ''MsgBox(countR)
             Dim breakpoit As Integer = listMsg.Count / 2
-            Dim t1 = New Thread(Sub()
-                                    SyncLock lock
-                                        Dim _temp As String = ""
-                                        For i = 0 To breakpoit - 1
-                                            _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
-                                        Next
+            Dim t1 As Task = Task.Run(Sub()
+                                          SyncLock lock
+                                              Dim _temp As String = ""
+                                              For i = 0 To breakpoit - 1
+                                                  _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+                                              Next
 
-                                        text += _temp
-                                    End SyncLock
-                                End Sub)
-            Dim t2 = New Thread(Sub()
+                                              text += _temp
+                                          End SyncLock
+                                      End Sub)
+            Dim t2 As Task = Task.Run(Sub()
 
-                                    Dim _temp As String = ""
-                                    For i = breakpoit To listMsg.Count - 1
-                                        _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
-                                    Next
-                                    SyncLock lock
-                                        text += _temp
-                                    End SyncLock
-                                End Sub)
-            t1.Start()
-            t2.Start()
-            t1.Join()
-            t2.Join()
+                                          Dim _temp As String = ""
+                                          For i = breakpoit To listMsg.Count - 1
+                                              _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+                                          Next
+                                          SyncLock lock
+                                              text += _temp
+                                          End SyncLock
+                                      End Sub)
+            t1.Wait()
+            t2.Wait()
             Load2DB.Minimum = 0
             Load2DB.Maximum = listMsg.Count
             Load2DB.Value = 0
