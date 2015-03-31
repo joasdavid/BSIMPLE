@@ -72,6 +72,7 @@ Public Class HL7toDB
             Dim countR As Integer = 0
             Dim m = New Message()
             Dim _temp As New StringBuilder
+            Dim w As Stopwatch = Stopwatch.StartNew
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
@@ -89,6 +90,7 @@ Public Class HL7toDB
             Loop
 
             oReader.Close()
+
 
             'Dim breakpoit As Integer = listMsg.Count / 2
             'Dim t1 As Task = Task.Run(Sub()
@@ -114,14 +116,18 @@ Public Class HL7toDB
             '                          End Sub)
             't1.Wait()
             't2.Wait()
+
             Load2DB.Minimum = 0
             Load2DB.Maximum = listMsg.Count
             Load2DB.Value = 0
             'For Each m In listMsg
             '    text += m.toString.Replace(Chr(10), vbNewLine) + vbNewLine
             'Next
+
             TextBox2.Text = _temp.ToString
             'MsgBox(countR)
+
+            MsgBox(w.Elapsed.Milliseconds)
         End If
     End Sub
 
