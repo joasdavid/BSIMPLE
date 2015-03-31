@@ -71,6 +71,7 @@ Public Class HL7toDB
             Dim text As String = ""
             Dim countR As Integer = 0
             Dim m = New Message()
+            Dim w As Stopwatch = Stopwatch.StartNew
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
@@ -109,6 +110,7 @@ Public Class HL7toDB
                                               text += _temp.ToString
                                           End SyncLock
                                       End Sub)
+            w.Stop()
             t1.Wait()
             t2.Wait()
             Load2DB.Minimum = 0
@@ -118,7 +120,7 @@ Public Class HL7toDB
             '    text += m.toString.Replace(Chr(10), vbNewLine) + vbNewLine
             'Next
             TextBox2.Text = text
-            'MsgBox(countR)
+            MsgBox(w.Elapsed.Milliseconds)
         End If
     End Sub
 
