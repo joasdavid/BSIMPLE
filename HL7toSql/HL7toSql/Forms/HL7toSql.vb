@@ -71,14 +71,17 @@ Public Class HL7toDB
             Dim text As String = ""
             Dim countR As Integer = 0
             Dim m = New Message()
+            Dim _temp As New StringBuilder
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
                     If line.Chars(0) = Chr(28) Then
                         listMsg.Add(m)
                         m = New Message()
+                        _temp.Append(vbNewLine)
                     Else
                         m.parseData(line)
+                        _temp.Append(line & vbNewLine)
                     End If
                 Catch ex As Exception
                     MsgBox(ex.Message)
@@ -87,37 +90,37 @@ Public Class HL7toDB
 
             oReader.Close()
 
-            Dim breakpoit As Integer = listMsg.Count / 2
-            Dim t1 As Task = Task.Run(Sub()
-                                          SyncLock lock
-                                              Dim _temp As New StringBuilder
-                                              'Dim _temp As String = ""
-                                              For i = 0 To breakpoit - 1
-                                                  _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
-                                              Next
+            'Dim breakpoit As Integer = listMsg.Count / 2
+            'Dim t1 As Task = Task.Run(Sub()
+            '                              SyncLock lock
+            '                                  Dim _temp As New StringBuilder
+            '                                  'Dim _temp As String = ""
+            '                                  For i = 0 To breakpoit - 1
+            '                                      _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
+            '                                  Next
 
-                                              text += _temp.ToString()
-                                          End SyncLock
-                                      End Sub)
-            Dim t2 As Task = Task.Run(Sub()
-                                          Dim _temp As New StringBuilder
-                                          ' Dim _temp As String = ""
-                                          For i = breakpoit To listMsg.Count - 1
-                                              _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
-                                          Next
-                                          SyncLock lock
-                                              text += _temp.ToString
-                                          End SyncLock
-                                      End Sub)
-            t1.Wait()
-            t2.Wait()
+            '                                  text += _temp.ToString()
+            '                              End SyncLock
+            '                          End Sub)
+            'Dim t2 As Task = Task.Run(Sub()
+            '                              Dim _temp As New StringBuilder
+            '                              ' Dim _temp As String = ""
+            '                              For i = breakpoit To listMsg.Count - 1
+            '                                  _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
+            '                              Next
+            '                              SyncLock lock
+            '                                  text += _temp.ToString
+            '                              End SyncLock
+            '                          End Sub)
+            't1.Wait()
+            't2.Wait()
             Load2DB.Minimum = 0
             Load2DB.Maximum = listMsg.Count
             Load2DB.Value = 0
             'For Each m In listMsg
             '    text += m.toString.Replace(Chr(10), vbNewLine) + vbNewLine
             'Next
-            TextBox2.Text = text
+            TextBox2.Text = _temp.ToString
             'MsgBox(countR)
         End If
     End Sub
