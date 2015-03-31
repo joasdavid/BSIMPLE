@@ -3,6 +3,7 @@ Imports System.IO.StreamReader
 Imports System.Data.SqlClient
 Imports System.Configuration
 Imports System.Threading
+Imports System.Text
 
 
 
@@ -74,16 +75,10 @@ Public Class HL7toDB
                 Try
                     line = oReader.ReadLine() + Chr(10)
                     If line.Chars(0) = Chr(28) Then
-                        'm.parseData(line)
                         listMsg.Add(m)
-                        countR += m.getSegmentCont("OBX")
-                        strMSG = ""
                         m = New Message()
-                        'text += vbNewLine
                     Else
                         m.parseData(line)
-                        'strMSG += line
-                        ' text += line + vbNewLine
                     End If
                 Catch ex As Exception
                     MsgBox(ex.Message)
@@ -91,29 +86,27 @@ Public Class HL7toDB
             Loop
 
             oReader.Close()
-            'TextBox2.Text = listMsg.Item(0).toString.Replace(Chr(10), vbNewLine) + vbNewLine
-            'TextBox2.Text += listMsg.Item(1).toString.Replace(Chr(10), vbNewLine) + vbNewLine
-            'TextBox2.Text += listMsg.Item(2).toString.Replace(Chr(10), vbNewLine) + vbNewLine
-            ''MsgBox(countR)
+
             Dim breakpoit As Integer = listMsg.Count / 2
             Dim t1 As Task = Task.Run(Sub()
                                           SyncLock lock
-                                              Dim _temp As String = ""
+                                              Dim _temp As New StringBuilder
+                                              'Dim _temp As String = ""
                                               For i = 0 To breakpoit - 1
-                                                  _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+                                                  _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
                                               Next
 
-                                              text += _temp
+                                              text += _temp.ToString()
                                           End SyncLock
                                       End Sub)
             Dim t2 As Task = Task.Run(Sub()
-
-                                          Dim _temp As String = ""
+                                          Dim _temp As New StringBuilder
+                                          ' Dim _temp As String = ""
                                           For i = breakpoit To listMsg.Count - 1
-                                              _temp += listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine
+                                              _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
                                           Next
                                           SyncLock lock
-                                              text += _temp
+                                              text += _temp.ToString
                                           End SyncLock
                                       End Sub)
             t1.Wait()
