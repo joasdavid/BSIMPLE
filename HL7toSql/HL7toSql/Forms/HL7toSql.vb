@@ -71,21 +71,15 @@ Public Class HL7toDB
             Dim text As String = ""
             Dim countR As Integer = 0
             Dim m = New Message()
-<<<<<<< HEAD
-            Dim _temp As New StringBuilder
             Dim w As Stopwatch = Stopwatch.StartNew
-=======
->>>>>>> parent of 1caadac... Stopwath implemented
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
                     If line.Chars(0) = Chr(28) Then
                         listMsg.Add(m)
                         m = New Message()
-                        _temp.Append(vbNewLine)
                     Else
                         m.parseData(line)
-                        _temp.Append(line & vbNewLine)
                     End If
                 Catch ex As Exception
                     MsgBox(ex.Message)
@@ -94,34 +88,6 @@ Public Class HL7toDB
 
             oReader.Close()
 
-<<<<<<< HEAD
-
-            'Dim breakpoit As Integer = listMsg.Count / 2
-            'Dim t1 As Task = Task.Run(Sub()
-            '                              SyncLock lock
-            '                                  Dim _temp As New StringBuilder
-            '                                  'Dim _temp As String = ""
-            '                                  For i = 0 To breakpoit - 1
-            '                                      _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
-            '                                  Next
-
-            '                                  text += _temp.ToString()
-            '                              End SyncLock
-            '                          End Sub)
-            'Dim t2 As Task = Task.Run(Sub()
-            '                              Dim _temp As New StringBuilder
-            '                              ' Dim _temp As String = ""
-            '                              For i = breakpoit To listMsg.Count - 1
-            '                                  _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
-            '                              Next
-            '                              SyncLock lock
-            '                                  text += _temp.ToString
-            '                              End SyncLock
-            '                          End Sub)
-            't1.Wait()
-            't2.Wait()
-
-=======
             Dim breakpoit As Integer = listMsg.Count / 2
             Dim t1 As Task = Task.Run(Sub()
                                           SyncLock lock
@@ -144,25 +110,19 @@ Public Class HL7toDB
                                               text += _temp.ToString
                                           End SyncLock
                                       End Sub)
+            w.Stop()
             t1.Wait()
             t2.Wait()
->>>>>>> parent of 1caadac... Stopwath implemented
+
             Load2DB.Minimum = 0
             Load2DB.Maximum = listMsg.Count
             Load2DB.Value = 0
-            'For Each m In listMsg
-            '    text += m.toString.Replace(Chr(10), vbNewLine) + vbNewLine
-            'Next
-<<<<<<< HEAD
 
-            TextBox2.Text = _temp.ToString
-            'MsgBox(countR)
-
-            MsgBox(w.Elapsed.Milliseconds)
-=======
-            TextBox2.Text = text
-            'MsgBox(countR)
->>>>>>> parent of 1caadac... Stopwath implemented
+            'MsgBox(w.Elapsed.Milliseconds)
+            Dim w2 = Stopwatch.StartNew
+            TextBox2.AppendText(text)
+            w2.Stop()
+            MsgBox(w2.Elapsed.Milliseconds)
         End If
     End Sub
 
