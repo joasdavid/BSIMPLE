@@ -63,7 +63,6 @@ Public Class HL7toDB
         OpenFileDialog1.Multiselect = False
         TextBox1.Text = ""
         TextBox2.Text = ""
-        TextBox2.Hide()
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             oReader = New StreamReader(OpenFileDialog1.FileName, True)
 
@@ -72,7 +71,6 @@ Public Class HL7toDB
             Dim text As String = ""
             Dim countR As Integer = 0
             Dim m = New Message()
-            Dim w As Stopwatch = Stopwatch.StartNew
             Do While oReader.Peek() <> -1
                 Try
                     line = oReader.ReadLine() + Chr(10)
@@ -111,22 +109,16 @@ Public Class HL7toDB
                                               text += _temp.ToString
                                           End SyncLock
                                       End Sub)
-            ' w.Stop()
             t1.Wait()
             t2.Wait()
 
             Load2DB.Minimum = 0
             Load2DB.Maximum = listMsg.Count
             Load2DB.Value = 0
-
-            'MsgBox(w.Elapsed.Milliseconds)
-            Dim w2 = Stopwatch.StartNew
-
             'TextBox2.Text = text
             TextBox2.AppendText(text)
-            TextBox2.Show()
-            w.Stop()
-            MsgBox(w.ElapsedMilliseconds)
+            TextBox2.Select(0, 0)
+            TextBox2.ScrollToCaret()
         End If
     End Sub
 
