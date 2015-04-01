@@ -29,13 +29,12 @@ Public Class HL7toDB
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Export2Sql.Click
 
         Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
-        Dim max = Load2DB.Maximum
-        Dim inc = max / listMsg.Count
+        Load2DB.Value = 0
         For Each envia In listMsg
             If (envia.Valide()) Then
                 controler.addMSGtoDB(envia)
             End If
-            Load2DB.Increment(inc)
+            Load2DB.Increment(1)
         Next
         showBDcontent()
 
