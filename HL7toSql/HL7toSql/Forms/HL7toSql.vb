@@ -63,6 +63,7 @@ Public Class HL7toDB
         OpenFileDialog1.Multiselect = False
         TextBox1.Text = ""
         TextBox2.Text = ""
+        TextBox2.Hide()
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             oReader = New StreamReader(OpenFileDialog1.FileName, True)
 
@@ -78,8 +79,10 @@ Public Class HL7toDB
                     If line.Chars(0) = Chr(28) Then
                         listMsg.Add(m)
                         m = New Message()
+                        TextBox2.AppendText(vbNewLine)
                     Else
                         m.parseData(line)
+                        TextBox2.AppendText(line & vbNewLine)
                     End If
                 Catch ex As Exception
                     MsgBox(ex.Message)
@@ -88,31 +91,7 @@ Public Class HL7toDB
 
             oReader.Close()
 
-            Dim breakpoit As Integer = listMsg.Count / 2
-            Dim t1 As Task = Task.Run(Sub()
-                                          SyncLock lock
-                                              Dim _temp As New StringBuilder
-                                              'Dim _temp As String = ""
-                                              For i = 0 To breakpoit - 1
-                                                  _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
-                                              Next
-
-                                              text += _temp.ToString()
-                                          End SyncLock
-                                      End Sub)
-            Dim t2 As Task = Task.Run(Sub()
-                                          Dim _temp As New StringBuilder
-                                          ' Dim _temp As String = ""
-                                          For i = breakpoit To listMsg.Count - 1
-                                              _temp.Append(listMsg.Item(i).toString.Replace(Chr(10), vbNewLine) + vbNewLine)
-                                          Next
-                                          SyncLock lock
-                                              text += _temp.ToString
-                                          End SyncLock
-                                      End Sub)
-            w.Stop()
-            t1.Wait()
-            t2.Wait()
+            
 
             Load2DB.Minimum = 0
             Load2DB.Maximum = listMsg.Count
@@ -120,9 +99,12 @@ Public Class HL7toDB
 
             'MsgBox(w.Elapsed.Milliseconds)
             Dim w2 = Stopwatch.StartNew
+
+            'TextBox2.Text = text
             TextBox2.AppendText(text)
-            w2.Stop()
-            MsgBox(w2.Elapsed.Milliseconds)
+            TextBox2.Show()
+            w.Stop()
+            MsgBox(w.Elapsed.Milliseconds)
         End If
     End Sub
 
