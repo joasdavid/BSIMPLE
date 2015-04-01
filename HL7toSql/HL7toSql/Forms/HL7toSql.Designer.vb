@@ -29,8 +29,9 @@ Partial Class HL7toDB
         Me.Load2DB = New System.Windows.Forms.ProgressBar()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        CType(Me.DataGridView1,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'Export2Sql
         '
@@ -39,7 +40,7 @@ Partial Class HL7toDB
         Me.Export2Sql.Size = New System.Drawing.Size(93, 27)
         Me.Export2Sql.TabIndex = 0
         Me.Export2Sql.Text = "Export to Sql"
-        Me.Export2Sql.UseVisualStyleBackColor = True
+        Me.Export2Sql.UseVisualStyleBackColor = true
         '
         'Select_file
         '
@@ -48,7 +49,7 @@ Partial Class HL7toDB
         Me.Select_file.Size = New System.Drawing.Size(93, 27)
         Me.Select_file.TabIndex = 1
         Me.Select_file.Text = "Select file"
-        Me.Select_file.UseVisualStyleBackColor = True
+        Me.Select_file.UseVisualStyleBackColor = true
         '
         'OpenFileDialog1
         '
@@ -58,7 +59,7 @@ Partial Class HL7toDB
         '
         Me.TextBox1.Location = New System.Drawing.Point(21, 41)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.ReadOnly = true
         Me.TextBox1.Size = New System.Drawing.Size(413, 20)
         Me.TextBox1.TabIndex = 2
         '
@@ -71,11 +72,11 @@ Partial Class HL7toDB
         '
         'TextBox2
         '
-        Me.TextBox2.AcceptsReturn = True
+        Me.TextBox2.AcceptsReturn = true
         Me.TextBox2.Location = New System.Drawing.Point(21, 89)
-        Me.TextBox2.Multiline = True
+        Me.TextBox2.Multiline = true
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.ReadOnly = True
+        Me.TextBox2.ReadOnly = true
         Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.TextBox2.Size = New System.Drawing.Size(413, 360)
         Me.TextBox2.TabIndex = 6
@@ -86,13 +87,16 @@ Partial Class HL7toDB
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Location = New System.Drawing.Point(456, 89)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.ReadOnly = True
+        Me.DataGridView1.ReadOnly = true
         Me.DataGridView1.Size = New System.Drawing.Size(514, 360)
         Me.DataGridView1.TabIndex = 7
         '
+        'BackgroundWorker1
+        '
+        '
         'HL7toDB
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(980, 470)
         Me.Controls.Add(Me.DataGridView1)
@@ -102,16 +106,16 @@ Partial Class HL7toDB
         Me.Controls.Add(Me.Select_file)
         Me.Controls.Add(Me.Export2Sql)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.MaximizeBox = False
+        Me.MaximizeBox = false
         Me.MaximumSize = New System.Drawing.Size(996, 509)
         Me.MinimumSize = New System.Drawing.Size(996, 509)
         Me.Name = "HL7toDB"
         Me.Text = "Hl7 to DB"
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        CType(Me.DataGridView1,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
     Friend WithEvents Export2Sql As System.Windows.Forms.Button
     Friend WithEvents Select_file As System.Windows.Forms.Button
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
@@ -119,5 +123,6 @@ Partial Class HL7toDB
     Friend WithEvents Load2DB As System.Windows.Forms.ProgressBar
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 
 End Class
