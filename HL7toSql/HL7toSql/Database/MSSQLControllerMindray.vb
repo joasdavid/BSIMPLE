@@ -128,7 +128,7 @@ Public Class MSSQLControllerMindray
         'ultimo valor para uma monitorização
         Dim valor_idvalor = needUpdateValor(id)
         If (_valor = valor_idvalor(0)) Then 'se o valor é identico entao só faz update à data
-            bd.execQuery("UPDATE [HL7Mindray].[dbo].[Monitorizacao] SET DataFinal = " & di & " WHERE Id = " & valor_idvalor(1))
+            bd.execQuery("UPDATE Monitorizacao SET DataFinal = " & di & " WHERE Id = " & valor_idvalor(1))
         Else 'caso exista alteração ao valor
             bd.execQuery("insert into Monitorizacao(IdPaciente, IdSV, Valor, DataInicio, DataFinal) " &
                                       "VALUES('" & idPaciente & "', " & id & ", " & valor & "," & di & "," & df & ")")
