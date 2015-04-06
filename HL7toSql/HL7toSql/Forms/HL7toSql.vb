@@ -5,6 +5,7 @@ Imports System.Configuration
 Imports System.Threading
 Imports System.Text
 Imports System.ComponentModel
+Imports System.Net.Sockets
 
 
 
@@ -17,8 +18,19 @@ Public Class HL7toDB
     Private c28 As Char = Chr(28)
     Dim worker As BackgroundWorker = New BackgroundWorker
     Private ReadOnly lock As New Object
+    Public Delegate Sub dataReceivedDelegate(ByVal TB As TextBox, ByVal txt As String)
+    Public Delegate Sub dbUpdateDelegate(ByVal DG As DataGridView)
 
 
+    Private Sub showBDcontent(ByVal DG As DataGridView)
+        If DG.InvokeRequired Then
+            DG.Invoke(New dbUpdateDelegate(AddressOf showBDcontent), New Object() {DG})
+        Else
+            DG.DataSource = MSSQLControllerMindray.Instance.getTable("Monitorizacao").Tables(0)
+            Me.DataGridView1.Columns(3).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
+            Me.DataGridView1.Columns(4).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
+        End If
+    End Sub
     Private Sub showBDcontent()
         Me.DataGridView1.DataSource = MSSQLControllerMindray.Instance.getTable("Monitorizacao").Tables(0)
         Me.DataGridView1.Columns(3).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
@@ -32,7 +44,7 @@ Public Class HL7toDB
         showBDcontent()
     End Sub
 
-    
+
     Private Sub UploadToDB(ByVal sender As System.Object, _
                      ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
         Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
@@ -47,11 +59,12 @@ Public Class HL7toDB
         Next
     End Sub
 
-   
+
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Export2Sql.Click
         Load2DB.Value = 0
+        Load2DB.Maximum = listMsg.Count
         BackgroundWorker1.RunWorkerAsync()
         'showBDcontent()
 
@@ -65,9 +78,54 @@ Public Class HL7toDB
     End Sub
 
     Private Sub Button2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Select_file.Click
+        Dim t = New Thread(AddressOf getData)
 
+        t.SetApartmentState(ApartmentState.STA)
+        t.IsBackground = True
+        t.Start()
     End Sub
 
+    Private Sub getData()
+        Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
+        Dim client = New TcpClient("", 4601)
+        Dim dataStream = New StreamReader(client.GetStream)
+        Dim msg As Message
+        Dim str_msg As String = ""
+        While True
+            Try
+                Dim v = dataStream.Read
+                Dim c = Chr(CInt(v))
+                If (c = Chr(11)) Then
+                    msg = New Message
+                ElseIf (c = Chr(28)) Then
+                    'listMsg.Add(msg)
+
+                    controler.addMSGtoDB(msg)
+                    showBDcontent(DataGridView1)
+
+                    'showBDcontent()
+                ElseIf (c = Chr(10)) Then
+                    str_msg += "" + c
+                    msg.parseData(str_msg)
+                    str_msg = ""
+                End If
+                str_msg += "" + c
+                dataReceived(TextBox2, c)
+                'Console.Write()
+            Catch ex As Exception
+                MsgBox(ex.Message)
+                'Console.WriteLine(" - - " & ex.Message)
+            End Try
+        End While
+    End Sub
+
+    Public Sub dataReceived(ByVal TB As TextBox, ByVal txt As String)
+        If TB.InvokeRequired Then
+            TB.Invoke(New dataReceivedDelegate(AddressOf dataReceived), New Object() {TB, txt})
+        Else
+            TB.AppendText(txt)
+        End If
+    End Sub
 
     Private Sub BackgroundWorker1_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles BackgroundWorker1.ProgressChanged
         'Load2DB.Value = e.ProgressPercentage
@@ -79,4 +137,6 @@ Public Class HL7toDB
     Private Sub BackgroundWorker1_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
         showBDcontent()
     End Sub
+
+
 End Class
