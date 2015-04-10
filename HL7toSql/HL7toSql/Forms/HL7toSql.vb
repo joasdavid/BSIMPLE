@@ -87,23 +87,25 @@ Public Class HL7toDB
 
     Private Sub getData()
         Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
-        Dim client = New TcpClient("", 4601)
-        Dim dataStream = New StreamReader(client.GetStream)
-        Dim msg As Message
-        Dim str_msg As String = ""
-        While True
-            Try
+        Try
+            Dim client = New TcpClient("", 4601)
+            Logger.Instance.log("connections.log", "TcpClient", client.ToString)
+            Dim dataStream = New StreamReader(client.GetStream)
+            Logger.Instance.log("connections.log", "StreamReader", "open")
+            Dim msg As Message = Nothing
+            Dim str_msg As String = ""
+            While True
                 Dim v = dataStream.Read
                 Dim c = Chr(CInt(v))
                 If (c = Chr(11)) Then
                     msg = New Message
                 ElseIf (c = Chr(28)) Then
-                    'listMsg.Add(msg)
-
-                    controler.addMSGtoDB(msg)
+                    If (msg.Valide()) Then
+                        controler.addMSGtoDB(msg)
+                    End If
+                    Logger.Instance.log("connections.log", "MSG", "get one new message")
+                    Logger.Instance.log("msgUpload.log", msg.getSegmentField("MSH", 8), msg.toString)
                     showBDcontent(DataGridView1)
-
-                    'showBDcontent()
                 ElseIf (c = Chr(10)) Then
                     str_msg += "" + c
                     msg.parseData(str_msg)
@@ -111,12 +113,11 @@ Public Class HL7toDB
                 End If
                 str_msg += "" + c
                 dataReceived(TextBox2, c)
-                'Console.Write()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-                'Console.WriteLine(" - - " & ex.Message)
-            End Try
-        End While
+
+            End While
+        Catch ex As Exception
+            Logger.Instance.log("err.log", "TCP/IP getData", ex.Message)
+        End Try
     End Sub
 
     Public Sub dataReceived(ByVal TB As TextBox, ByVal txt As String)

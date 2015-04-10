@@ -52,19 +52,22 @@ Public Class MSSQLControllerMindray
 
         'ver se o paciente ja existe
         Dim tb As DataTable = bd.sendQuery("select Count(*) from Paciente where IdPaciente like '" & _idPaciente & "'")
+        Logger.Instance.log("SQL.log", "sendQuery", "select Count(*) from Paciente where IdPaciente like '" & _idPaciente & "'")
         Dim isNew As Integer = tb.Rows(0).Item(0) 'primeira linha, primeira coluna ... valor do Count(*)
 
         If (isNew = 0) Then 'caso não exista
-            bd.execQuery("insert into Paciente VALUES('" & idPaciente & "', '" &
+            Dim sql As String = "insert into Paciente VALUES('" & idPaciente & "', '" &
                                                            fName & "', '" &
                                                            lName & "'," &
                                                            _date & ", '" &
                                                            sexo & "','asd', '" &
                                                            tipoSangue & "','" &
                                                            tipoPaciente & "', '" &
-                                                           paceSwitch & "')")
+                                                           paceSwitch & "')"
+            bd.execQuery(sql)
+            Logger.Instance.log("SQL.log", "execQuery", sql)
         Else 'caso exista faz update
-            bd.execQuery("UPDATE Paciente SET Frist_Name_Paciente = '" & fName & "'" &
+            Dim sql As String = "UPDATE Paciente SET Frist_Name_Paciente = '" & fName & "'" &
                                              ",Last_Name_Paciente = '" & lName & "'" &
                                                        ", DataNas = " & _date &
                                                           ", Sexo = '" & sexo & "'" &
@@ -72,7 +75,9 @@ Public Class MSSQLControllerMindray
                                                          ",Sangue = '" & tipoSangue & "'" &
                                                    ",TipoPaciente = '" & tipoPaciente & "'" &
                                                     ",Pace_Switch = '" & paceSwitch & "'" &
-                                                    " WHERE IdPaciente like '" & idPaciente & "'")
+                                                    " WHERE IdPaciente like '" & idPaciente & "'"
+            bd.execQuery(Sql)
+            Logger.Instance.log("SQL.log", "execQuery", Sql)
         End If
 
     End Sub
@@ -129,8 +134,11 @@ Public Class MSSQLControllerMindray
         Dim valor_idvalor = needUpdateValor(id)
         If (_valor = valor_idvalor(0)) Then 'se o valor é identico entao só faz update à data
             bd.execQuery("UPDATE Monitorizacao SET DataFinal = " & di & " WHERE Id = " & valor_idvalor(1))
+            Logger.Instance.log("SQL.log", "execQuery", "UPDATE Monitorizacao SET DataFinal = " & di & " WHERE Id = " & valor_idvalor(1))
         Else 'caso exista alteração ao valor
-            bd.execQuery("insert into Monitorizacao(IdPaciente, IdSV, Valor, DataInicio, DataFinal) " &
+            bd.execQuery("insert into Monitorizacao(IdPaciente, IdSV, Valor, DataInicio, DataFinal) " & _
+                                      "VALUES('" & idPaciente & "', " & id & ", " & valor & "," & di & "," & df & ")")
+            Logger.Instance.log("SQL.log", "execQuery", "insert into Monitorizacao(IdPaciente, IdSV, Valor, DataInicio, DataFinal) " & _
                                       "VALUES('" & idPaciente & "', " & id & ", " & valor & "," & di & "," & df & ")")
         End If
 
@@ -140,8 +148,10 @@ Public Class MSSQLControllerMindray
     Private Sub saveAlarm(id As String, nivel As String, di As String, df As String)
         Dim bd = New MSSQLConnection(strConn)
 
-        bd.execQuery("insert into Monitorizacao(IdPaciente, IdAlarme, nivelAlarme, DataInicio, DataFinal) " &
+        bd.execQuery("insert into Monitorizacao(IdPaciente, IdAlarme, nivelAlarme, DataInicio, DataFinal) " & _
                                       "VALUES('" & idPaciente & "', " & id & ", " & nivel & "," & di & "," & df & ")")
+        Logger.Instance.log("SQL.log", "execQuery", "insert into Monitorizacao(IdPaciente, IdAlarme, nivelAlarme, DataInicio, DataFinal) " & _
+                                     "VALUES('" & idPaciente & "', " & id & ", " & nivel & "," & di & "," & df & ")")
 
     End Sub
 
@@ -181,6 +191,7 @@ Public Class MSSQLControllerMindray
         Dim dt As New DataSet
         Dim bd = New MSSQLConnection(strConn)
         Dim tb = bd.sendQuery("select * from " & name)
+        Logger.Instance.log("SQL.log", "sendQuery", "select * from " & name)
         Dim r = tb.Rows.Count
         dt.Tables.Add(tb)
         Return dt
