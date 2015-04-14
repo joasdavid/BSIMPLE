@@ -77,5 +77,49 @@
 
     Public Overrides Function Valide() As Boolean
         Return True
+        'Return ValideMSH() And _
+        '    ValideQRD() And _
+        '    ValideQRF()
+    End Function
+    Private Function ValideMSH() As Boolean
+        If MSH(0) <> Nothing Then
+            Dim count = 0
+            For Each encodChar In MSH(0)
+                For Each encodChar2 In MSH(0)
+                    If (encodChar = encodChar2) Then
+                        count += 1
+                    End If
+                Next
+                If count > 1 Then
+                    Return False
+                End If
+                count = 0
+            Next
+        Else
+            Return False
+        End If
+        If (MSH(0).Length <> 4 Or MSH(7) = Nothing Or MSH(8) = Nothing Or MSH(9) = Nothing Or MSH(10) <> versao) Then
+            ' 1- enconding chars = 4 , 8- Message type, 9- message control id ,10 -processing id 11- versao hl7
+            Return False
+        End If
+        Return True
+    End Function
+    Private Function ValideQRD() As Boolean
+        If (haveQRD) Then
+            If (QRD(0) = Nothing Or QRD(1) = Nothing Or QRD(2) = Nothing Or QRD(3) = Nothing Or QRD(8) = Nothing) Then
+                '0 - Date/Time of Query , 1 -Query format mode, 2-Query Priority, 3-Query ID:Some unique identifier 8-What subject filter
+                Return False
+            End If
+        End If
+        Return True
+    End Function
+    Private Function ValideQRF() As Boolean
+        For i = 0 To haveQRF - 1
+            If (QRF(i, 0) = Nothing) Then
+                '0- Where subject filter - always MON
+                Return False
+            End If
+        Next
+        Return True
     End Function
 End Class
