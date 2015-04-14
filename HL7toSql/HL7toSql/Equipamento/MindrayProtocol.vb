@@ -38,7 +38,8 @@ Public Class MindrayProtocol
     End Sub
 
     Public Function getBedIP() As String
-        Return str_ip
+        Dim copy = str_ip
+        Return copy
     End Function
 
     Private Sub receiveBedIP(data As String)
@@ -51,21 +52,21 @@ Public Class MindrayProtocol
         sw.Start()
         udp = New UDP(4600)
         AddHandler udp.OnReceiveDataUDP, AddressOf receiveBedIP
-        'While str_ip = ""
-        str_ip = getBedIP()
-        '    If (str_ip = "") Then
-        '        If (sw.ElapsedMilliseconds > timeOut) Then
-        '            Throw New Exception
-        '        End If
-        '    Else
-        '        Exit While
-        '    End If
-        'End While
+        udp.start()
+        While str_ip = ""
+            str_ip = getBedIP()
+            If (str_ip = "") Then
+                If (sw.ElapsedMilliseconds > timeOut) Then
+                    Throw New Exception
+                End If
+            Else
+                Exit While
+            End If
+        End While
         udp.close()
-
         tcp = New TCP(str_ip, _portr, _portw)
         AddHandler tcp.OnReceiveDataTCP, AddressOf stratReadingStream
-        tcp.setPing("", 1000)
+        tcp.setPing(packingLLP("MSH|^~\&|||||||ORU^R01|106|P|2.3.1|"), 7000)
         tcp.send("")
         tcp.start()
 
@@ -74,6 +75,7 @@ Public Class MindrayProtocol
 
     Public Sub stratReadingStream(data As Char)
         Try
+            buffer += "" + data
             If (data = vt) Then
                 msg = New Message
             ElseIf (data = fs) Then
@@ -82,15 +84,18 @@ Public Class MindrayProtocol
                 Logger.Instance.log("msgUpload.log", msg.getSegmentField("MSH", 8), msg.toString)
 
             ElseIf (data = cr Or data = nl) Then
-                buffer += "" + data
                 msg.parseData(buffer)
                 buffer = ""
             End If
-            buffer += "" + data
         Catch ex As Exception
             Logger.Instance.log("err.log", "TCP/IP getData", ex.Message)
         End Try
     End Sub
+
+    Private Function packingLLP(msg As String) As String
+        Dim copy = vt & msg & fs & cr
+        Return copy
+    End Function
 
 
 End Class

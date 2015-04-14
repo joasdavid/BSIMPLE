@@ -92,6 +92,7 @@ Public Class HL7toDB
     Private Sub getData(msg As Message)
         MSSQLControllerMindray.Instance.addMSGtoDB(msg)
         dataReceived(TextBox2, msg.toString)
+        dataReceived(TextBox2, "")
         showBDcontent(DataGridView1)
     End Sub
 
