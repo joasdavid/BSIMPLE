@@ -42,8 +42,22 @@ Public Class MindrayProtocol
     End Function
 
     Private Sub receiveBedIP(data As String)
-        'str_ip = data
-        str_ip = "192.168.1.35"
+        Dim mensagem As New MessageADT(data)
+        Dim aux As String = mensagem.getSegmentField("PV1", 2)
+        Dim array_ip As String() = aux.Split(New Char() {"&"c})
+
+        Dim dec As Int64 = array_ip(1)
+        Dim bytes As Byte() = BitConverter.GetBytes(dec)
+        Array.Reverse(bytes)
+        Dim ip As String
+        For Each ipval In bytes
+            If ipval <> 0 Then
+                ip += ipval & "."
+            End If
+        Next
+        ip = ip.Substring(0, ip.Length - 1)
+        str_ip = ip
+        'str_ip = "192.168.1.35"
     End Sub
 
     Public Sub Connect()
