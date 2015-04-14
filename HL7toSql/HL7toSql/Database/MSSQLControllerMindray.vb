@@ -77,7 +77,7 @@ Public Class MSSQLControllerMindray
                                                     ",Pace_Switch = '" & paceSwitch & "'" &
                                                     " WHERE IdPaciente like '" & idPaciente & "'"
             bd.execQuery(Sql)
-            Logger.Instance.log("SQL.log", "execQuery", Sql)
+            Logger.Instance.log("SQL.log", "execQuery", sql)
         End If
 
     End Sub

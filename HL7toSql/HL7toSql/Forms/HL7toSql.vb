@@ -6,6 +6,7 @@ Imports System.Threading
 Imports System.Text
 Imports System.ComponentModel
 Imports System.Net.Sockets
+Imports System.Net
 
 
 
@@ -78,46 +79,20 @@ Public Class HL7toDB
     End Sub
 
     Private Sub Button2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Select_file.Click
-        Dim t = New Thread(AddressOf getData)
+        'Dim t = New Thread(AddressOf getData)
 
-        t.SetApartmentState(ApartmentState.STA)
-        t.IsBackground = True
-        t.Start()
+        't.SetApartmentState(ApartmentState.STA)
+        't.IsBackground = True
+        't.Start()
+        Dim mp As New MindrayProtocol
+        mp.Connect()
+        AddHandler mp.OnReceiveMSG, AddressOf getData
     End Sub
 
-    Private Sub getData()
-        Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
-        Try
-            Dim client = New TcpClient("", 4601)
-            Logger.Instance.log("connections.log", "TcpClient", client.ToString)
-            Dim dataStream = New StreamReader(client.GetStream)
-            Logger.Instance.log("connections.log", "StreamReader", "open")
-            Dim msg As Message = Nothing
-            Dim str_msg As String = ""
-            While True
-                Dim v = dataStream.Read
-                Dim c = Chr(CInt(v))
-                If (c = Chr(11)) Then
-                    msg = New Message
-                ElseIf (c = Chr(28)) Then
-                    If (msg.Valide()) Then
-                        controler.addMSGtoDB(msg)
-                    End If
-                    Logger.Instance.log("connections.log", "MSG", "get one new message")
-                    Logger.Instance.log("msgUpload.log", msg.getSegmentField("MSH", 8), msg.toString)
-                    showBDcontent(DataGridView1)
-                ElseIf (c = Chr(10)) Then
-                    str_msg += "" + c
-                    msg.parseData(str_msg)
-                    str_msg = ""
-                End If
-                str_msg += "" + c
-                dataReceived(TextBox2, c)
-
-            End While
-        Catch ex As Exception
-            Logger.Instance.log("err.log", "TCP/IP getData", ex.Message)
-        End Try
+    Private Sub getData(msg As Message)
+        MSSQLControllerMindray.Instance.addMSGtoDB(msg)
+        dataReceived(TextBox2, msg.toString)
+        showBDcontent(DataGridView1)
     End Sub
 
     Public Sub dataReceived(ByVal TB As TextBox, ByVal txt As String)
@@ -125,6 +100,7 @@ Public Class HL7toDB
             TB.Invoke(New dataReceivedDelegate(AddressOf dataReceived), New Object() {TB, txt})
         Else
             TB.AppendText(txt)
+            TB.AppendText(vbNewLine)
         End If
     End Sub
 
