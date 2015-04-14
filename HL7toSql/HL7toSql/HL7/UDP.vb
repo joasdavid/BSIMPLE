@@ -20,6 +20,7 @@ Public Class UDP
     End Sub
 
     Private Sub getData()
+        Thread.Sleep(300)
         Dim strData As String = ""
         Try
             While Not (workDone)
@@ -42,6 +43,7 @@ Public Class UDP
     Public Function start()
         Try
             Dim t = New Thread(AddressOf getData)
+            t.Name = "Thread getData UDP"
             t.Start()
             Return t.IsAlive
         Catch ex As Exception

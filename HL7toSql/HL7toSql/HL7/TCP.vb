@@ -19,7 +19,6 @@ Public Class TCP
         Try
             itcp = New TcpClient(ip, read_port)
             etcp = New TcpClient(ip, write_port)
-            etcp = New TcpClient("", write_port)
             read = New StreamReader(itcp.GetStream)
             write = New StreamWriter(etcp.GetStream)
         Catch ex As Exception
@@ -40,8 +39,10 @@ Public Class TCP
         If (itcp.Connected And etcp.Connected) Then
             Try
                 thrd_read = New Thread(AddressOf readStrem)
+                thrd_read.Name = "Thread readStream TCP"
                 thrd_read.Start()
                 thrd_ping = New Thread(AddressOf sendPing)
+                thrd_ping.Name = "Thread sendPing TCP"
                 thrd_ping.Start()
             Catch ex As Exception
                 Logger.Instance.log("err.log", "TCP/start", ex.Message)
@@ -72,8 +73,9 @@ Public Class TCP
     End Sub
 
     Private Sub sendPing()
-        While ping_time > 0
+        While ping_time >= 0
             send(ping_msg)
+            Logger.Instance.log("ping.log", "", ping_msg)
             Thread.Sleep(ping_time)
         End While
     End Sub
