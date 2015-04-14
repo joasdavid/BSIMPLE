@@ -81,7 +81,10 @@ Public Class MindrayProtocol
         tcp = New TCP(str_ip, _portr, _portw)
         AddHandler tcp.OnReceiveDataTCP, AddressOf stratReadingStream
         tcp.setPing(packingLLP("MSH|^~\&|||||||ORU^R01|106|P|2.3.1|"), 7000)
-        tcp.send("")
+        tcp.send(packingLLP("MSH|^~\&|||||||QRY^R02|1203|P|2.3.1" & cr & _
+                            "QRD|20060731145557|R|I|Q895211|||||RES" & cr & _
+                            "QRF|MON||||0&0^1^1^1^" & cr & _
+                            "QRF|MON||||0&0^3^1^1^" & cr))
         tcp.start()
 
 
