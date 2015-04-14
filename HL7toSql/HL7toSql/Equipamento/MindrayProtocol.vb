@@ -65,23 +65,24 @@ Public Class MindrayProtocol
         sw.Start()
         udp = New UDP(4600)
         AddHandler udp.OnReceiveDataUDP, AddressOf receiveBedIP
-        'While str_ip = ""
-        str_ip = getBedIP()
-        '    If (str_ip = "") Then
-        '        If (sw.ElapsedMilliseconds > timeOut) Then
-        '            Throw New Exception
-        '        End If
-        '    Else
-        '        Exit While
-        '    End If
-        'End While
-        udp.close()
+        udp.start()
+        While str_ip = ""
+            str_ip = getBedIP()
+            If (str_ip = "") Then
+                If (sw.ElapsedMilliseconds > timeOut) Then
+                    Throw New Exception
+                End If
+            Else
+                Exit While
+            End If
+        End While
+            udp.close()
 
-        tcp = New TCP(str_ip, _portr, _portw)
-        AddHandler tcp.OnReceiveDataTCP, AddressOf stratReadingStream
-        tcp.setPing("", 1000)
-        tcp.send("")
-        tcp.start()
+            tcp = New TCP(str_ip, _portr, _portw)
+            AddHandler tcp.OnReceiveDataTCP, AddressOf stratReadingStream
+            tcp.setPing("", 1000)
+            tcp.send("")
+            tcp.start()
 
 
     End Sub
