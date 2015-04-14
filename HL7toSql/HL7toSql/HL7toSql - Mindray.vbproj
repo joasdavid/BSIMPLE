@@ -5,12 +5,12 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DCD2C3F9-B781-4FAC-8481-8C51A08D73AA}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <StartupObject>HL7toSql.My.MyApplication</StartupObject>
+    <OutputType>Exe</OutputType>
+    <StartupObject>HL7toSql.Test3</StartupObject>
     <RootNamespace>HL7toSql</RootNamespace>
     <AssemblyName>HL7toSql</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>WindowsForms</MyType>
+    <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -75,6 +75,7 @@
     <Compile Include="Database\MSSQLConnection.vb" />
     <Compile Include="Database\MSSQLControllerMindray.vb" />
     <Compile Include="Equipamento\Message.vb" />
+    <Compile Include="Equipamento\MessageADT.vb" />
     <Compile Include="Equipamento\MessageHL7.vb" />
     <Compile Include="Equipamento\MessageQRYR02.vb" />
     <Compile Include="Equipamento\MindrayProtocol.vb" />
@@ -88,6 +89,8 @@
     <Compile Include="HL7\Logger.vb" />
     <Compile Include="HL7\TCP.vb" />
     <Compile Include="HL7\Test.vb" />
+    <Compile Include="HL7\TEst2.vb" />
+    <Compile Include="HL7\Test3.vb" />
     <Compile Include="HL7\UDP.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
