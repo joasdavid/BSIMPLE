@@ -23,7 +23,7 @@
         If (data = "") Then
             Return ""
         End If
-        strdata += data
+        'strdata += data
 
         Dim j, i As Integer
         Dim header, buffer As String
@@ -42,6 +42,7 @@
 
                 If (cc = separator) Then
                     header = addToHeader(header, buffer, j)
+                    strdata += buffer & "|"
                     buffer = ""
                     j = j + 1
                 ElseIf (cc = vt) Then  'nao faz nada
@@ -50,6 +51,7 @@
                 ElseIf (cc = nl OrElse cc = cr) Then  'fim de segmento
                     If (buffer <> "") Then
                         header = addToHeader(header, buffer, j)
+                        strdata += buffer & nl
                     End If
                     haveOneMore(header)
                     j = 0
@@ -57,6 +59,7 @@
                 ElseIf (cc = fs) Then  'fim de mensagem
                     If (buffer <> "") Then
                         header = addToHeader(header, buffer, j)
+                        strdata += buffer & nl
                     End If
                     j = 0
                     Exit While
@@ -75,6 +78,7 @@
         'restos
         If (buffer <> "") Then
             header = addToHeader(header, buffer, j)
+            strdata += buffer & nl
         End If
 
         ' debug()

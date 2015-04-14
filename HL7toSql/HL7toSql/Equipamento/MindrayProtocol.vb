@@ -47,7 +47,7 @@ Public Class MindrayProtocol
         Dim aux As String = mensagem.getSegmentField("PV1", 2)
         Dim array_ip As String() = aux.Split(New Char() {"&"c})
 
-        Dim dec As Int64 = array_ip(1)
+        Dim dec As Int64 = array_ip(2)
         Dim bytes As Byte() = BitConverter.GetBytes(dec)
         Array.Reverse(bytes)
         Dim ip As String
@@ -70,9 +70,9 @@ Public Class MindrayProtocol
         While str_ip = ""
             str_ip = getBedIP()
             If (str_ip = "") Then
-                If (sw.ElapsedMilliseconds > timeOut) Then
-                    Throw New Exception
-                End If
+                'If (sw.ElapsedMilliseconds > timeOut) Then
+                '    Throw New Exception
+                'End If
             Else
                 Exit While
             End If
@@ -81,7 +81,10 @@ Public Class MindrayProtocol
         tcp = New TCP(str_ip, _portr, _portw)
         AddHandler tcp.OnReceiveDataTCP, AddressOf stratReadingStream
         tcp.setPing(packingLLP("MSH|^~\&|||||||ORU^R01|106|P|2.3.1|"), 7000)
-        tcp.send("")
+        tcp.send(packingLLP("MSH|^~\&|||||||QRY^R02|1203|P|2.3.1" & cr & _
+                            "QRD|20060731145557|R|I|Q895211|||||RES" & cr & _
+                            "QRF|MON||||0&0^1^1^1^" & cr & _
+                            "QRF|MON||||0&0^3^1^1^" & cr))
         tcp.start()
 
 
@@ -89,18 +92,14 @@ Public Class MindrayProtocol
 
     Public Sub stratReadingStream(data As Char)
         Try
-            buffer += "" + data
-            If (data = vt) Then
-                msg = New Message
-            ElseIf (data = fs) Then
+            If (data = vt) Then 'head
+                msg = New Message()
+                buffer = data
+            ElseIf (data = fs) Then 'trailer
+                msg.parseData(buffer & data)
                 RaiseEvent OnReceiveMSG(msg)
-                Logger.Instance.log("connections.log", "MSG", "get one new message")
-                Logger.Instance.log("msgUpload.log", msg.getSegmentField("MSH", 8), msg.toString)
-
-            ElseIf (data = cr Or data = nl) Then
-                msg.parseData(buffer)
-                buffer = ""
             End If
+            buffer += data
         Catch ex As Exception
             Logger.Instance.log("err.log", "TCP/IP getData", ex.Message)
         End Try
