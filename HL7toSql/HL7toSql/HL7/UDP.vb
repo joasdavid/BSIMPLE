@@ -36,8 +36,10 @@ Public Class UDP
     End Sub
 
     Public Sub close()
-        workDone = True
-        cudp.Close()
+        If (workDone = False) Then
+            workDone = True
+            cudp.Close()
+        End If
     End Sub
 
     Public Function start()
@@ -45,6 +47,7 @@ Public Class UDP
             Dim t = New Thread(AddressOf getData)
             t.Name = "Thread getData UDP"
             t.Start()
+            Logger.Instance.log("state.log", "UDP/start", _port)
             Return t.IsAlive
         Catch ex As Exception
             Logger.Instance.log("err.log", "UDP/start", ex.Message)

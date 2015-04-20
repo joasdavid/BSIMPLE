@@ -21,6 +21,7 @@ Public Class HL7toDB
     Private ReadOnly lock As New Object
     Public Delegate Sub dataReceivedDelegate(ByVal TB As TextBox, ByVal txt As String)
     Public Delegate Sub dbUpdateDelegate(ByVal DG As DataGridView)
+    Dim mp As New MindrayProtocol
 
 
     Private Sub showBDcontent(ByVal DG As DataGridView)
@@ -45,7 +46,6 @@ Public Class HL7toDB
         showBDcontent()
     End Sub
 
-
     Private Sub UploadToDB(ByVal sender As System.Object, _
                      ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
         Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
@@ -59,9 +59,6 @@ Public Class HL7toDB
             worker.ReportProgress(count)
         Next
     End Sub
-
-
-
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Export2Sql.Click
         Load2DB.Value = 0
@@ -84,7 +81,7 @@ Public Class HL7toDB
         't.SetApartmentState(ApartmentState.STA)
         't.IsBackground = True
         't.Start()
-        Dim mp As New MindrayProtocol
+
         mp.Connect()
         AddHandler mp.OnReceiveMSG, AddressOf getData
     End Sub
@@ -117,4 +114,7 @@ Public Class HL7toDB
     End Sub
 
 
+    Private Sub HL7toDB_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        mp.Disconnect()
+    End Sub
 End Class
