@@ -20,13 +20,13 @@ Public Class UDP
     End Sub
 
     Private Sub getData()
-        Thread.Sleep(300)
         Dim strData As String = ""
         Try
             While Not (workDone)
                 Dim bt As Byte()
                 bt = cudp.Receive(receivePoint)
                 strData = Encoding.Unicode.GetString(bt)
+                Logger.Instance.log("DB.log", "UDP/getData", strData)
                 RaiseEvent OnReceiveDataUDP(strData)
             End While
         Catch ex As Exception

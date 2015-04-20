@@ -4,9 +4,9 @@ Imports System.Threading
 
 Public Class TCP
 
-    Public Event OnReceiveDataTCP(ByVal dataReceived As Char)
-    Public Event OnConnectTCP(ByVal ip As String)
-    Public Event OnDisconnectTCP(ByVal ip As TCP)
+    Public Event OnReceiveDataTCP(ByVal dataReceived As String)
+    Public Event OnConnectTCP()
+    Public Event OnDisconnectTCP()
 
     Private itcp As TcpClient
     Private etcp As TcpClient
@@ -17,10 +17,11 @@ Public Class TCP
     Private thrd_ping As Thread
     Private thrd_read As Thread
     Private isRunning As Boolean = False
-    Public ReadOnly connectionIP As String
+    Public connectionIP As String
 
     Public Sub New(ip As String, read_port As Integer, write_port As Integer)
         Try
+            'Thread.Sleep(1)
             itcp = New TcpClient(ip, read_port)
             etcp = New TcpClient(ip, write_port)
             read = New StreamReader(itcp.GetStream)
@@ -29,6 +30,10 @@ Public Class TCP
         Catch ex As Exception
             Logger.Instance.log("err.log", "TCP/New", ex.Message)
         End Try
+    End Sub
+
+    Public Sub New()
+
     End Sub
 
     Public Sub send(str As String)
@@ -43,15 +48,15 @@ Public Class TCP
     Public Function start()
         If (itcp.Connected And etcp.Connected) Then
             Try
+                isRunning = True
                 thrd_read = New Thread(AddressOf readStream)
-                thrd_read.Name = "Thread readStream TCP"
+                thrd_read.Name = "ReadStream_" & connectionIP
                 thrd_read.Start()
                 thrd_ping = New Thread(AddressOf sendPing)
-                thrd_ping.Name = "Thread sendPing TCP"
+                thrd_ping.Name = "sendPing_" & connectionIP
                 thrd_ping.Start()
-                isRunning = True
                 Logger.Instance.log("state.log", "TCP/start", connectionIP)
-                RaiseEvent OnConnectTCP(connectionIP)
+                RaiseEvent OnConnectTCP()
             Catch ex As Exception
                 Logger.Instance.log("err.log", "TCP/start", ex.Message)
                 Return False
@@ -62,12 +67,21 @@ Public Class TCP
     End Function
 
     Private Sub readStream()
-        While True
+        Thread.Sleep(1)
+        Dim buffer As String = ""
+        While isRunning
             Try
                 Dim data = read.Read
-                RaiseEvent OnReceiveDataTCP(Chr(data))
+                buffer += Chr(data)
+                If (data = 28) Then
+                    RaiseEvent OnReceiveDataTCP(buffer)
+                    buffer = ""
+                End If
+                Console.WriteLine("")
+                'RaiseEvent OnReceiveDataTCP(Chr(data))
             Catch ex As IOException
-                Logger.Instance.log("err.log", "TCP/readStream", ex.Message)
+                Logger.Instance.log("err.log", "TCP/readStream", ex.ToString)
+                RaiseEvent OnDisconnectTCP()
                 Disconnect()
             End Try
         End While
@@ -78,12 +92,12 @@ Public Class TCP
             thrd_ping.Abort()
             read.Close()
             write.Close()
+            isRunning = False
             etcp.Close()
             itcp.Close()
-            isRunning = False
             Logger.Instance.log("state.log", "TCP/Disconnect", connectionIP)
-            RaiseEvent OnDisconnectTCP(Me)
             thrd_read.Abort()
+            
         End If
     End Sub
 
@@ -99,6 +113,10 @@ Public Class TCP
             Logger.Instance.log("ping.log", "", ping_msg)
         End While
     End Sub
+
+    Public Function isAnyConnectionOpen() As Boolean
+        Return itcp.Connected Or etcp.Connected Or isRunning
+    End Function
 
     Public Overloads Overrides Function Equals(obj As Object) As Boolean
         If obj Is Nothing OrElse Not Me.GetType() Is obj.GetType() Then

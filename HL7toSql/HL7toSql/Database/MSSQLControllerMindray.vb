@@ -1,15 +1,18 @@
 ﻿Imports System.Configuration
 
 Public Class MSSQLControllerMindray
-    Private Shared ReadOnly _instance As New Lazy(Of MSSQLControllerMindray)(Function() New MSSQLControllerMindray(), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication)
+    'Private Shared ReadOnly _instance As New Lazy(Of MSSQLControllerMindray)(Function() New MSSQLControllerMindray(), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication)
 
     Dim strConn As String
     Dim idPaciente As String
 
+    Private firstOfToday As List(Of Integer)
+
 #Region "Construtor"
-    Private Sub New()
+    Public Sub New()
         strConn = ConfigurationManager.AppSettings("StrgConn").ToString
         Dim bd = New MSSQLConnection(strConn)
+        firstOfToday = New List(Of Integer)
     End Sub
 #End Region
 #Region "Gravar para Base de Dados"
@@ -132,12 +135,15 @@ Public Class MSSQLControllerMindray
         Dim _valor = CDbl(valor.Replace(".", ",")).ToString()
         'ultimo valor para uma monitorização
         Dim valor_idvalor = needUpdateValor(id)
-        If (_valor = valor_idvalor(0)) Then 'se o valor é identico entao só faz update à data
+        If (_valor = valor_idvalor(0) And firstOfToday.Contains(id)) Then 'se o valor é identico entao só faz update à data
             bd.execQuery("UPDATE Monitorizacao SET DataFinal = " & di & " WHERE Id = " & valor_idvalor(1))
             Logger.Instance.log("SQL.log", "execQuery", "UPDATE Monitorizacao SET DataFinal = " & di & " WHERE Id = " & valor_idvalor(1))
         Else 'caso exista alteração ao valor
             bd.execQuery("insert into Monitorizacao(IdPaciente, IdSV, Valor, DataInicio, DataFinal) " & _
                                       "VALUES('" & idPaciente & "', " & id & ", " & valor & "," & di & "," & df & ")")
+            If (Not (firstOfToday.Contains(id))) Then
+                firstOfToday.Add(id)
+            End If
             Logger.Instance.log("SQL.log", "execQuery", "insert into Monitorizacao(IdPaciente, IdSV, Valor, DataInicio, DataFinal) " & _
                                       "VALUES('" & idPaciente & "', " & id & ", " & valor & "," & di & "," & df & ")")
         End If
@@ -170,6 +176,8 @@ Public Class MSSQLControllerMindray
         Return toReturn
     End Function
 
+
+
 #End Region
 #Region "Public"
     Public Sub addMSGtoDB(msg As Message)
@@ -201,10 +209,12 @@ Public Class MSSQLControllerMindray
         idPaciente = stg
     End Sub
 
-    Public Shared ReadOnly Property Instance() As MSSQLControllerMindray
-        Get
-            Return _instance.Value
-        End Get
-    End Property
+
+
+    'Public Shared ReadOnly Property Instance() As MSSQLControllerMindray
+    '    Get
+    '        Return _instance.Value
+    '    End Get
+    'End Property
 #End Region
 End Class

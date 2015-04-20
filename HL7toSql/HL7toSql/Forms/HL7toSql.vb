@@ -28,13 +28,13 @@ Public Class HL7toDB
         If DG.InvokeRequired Then
             DG.Invoke(New dbUpdateDelegate(AddressOf showBDcontent), New Object() {DG})
         Else
-            DG.DataSource = MSSQLControllerMindray.Instance.getTable("Monitorizacao").Tables(0)
+            DG.DataSource = New MSSQLControllerMindray().getTable("Monitorizacao").Tables(0)
             Me.DataGridView1.Columns(3).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
             Me.DataGridView1.Columns(4).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
         End If
     End Sub
     Private Sub showBDcontent()
-        Me.DataGridView1.DataSource = MSSQLControllerMindray.Instance.getTable("Monitorizacao").Tables(0)
+        Me.DataGridView1.DataSource = New MSSQLControllerMindray().getTable("Monitorizacao").Tables(0)
         Me.DataGridView1.Columns(3).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
         Me.DataGridView1.Columns(4).DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss:fff"
 
@@ -48,7 +48,7 @@ Public Class HL7toDB
 
     Private Sub UploadToDB(ByVal sender As System.Object, _
                      ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
-        Dim controler As MSSQLControllerMindray = MSSQLControllerMindray.Instance
+        Dim controler As New MSSQLControllerMindray()
 
         Dim count As Integer = 0
         For Each envia In listMsg
@@ -87,7 +87,6 @@ Public Class HL7toDB
     End Sub
 
     Private Sub getData(msg As Message)
-        MSSQLControllerMindray.Instance.addMSGtoDB(msg)
         dataReceived(TextBox2, msg.toString)
         dataReceived(TextBox2, "")
         showBDcontent(DataGridView1)
