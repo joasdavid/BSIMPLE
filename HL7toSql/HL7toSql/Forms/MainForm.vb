@@ -90,11 +90,12 @@ Public Class MainForm
         'Chart1.Series.Dispose()
         Chart1.Series(1).ToolTip = cbGraph.SelectedItem.ToString & " = #VALY" & vbCrLf & "#AXISLABEL"
         For Each value As DataRow In table.Tables(0).Rows
-            Dim i = Chart1.Series(0).Points.AddXY(value.Item(1).ToString, value.Item(0))
-            i = Chart1.Series(0).Points.AddXY(value.Item(2).ToString, value.Item(0))
+            Chart1.Series(0).Points.AddXY(value.Item(1).ToString, value.Item(0))
             Chart1.Series(1).Points.AddXY(value.Item(1).ToString, value.Item(0))
-            Chart1.Series(1).Points.AddXY(value.Item(2).ToString, value.Item(0))
-
+            If value.Item(1).ToString() <> value.Item(2).ToString() Then
+                Chart1.Series(1).Points.AddXY(value.Item(2).ToString, value.Item(0))
+                Chart1.Series(0).Points.AddXY(value.Item(2).ToString, value.Item(0))
+            End If
         Next
         Chart1.DataBind()
         Chart1.Update()
