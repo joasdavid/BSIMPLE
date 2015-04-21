@@ -42,10 +42,11 @@
     Public Sub close()
         If (tcp IsNot Nothing) Then
             If (tcp.isAnyConnectionOpen) Then
+                RaiseEvent OnClose(monitorIP)
                 tcp.Disconnect()
             End If
         End If
-        RaiseEvent OnClose(monitorIP)
+
     End Sub
 
     Public Sub setPingTimeOut(ms As Integer)
