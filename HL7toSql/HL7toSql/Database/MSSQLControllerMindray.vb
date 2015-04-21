@@ -93,7 +93,7 @@ Public Class MSSQLControllerMindray
             'get data
             Dim _idAndDesc = msg.getSegmentField("OBX", i, 2).Split("^") '<id>^<descrição>
             Dim idOBX = _idAndDesc(0) '<id>
-             Dim valor = msg.getSegmentField("OBX", i, 4)
+            Dim valor = msg.getSegmentField("OBX", i, 4)
 
             Dim di = "CONVERT(DATETIME, '" & msg.getTime().Replace("Z", "") & "')"
             Dim df = di
@@ -200,6 +200,45 @@ Public Class MSSQLControllerMindray
         Dim bd = New MSSQLConnection(strConn)
         Dim tb = bd.sendQuery("select * from " & name)
         Logger.Instance.log("SQL.log", "sendQuery", "select * from " & name)
+        Dim r = tb.Rows.Count
+        dt.Tables.Add(tb)
+        Return dt
+    End Function
+
+    Public Function getTableGraph(id As String) As DataSet
+        Dim dt As New DataSet
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb = bd.sendQuery("select  Valor,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdSV = " & id)
+        Logger.Instance.log("SQL.log", "sendQuery", "select  Valor,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdSV = " & id)
+        Dim r = tb.Rows.Count
+        dt.Tables.Add(tb)
+        Return dt
+    End Function
+
+    Public Function getTableDGShearch(name As String, id As String) As DataSet
+        Dim dt As New DataSet
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb = bd.sendQuery("select   Valor, DataInicio, DataFinal from " & name & " as h where h.IdSV =" & id)
+        Logger.Instance.log("SQL.log", "sendQuery", "select   Valor, DataInicio, DataFinal from " & name & " as h where h.IdSV =" & id)
+        Dim r = tb.Rows.Count
+        dt.Tables.Add(tb)
+        Return dt
+    End Function
+    Public Function getTableSV(name As String) As DataSet
+        Dim dt As New DataSet
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb = bd.sendQuery("select  * from " & name)
+        Logger.Instance.log("SQL.log", "sendQuery", "select  * from " & name)
+        Dim r = tb.Rows.Count
+        dt.Tables.Add(tb)
+        Return dt
+    End Function
+
+    Public Function getSVidFromName(name As String) As DataSet
+        Dim dt As New DataSet
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb = bd.sendQuery("select  IdSV from SinaisVitais where Descricao like '" & name & "'")
+        Logger.Instance.log("SQL.log", "sendQuery", "select  IdSV from SinaisVitais where Descricao like '" & name & "'")
         Dim r = tb.Rows.Count
         dt.Tables.Add(tb)
         Return dt
