@@ -215,15 +215,6 @@ Public Class MSSQLControllerMindray
         Return dt
     End Function
 
-    Public Function getTableDGShearch(name As String, id As String) As DataSet
-        Dim dt As New DataSet
-        Dim bd = New MSSQLConnection(strConn)
-        Dim tb = bd.sendQuery("select   Valor, DataInicio, DataFinal from " & name & " as h where h.IdSV =" & id)
-        Logger.Instance.log("SQL.log", "sendQuery", "select   Valor, DataInicio, DataFinal from " & name & " as h where h.IdSV =" & id)
-        Dim r = tb.Rows.Count
-        dt.Tables.Add(tb)
-        Return dt
-    End Function
     Public Function getTableSV(name As String) As DataSet
         Dim dt As New DataSet
         Dim bd = New MSSQLConnection(strConn)
