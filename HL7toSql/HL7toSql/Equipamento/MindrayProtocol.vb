@@ -57,18 +57,18 @@ Public Class MindrayProtocol
         'str_ip = "192.168.1.35"
     End Sub
 
-    Private Sub addNewMonitor(ip As String)
-        monitor = Nothing
-        'sph.WaitOne()
-        monitor = New MonitorController(ip, _portr, _portw)
-        SyncLock lock
-            If (Not (monitorList.Contains(monitor))) Then
-                AddHandler monitor.OnGotNewMSG, AddressOf gotNewMSG
-                AddHandler monitor.OnClose, AddressOf monitorDisconnect
-                monitor.start()
-                monitorList.Add(monitor)
-            End If
-        End SyncLock
+    Public Sub addNewMonitor(ip As String)
+                     monitor = Nothing
+                     'sph.WaitOne()
+                     monitor = New MonitorController(ip, _portr, _portw)
+                     SyncLock lock
+                         If (Not (monitorList.Contains(monitor))) Then
+                             AddHandler monitor.OnGotNewMSG, AddressOf gotNewMSG
+                             AddHandler monitor.OnClose, AddressOf monitorDisconnect
+                             monitor.start()
+                             monitorList.Add(monitor)
+                         End If
+                     End SyncLock
     End Sub
 
     Private Sub gotNewMSG(msg As Message)
@@ -84,7 +84,9 @@ Public Class MindrayProtocol
                 udp.start()
                 isUDP_ON = True
             Case "P2P"
-                addNewMonitor("192.168.1.31")
+                If (str_ip <> "") Then
+                    addNewMonitor(str_ip)
+                End If
         End Select
 
     End Sub
