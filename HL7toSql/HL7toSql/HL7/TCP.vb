@@ -71,33 +71,34 @@ Public Class TCP
         Dim buffer As String = ""
         While isRunning
             Try
-                Dim data = read.Read
-                buffer += Chr(data)
-                If (data = 28) Then
-                    RaiseEvent OnReceiveDataTCP(buffer)
-                    buffer = ""
-                End If
-                Console.WriteLine("")
-                'RaiseEvent OnReceiveDataTCP(Chr(data))
+                    Dim data = read.Read
+                    buffer += Chr(data)
+                    If (data = 28) Then
+                        RaiseEvent OnReceiveDataTCP(buffer)
+                        buffer = ""
+                    End If
+                    Console.WriteLine("")
+                    'RaiseEvent OnReceiveDataTCP(Chr(data))
             Catch ex As IOException
-                Logger.Instance.log("err.log", "TCP/readStream", ex.ToString)
                 RaiseEvent OnDisconnectTCP()
-                Disconnect()
+            Catch ex As Exception
+                Logger.Instance.log("err.log", "TCP/readStream", ex.Message)
             End Try
         End While
     End Sub
 
     Public Sub Disconnect()
         If (isRunning) Then
+            isRunning = False
             thrd_ping.Abort()
+            read.Dispose()
             read.Close()
             write.Close()
-            isRunning = False
             etcp.Close()
             itcp.Close()
             Logger.Instance.log("state.log", "TCP/Disconnect", connectionIP)
             thrd_read.Abort()
-            
+
         End If
     End Sub
 

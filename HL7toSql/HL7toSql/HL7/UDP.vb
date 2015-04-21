@@ -26,7 +26,6 @@ Public Class UDP
                 Dim bt As Byte()
                 bt = cudp.Receive(receivePoint)
                 strData = Encoding.Unicode.GetString(bt)
-                Logger.Instance.log("DB.log", "UDP/getData", strData)
                 RaiseEvent OnReceiveDataUDP(strData)
             End While
         Catch ex As Exception
