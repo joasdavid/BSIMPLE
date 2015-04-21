@@ -17,6 +17,7 @@ Public Class MindrayProtocol
     Private monitorList As List(Of MonitorController)
     Private msg As Message = Nothing
     Private ReadOnly lock As New Object
+    Private state As String = "UDP"
     
 
 
@@ -52,6 +53,11 @@ Public Class MindrayProtocol
             End If
         Next
         ip = ip.Substring(0, ip.Length - 1)
+        addNewMonitor(ip)
+        'str_ip = "192.168.1.35"
+    End Sub
+
+    Private Sub addNewMonitor(ip As String)
         monitor = Nothing
         'sph.WaitOne()
         monitor = New MonitorController(ip, _portr, _portw)
@@ -63,7 +69,6 @@ Public Class MindrayProtocol
                 monitorList.Add(monitor)
             End If
         End SyncLock
-        'str_ip = "192.168.1.35"
     End Sub
 
     Private Sub gotNewMSG(msg As Message)
@@ -71,35 +76,21 @@ Public Class MindrayProtocol
     End Sub
 
     Public Sub Connect()
-        'Dim sw As New Stopwatch
-        'sw.Start()
-        udp = New UDP(4600)
-        AddHandler udp.OnReceiveDataUDP, AddressOf receiveBedIP
-        udp.start()
-        isUDP_ON = True
-        'udp.close()
-        'While str_ip = ""
-        '    str_ip = getBedIP()
-        '    If (str_ip = "") Then
-        '        'If (sw.ElapsedMilliseconds > timeOut) Then
-        '        '    Throw New Exception
-        '        'End If
-        '    Else
-        '        Exit While
-        '    End If
-        'End While
-        'udp.close()
-        'tcp = New TCP(str_ip, _portr, _portw)
-        'AddHandler tcp.OnReceiveDataTCP, AddressOf stratReadingStream
-        'tcp.setPing(packingLLP("MSH|^~\&|||||||ORU^R01|106|P|2.3.1|"), 7000)
-        'tcp.start()
 
-        'tcp.send(packingLLP("MSH|^~\&|||||||QRY^R02|1203|P|2.3.1" & cr & _
-        '                    "QRD|20060731145557|R|I|Q895211|||||RES" & cr & _
-        '                    "QRF|MON||||0&0^1^1^1^" & cr & _
-        '                    "QRF|MON||||0&0^3^1^1^" & cr))
+        Select Case state
+            Case "UDP"
+                udp = New UDP(4600)
+                AddHandler udp.OnReceiveDataUDP, AddressOf receiveBedIP
+                udp.start()
+                isUDP_ON = True
+            Case "P2P"
+                addNewMonitor("192.168.1.31")
+        End Select
 
+    End Sub
 
+    Public Sub setState(state As String)
+        Me.state = state
     End Sub
 
     Public Sub Disconnect()
@@ -124,6 +115,7 @@ Public Class MindrayProtocol
     End Sub
 
     Private Sub monitorDisconnect(ip As String)
+        Thread.Sleep(1)
         Dim monitorOFF As New MonitorController(ip, 0, 0)
         SyncLock lock
             If (monitorList.Contains(monitorOFF)) Then
