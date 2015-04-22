@@ -1,0 +1,17 @@
+C:\Users\joasd_000\Documents\Visual Studio 2013\Menu\Drive\HL7_UI\bin\Debug\HL7_UI.exe.config
+C:\Users\joasd_000\Documents\Visual Studio 2013\Menu\Drive\HL7_UI\obj\Debug\HL7_UI.Resources.resources
+C:\Users\joasd_000\Documents\Visual Studio 2013\Menu\Drive\HL7_UI\obj\Debug\HL7_UI.vbproj.GenerateResource.Cache
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\bin\Debug\HL7_UI.exe.config
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\bin\Debug\HL7_UI.exe
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\bin\Debug\HL7_UI.pdb
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\bin\Debug\HL7_UI.xml
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\bin\Debug\Drive.dll
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\bin\Debug\Drive.pdb
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\bin\Debug\Drive.xml
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\obj\Debug\HL7_UI.vbprojResolveAssemblyReference.cache
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\obj\Debug\HL7_UI.MainForm.resources
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\obj\Debug\HL7_UI.Resources.resources
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\obj\Debug\HL7_UI.vbproj.GenerateResource.Cache
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\obj\Debug\HL7_UI.exe
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\obj\Debug\HL7_UI.xml
+C:\Users\joasd_000\Documents\Visual Studio 2013\Projects\Drive\HL7_UI\obj\Debug\HL7_UI.pdb

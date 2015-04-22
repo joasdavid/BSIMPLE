@@ -1,0 +1,13 @@
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql.HL7toDB.resources
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql.Resources.resources
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql - Mindray.vbproj.GenerateResource.Cache
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe.config
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql.xml
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\bin\Debug\HL7toSql.pdb
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\bin\Debug\HL7toSql.xml
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql.exe
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql.pdb
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql - Mindray.vbprojResolveAssemblyReference.cache
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql.Grafico.resources
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql\obj\Debug\HL7toSql.MainForm.resources

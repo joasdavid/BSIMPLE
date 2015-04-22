@@ -1,0 +1,13 @@
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\obj\Debug\HL7toSql___MindrayTests.Resources.resources
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\obj\Debug\HL7toSql - MindrayTests.vbproj.GenerateResource.Cache
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\obj\Debug\HL7toSql - MindrayTests.vbprojResolveAssemblyReference.cache
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\bin\Debug\HL7toSql - MindrayTests.dll.config
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\bin\Debug\HL7toSql - MindrayTests.dll
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\bin\Debug\HL7toSql - MindrayTests.pdb
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\bin\Debug\HL7toSql - MindrayTests.xml
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\bin\Debug\HL7toSql.exe
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\bin\Debug\HL7toSql.pdb
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\bin\Debug\HL7toSql.xml
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\obj\Debug\HL7toSql - MindrayTests.dll
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\obj\Debug\HL7toSql - MindrayTests.xml
+D:\workspace\B-simple\REP2\HL7toSql\HL7toSql - MindrayTests\obj\Debug\HL7toSql - MindrayTests.pdb
