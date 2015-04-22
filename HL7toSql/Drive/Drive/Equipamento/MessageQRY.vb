@@ -1,4 +1,4 @@
-﻿Public Class MessageQRYR02
+﻿Public Class MessageQRY
     Inherits MessageHL7
 
     Private MSH(19) As String
@@ -8,6 +8,29 @@
     Private haveMSH As Integer = 0
     Private haveQRD As Integer = 0
     Private haveQRF As Integer = 0
+
+    Private internalID
+    Private Shared sharedID = 0
+
+    Sub New(data As String)
+        Me.New()
+        parseData(data)
+    End Sub
+    Sub New()
+        sharedID += 1
+        internalID = sharedID
+    End Sub
+    Public Shared Function CreadNewQRY() As MessageQRY
+        Dim qry As New MessageQRY
+        qry.parseData("MSH|^~\&|||||||QRY^R02|1203|P|2.3.1" & Chr(13))
+        Dim time = DateTime.Now.ToString("yyyyMMddHHmmss")
+        Dim seqID = "Q" & sharedID
+        qry.parseData("QRD|" & time & "|R|I| " & seqID & "|||||RES" & Chr(13))
+        qry.parseData("QRF|MON||||0&0^1^1^1^" & Chr(13))
+        qry.parseData("QRF|MON||||0&0^3^1^1^" & Chr(13))
+
+        Return qry
+    End Function
 
     Protected Overrides Function addToHeader(header As String, buffer As String, pos As Integer) As String
         If (pos = 0) Then
@@ -37,7 +60,6 @@
 
         Return header
     End Function
-
     Public Overrides Function getSegmentCont(seg As String) As Integer
         If (seg = "MSH") Then
             Return haveMSH
@@ -48,7 +70,6 @@
         End If
         Return 0
     End Function
-
     Public Overloads Overrides Function getSegmentField(seg As String, pos As Integer) As String
         If (seg = "MSH") Then
             Return MSH(pos)
@@ -57,14 +78,12 @@
         End If
         Return ""
     End Function
-
     Public Overloads Overrides Function getSegmentField(seg As String, segN As Integer, pos As Integer) As String
         If (seg = "QRF") Then
             Return QRF(segN, pos)
         End If
         Return ""
     End Function
-
     Protected Overrides Sub haveOneMore(seg As String)
         If (seg = "MSH") Then
             haveMSH += 1
@@ -74,7 +93,6 @@
             haveQRF += 1
         End If
     End Sub
-
     Public Overrides Function Valide() As Boolean
         Return True
         'Return ValideMSH() And _
