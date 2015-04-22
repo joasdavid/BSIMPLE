@@ -1,0 +1,33 @@
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe.config
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.xml
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.pdb
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.xml
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.HL7toDB.resources
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.Resources.resources
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql - Mindray.vbproj.GenerateResource.Cache
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.exe
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.pdb
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\Interop.MSComCtl2.dll
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\AxInterop.MSComCtl2.dll
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\Interop.MSComCtl2.dll
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\AxInterop.MSComCtl2.dll
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql - Mindray.vbproj.ResolveComReference.cache
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.Grafico.resources
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe.config
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\Interop.MSComCtl2.dll
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\AxInterop.MSComCtl2.dll
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql - Mindray.vbproj.ResolveComReference.cache
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.exe
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.xml
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.pdb
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.exe
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.pdb
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\HL7toSql.xml
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\Interop.MSComCtl2.dll
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\bin\Debug\AxInterop.MSComCtl2.dll
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.Grafico.resources
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.HL7toDB.resources
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.Resources.resources
+C:\Users\Tiago\Copy\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql - Mindray.vbproj.GenerateResource.Cache
+C:\Users\Tiago\Copy ventiago@gmail.com\IPCA\3Ano\Estagio\B-Simple\HL7toSql\HL7toSql\obj\Debug\HL7toSql.MainForm.resources
