@@ -25,9 +25,9 @@ Public Class MainForm
     Private controller As MSSQLControllerMindray
 #Region "HL72DB"
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         controller = New MSSQLControllerMindray
         showBDcontent(DataGridView1)
-        fillCBox()
     End Sub
     Private Sub showBDcontent(ByVal DG As DataGridView)
         If DG.InvokeRequired Then
@@ -64,41 +64,79 @@ Public Class MainForm
 #End Region
 #Region "Grafico"
 
+    Private Sub radioChange() Handles RadioButton1.Click, RadioButton2.Click
+        fillCBox()
+    End Sub
+
     Private Sub fillCBox()
 
         ' table As DataSet = controller.getTableCB("SinaisVitais").Tables(0)
-        For Each fill As DataRow In controller.getTableSV("SinaisVitais").Tables(0).Rows
-            cbGraph.Items.Add(fill("Descricao"))
-        Next
+        cbSelectType.Items.Clear()
+        If (RadioButton1.Checked = True) Then
+            For Each fill As DataRow In controller.getTableSV("SinaisVitais").Tables(0).Rows
+                cbSelectType.Items.Add(fill("Descricao"))
+            Next
+        ElseIf (RadioButton2.Checked = True) Then
+            For Each fill As DataRow In controller.getTableSV("Alarme").Tables(0).Rows
+                cbSelectType.Items.Add(fill("Descricao"))
+            Next
 
+        End If
     End Sub
 
-    Private Sub showBDcontentSearch(id As String)
-        Dim name2sv As DataSet = controller.getSVidFromName(cbGraph.SelectedItem.ToString)
-        Me.DataGridView2.DataSource = controller.getTableGraph(id).Tables(0)
+    Private Sub showBDcontentSearchSV(id As String)
+        Me.DataGridView2.DataSource = controller.getTableGraph(id, DataInicio.Value.Date.ToString("yyyy-MM-dd"), DataFim.Value.Date.ToString("yyyy-MM-dd")).Tables(0) '(id, tb_DataIn.Text.ToString, tb_DataFim.Text.ToString).Tables(0)
+        Me.DataGridView2.Update()
+    End Sub
+
+    Private Sub showBDcontentSearchAlarme(id As String)
+        Me.DataGridView2.DataSource = controller.getTableGraphAlarme(id, DataInicio.Value.Date.ToString("yyyy-MM-dd"), DataFim.Value.Date.ToString("yyyy-MM-dd")).Tables(0) '(id, tb_DataIn.Text.ToString, tb_DataFim.Text.ToString).Tables(0)
         Me.DataGridView2.Update()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         controller.setidPaciente(tbGraph.Text)
-        Dim name2sv As DataSet = controller.getSVidFromName(cbGraph.SelectedItem.ToString)
-        Dim id = name2sv.Tables(0).Rows(0).Item(0)
-        showBDcontentSearch(id)
-        Dim table As DataSet = controller.getTableGraph(id)
-        Chart1.Series(0).Points.Clear()
-        Chart1.Series(1).Points.Clear()
-        'Chart1.Series.Dispose()
-        Chart1.Series(1).ToolTip = cbGraph.SelectedItem.ToString & " = #VALY" & vbCrLf & "#AXISLABEL"
-        For Each value As DataRow In table.Tables(0).Rows
-            Chart1.Series(0).Points.AddXY(value.Item(1).ToString, value.Item(0))
-            Chart1.Series(1).Points.AddXY(value.Item(1).ToString, value.Item(0))
-            If value.Item(1).ToString() <> value.Item(2).ToString() Then
-                Chart1.Series(1).Points.AddXY(value.Item(2).ToString, value.Item(0))
-                Chart1.Series(0).Points.AddXY(value.Item(2).ToString, value.Item(0))
-            End If
-        Next
-        Chart1.DataBind()
-        Chart1.Update()
+        If (RadioButton1.Checked = True) Then
+            Dim name2sv As DataSet = controller.getSVidFromName(cbSelectType.SelectedItem.ToString)
+            Dim id = name2sv.Tables(0).Rows(0).Item(0)
+            showBDcontentSearchSV(id)
+
+            Dim table As DataSet = controller.getTableGraph(id, DataInicio.Value.Date.ToString("yyyy-MM-dd"), DataFim.Value.Date.ToString("yyyy-MM-dd")) '(id, tb_DataIn.Text.ToString, tb_DataFim.Text.ToString)
+            Chart1.Series(0).Points.Clear()
+            Chart1.Series(1).Points.Clear()
+            Chart1.Series(1).ToolTip = cbSelectType.SelectedItem.ToString & " = #VALY" & vbCrLf & "#AXISLABEL"
+            For Each value As DataRow In table.Tables(0).Rows
+                Chart1.Series(0).Points.AddXY(value.Item(1).ToString, value.Item(0))
+                Chart1.Series(1).Points.AddXY(value.Item(1).ToString, value.Item(0))
+                If value.Item(1).ToString() <> value.Item(2).ToString() Then
+                    Chart1.Series(1).Points.AddXY(value.Item(2).ToString, value.Item(0))
+                    Chart1.Series(0).Points.AddXY(value.Item(2).ToString, value.Item(0))
+                End If
+            Next
+            Chart1.DataBind()
+            Chart1.Update()
+
+        ElseIf (RadioButton2.Checked = True) Then
+            Dim name2alarme As DataSet = controller.getAlarmeidFromName(cbSelectType.SelectedItem.ToString)
+            Dim alar = name2alarme.Tables(0).Rows(0).Item(0)
+            showBDcontentSearchAlarme(alar)
+
+            Dim table As DataSet = controller.getTableGraph(alar, DataInicio.Value.Date.ToString("yyyy-MM-dd"), DataFim.Value.Date.ToString("yyyy-MM-dd")) '(id, tb_DataIn.Text.ToString, tb_DataFim.Text.ToString)
+            Chart1.Series(0).Points.Clear()
+            Chart1.Series(1).Points.Clear()
+            Chart1.Series(1).ToolTip = cbSelectType.SelectedItem.ToString & " = #VALY" & vbCrLf & "#AXISLABEL"
+            For Each value As DataRow In table.Tables(0).Rows
+                Chart1.Series(0).Points.AddXY(value.Item(1).ToString, value.Item(0))
+                Chart1.Series(1).Points.AddXY(value.Item(1).ToString, value.Item(0))
+                If value.Item(1).ToString() <> value.Item(2).ToString() Then
+                    Chart1.Series(1).Points.AddXY(value.Item(2).ToString, value.Item(0))
+                    Chart1.Series(0).Points.AddXY(value.Item(2).ToString, value.Item(0))
+                End If
+            Next
+            Chart1.DataBind()
+            Chart1.Update()
+
+        End If 
     End Sub
 #End Region
 End Class

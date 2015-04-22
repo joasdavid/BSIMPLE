@@ -205,11 +205,11 @@ Public Class MSSQLControllerMindray
         Return dt
     End Function
 
-    Public Function getTableGraph(id As String) As DataSet
+    Public Function getTableGraph(id As String, DataIn As String, DataFim As String) As DataSet
         Dim dt As New DataSet
         Dim bd = New MSSQLConnection(strConn)
-        Dim tb = bd.sendQuery("select  Valor,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdSV = " & id)
-        Logger.Instance.log("SQL.log", "sendQuery", "select  Valor,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdSV = " & id)
+        Dim tb = bd.sendQuery("select  Valor,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdSV = " & id & " and g.DataInicio >= '" & DataIn & " 00:00:01' and g.DataFinal <= '" & DataFim & " 23:59:00'")
+        Logger.Instance.log("SQL.log", "sendQuery", "select  Valor,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdSV = " & id & " and g.DataInico >= '" & DataIn & " 00:00:01' and g.DataFinal <= '" & DataFim & " 23:59:00'")
         Dim r = tb.Rows.Count
         dt.Tables.Add(tb)
         Return dt
@@ -230,6 +230,15 @@ Public Class MSSQLControllerMindray
         Dim bd = New MSSQLConnection(strConn)
         Dim tb = bd.sendQuery("select  IdSV from SinaisVitais where Descricao like '" & name & "'")
         Logger.Instance.log("SQL.log", "sendQuery", "select  IdSV from SinaisVitais where Descricao like '" & name & "'")
+        Dim r = tb.Rows.Count
+        dt.Tables.Add(tb)
+        Return dt
+    End Function
+    Public Function getAlarmeidFromName(name As String) As DataSet
+        Dim dt As New DataSet
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb = bd.sendQuery("select  IdAlarme from Alarme where Descricao like '" & name & "'")
+        Logger.Instance.log("SQL.log", "sendQuery", "select  IdAlarme from Alarme where Descricao like '" & name & "'")
         Dim r = tb.Rows.Count
         dt.Tables.Add(tb)
         Return dt
