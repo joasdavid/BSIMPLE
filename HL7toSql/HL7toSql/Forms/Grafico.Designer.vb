@@ -33,6 +33,11 @@ Partial Class Grafico
         Me.Button1 = New System.Windows.Forms.Button()
         Me.cbGraph = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.tb_DataFim = New System.Windows.Forms.TextBox()
+        Me.tb_DataIn = New System.Windows.Forms.TextBox()
+        Me.DataInicio = New System.Windows.Forms.DateTimePicker()
+        Me.DataFim = New System.Windows.Forms.DateTimePicker()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -111,11 +116,57 @@ Partial Class Grafico
         Me.Label2.TabIndex = 6
         Me.Label2.Text = "Id SV"
         '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(497, 305)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(58, 13)
+        Me.Label4.TabIndex = 20
+        Me.Label4.Text = "Data Final:"
+        '
+        'tb_DataFim
+        '
+        Me.tb_DataFim.Location = New System.Drawing.Point(561, 302)
+        Me.tb_DataFim.Name = "tb_DataFim"
+        Me.tb_DataFim.Size = New System.Drawing.Size(137, 20)
+        Me.tb_DataFim.TabIndex = 19
+        '
+        'tb_DataIn
+        '
+        Me.tb_DataIn.Location = New System.Drawing.Point(354, 302)
+        Me.tb_DataIn.Name = "tb_DataIn"
+        Me.tb_DataIn.Size = New System.Drawing.Size(137, 20)
+        Me.tb_DataIn.TabIndex = 18
+        '
+        'DataInicio
+        '
+        Me.DataInicio.CustomFormat = "yyyy-MM-dd"
+        Me.DataInicio.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DataInicio.Location = New System.Drawing.Point(541, 26)
+        Me.DataInicio.Name = "DataInicio"
+        Me.DataInicio.Size = New System.Drawing.Size(90, 20)
+        Me.DataInicio.TabIndex = 77
+        '
+        'DataFim
+        '
+        Me.DataFim.CustomFormat = "yyyy-MM-dd"
+        Me.DataFim.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DataFim.Location = New System.Drawing.Point(656, 26)
+        Me.DataFim.Name = "DataFim"
+        Me.DataFim.Size = New System.Drawing.Size(90, 20)
+        Me.DataFim.TabIndex = 78
+        '
         'Grafico
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1053, 624)
+        Me.Controls.Add(Me.DataFim)
+        Me.Controls.Add(Me.DataInicio)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.tb_DataFim)
+        Me.Controls.Add(Me.tb_DataIn)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.cbGraph)
         Me.Controls.Add(Me.Button1)
@@ -138,4 +189,9 @@ Partial Class Grafico
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents cbGraph As System.Windows.Forms.ComboBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents tb_DataFim As System.Windows.Forms.TextBox
+    Friend WithEvents tb_DataIn As System.Windows.Forms.TextBox
+    Friend WithEvents DataInicio As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DataFim As System.Windows.Forms.DateTimePicker
 End Class

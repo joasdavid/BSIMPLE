@@ -23,7 +23,7 @@ Public Class Grafico
 
     Private Sub showBDcontentSearch(id As String)
         Dim name2sv As DataSet = controller.getSVidFromName(cbGraph.SelectedItem.ToString)
-        Me.DataGridView1.DataSource = controller.getTableGraph(id).Tables(0)
+        Me.DataGridView1.DataSource = controller.getTableGraph(id, DataInicio.Value.Date.ToString("yyyy-MM-dd"), DataFim.Value.Date.ToString("yyyy-MM-dd")).Tables(0)
         Me.DataGridView1.Update()
     End Sub
 
@@ -33,7 +33,7 @@ Public Class Grafico
         Dim name2sv As DataSet = controller.getSVidFromName(cbGraph.SelectedItem.ToString)
         Dim id = name2sv.Tables(0).Rows(0).Item(0)
         showBDcontentSearch(id)
-        Dim table As DataSet = controller.getTableGraph(id)
+        Dim table As DataSet = controller.getTableGraph(id, DataInicio.Value.Date.ToString("yyyy-MM-dd"), DataFim.Value.Date.ToString("yyyy-MM-dd"))
         Chart1.Series(0).Points.Clear()
         Chart1.Series(1).Points.Clear()
         'Chart1.Series.Dispose()
