@@ -215,6 +215,16 @@ Public Class MSSQLControllerMindray
         Return dt
     End Function
 
+    Public Function getTableGraphAlarme(id As String, DataIn As String, DataFim As String) As DataSet
+        Dim dt As New DataSet
+        Dim bd = New MSSQLConnection(strConn)
+        Dim tb = bd.sendQuery("select  NivelAlame,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdAlarme = " & id & " and g.DataInicio >= '" & DataIn & " 00:00:01' and g.DataFinal <= '" & DataFim & " 23:59:00'")
+        Logger.Instance.log("SQL.log", "select  NivelAlame,DataInicio, DataFinal from Monitorizacao as g where g.IdPaciente like'" & idPaciente & "'and g.IdAlarme = " & id & " and g.DataInicio >= '" & DataIn & " 00:00:01' and g.DataFinal <= '" & DataFim & " 23:59:00'")
+        Dim r = tb.Rows.Count
+        dt.Tables.Add(tb)
+        Return dt
+    End Function
+
     Public Function getTableSV(name As String) As DataSet
         Dim dt As New DataSet
         Dim bd = New MSSQLConnection(strConn)
